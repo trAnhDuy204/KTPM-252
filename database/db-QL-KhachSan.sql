@@ -29,11 +29,11 @@ CREATE TABLE room_types (
 
 CREATE TABLE rooms (
     id SERIAL PRIMARY KEY,
-    hotel_id INT NOT NULL REFERENCES hotels(id) ON DELETE CASCADE,
-    room_type_id INT NOT NULL REFERENCES room_types(id),
+    hotel_id INT REFERENCES hotels(id) ON DELETE CASCADE,
+    room_type_id INT REFERENCES room_types(id),
     room_number VARCHAR(20) NOT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'AVAILABLE', 
-    -- AVAILABLE / RESERVED / OCCUPIED / CLEANING / MAINTENANCE
+    status VARCHAR(20) DEFAULT 'AVAILABLE', 
+    -- AVAILABLE / OCCUPIED / CLEANING / MAINTENANCE
     UNIQUE (hotel_id, room_number)
 );
 
