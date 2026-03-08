@@ -35,7 +35,6 @@ Dự án quản lý khách sạn:
 - Backend: Spring Boot
 - Frontend: ReactJS
 - Database: PostgreSQL
-- AI (nếu có): OpenAI API
 ## Cài đặt và chạy
 ### Yêu cầu
 - Java 17+
