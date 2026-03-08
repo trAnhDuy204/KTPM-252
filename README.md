@@ -33,7 +33,7 @@ Dự án quản lý khách sạn:
 | ... | ... | Đánh giá sau khi check out (Khách hàng) |
 ## Công nghệ sử dụng
 - Backend: Spring Boot
-- Frontend: React / Thymeleaf
+- Frontend: ReactJS
 - Database: PostgreSQL
 - AI (nếu có): OpenAI API
 ## Cài đặt và chạy
