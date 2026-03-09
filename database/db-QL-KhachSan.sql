@@ -32,8 +32,8 @@ CREATE TABLE rooms (
     hotel_id INT REFERENCES hotels(id) ON DELETE CASCADE,
     room_type_id INT REFERENCES room_types(id),
     room_number VARCHAR(20) NOT NULL,
-    status VARCHAR(20) DEFAULT 'AVAILABLE', 
-    -- AVAILABLE / OCCUPIED / CLEANING / MAINTENANCE
+    status VARCHAR(20) DEFAULT 'AVAILABLE',
+    -- AVAILABLE / RESERVED / OCCUPIED / CLEANING / MAINTENANCE
     UNIQUE (hotel_id, room_number)
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE bookings (
     check_in DATE NOT NULL,
     check_out DATE NOT NULL,
     total_price NUMERIC(12,2),
-    status VARCHAR(20) DEFAULT 'PENDING', 
+    status VARCHAR(20) DEFAULT 'PENDING',
     -- PENDING / CONFIRMED / CHECKED_IN / COMPLETED / CANCELLED
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
