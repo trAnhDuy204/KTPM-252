@@ -3,8 +3,6 @@ package com.ktpm.hotelmanagement.room.entity;
 import com.ktpm.hotelmanagement.hotel.entity.Hotel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,10 +10,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "rooms")
-public class Room {
+@Table(name = "room_types")
+public class RoomType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,16 +24,17 @@ public class Room {
     @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_type_id", nullable = false)
-    private RoomType roomType;
+    @Column(nullable = false, length = 100)
+    private String name;
 
-    @Column(name = "room_number", nullable = false)
-    private String roomNumber;
-
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private RoomStatus status = RoomStatus.AVAILABLE;
+    private Integer capacity;
+
+    @Column(name = "base_price", nullable = false, precision = 12, scale = 2)
+    private BigDecimal basePrice;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     public Integer getId() {
         return id;
@@ -52,27 +52,35 @@ public class Room {
         this.hotel = hotel;
     }
 
-    public RoomType getRoomType() {
-        return roomType;
+    public String getName() {
+        return name;
     }
 
-    public void setRoomType(RoomType roomType) {
-        this.roomType = roomType;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getRoomNumber() {
-        return roomNumber;
+    public Integer getCapacity() {
+        return capacity;
     }
 
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
-    public RoomStatus getStatus() {
-        return status;
+    public BigDecimal getBasePrice() {
+        return basePrice;
     }
 
-    public void setStatus(RoomStatus status) {
-        this.status = status;
+    public void setBasePrice(BigDecimal basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

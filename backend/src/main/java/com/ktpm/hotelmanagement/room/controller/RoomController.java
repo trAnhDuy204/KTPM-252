@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/reception/rooms")
+@CrossOrigin(origins = "http://localhost:5173")
 public class RoomController {
 
     private final RoomService roomService;
@@ -36,20 +38,20 @@ public class RoomController {
 
     @GetMapping
     public List<RoomResponse> getRooms(
-            @RequestParam(required = false) Long hotelId,
+            @RequestParam(required = false) Integer hotelId,
             @RequestParam(required = false) RoomStatus status
     ) {
         return roomService.getRooms(hotelId, status);
     }
 
     @GetMapping("/{roomId}")
-    public RoomResponse getRoom(@PathVariable Long roomId) {
+    public RoomResponse getRoom(@PathVariable Integer roomId) {
         return roomService.getRoom(roomId);
     }
 
     @PatchMapping("/{roomId}/status")
     public RoomResponse updateRoomStatus(
-            @PathVariable Long roomId,
+            @PathVariable Integer roomId,
             @Valid @RequestBody UpdateRoomStatusRequest request
     ) {
         return roomService.updateRoomStatus(roomId, request.status());

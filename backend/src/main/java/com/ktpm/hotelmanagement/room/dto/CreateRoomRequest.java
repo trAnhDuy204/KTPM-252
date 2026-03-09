@@ -6,10 +6,10 @@ import jakarta.validation.constraints.NotNull;
 
 public record CreateRoomRequest(
         @NotNull(message = "hotelId is required")
-        Long hotelId,
+        Integer hotelId,
 
         @NotNull(message = "roomTypeId is required")
-        Long roomTypeId,
+        Integer roomTypeId,
 
         @NotBlank(message = "roomNumber is required")
         String roomNumber,

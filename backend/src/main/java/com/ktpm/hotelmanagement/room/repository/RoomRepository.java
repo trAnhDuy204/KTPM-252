@@ -5,13 +5,13 @@ import com.ktpm.hotelmanagement.room.entity.RoomStatus;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RoomRepository extends JpaRepository<Room, Long> {
+public interface RoomRepository extends JpaRepository<Room, Integer> {
 
-    boolean existsByHotelIdAndRoomNumber(Long hotelId, String roomNumber);
+    boolean existsByHotel_IdAndRoomNumber(Integer hotelId, String roomNumber);
 
-    List<Room> findByHotelId(Long hotelId);
+    List<Room> findByHotel_Id(Integer hotelId);
 
     List<Room> findByStatus(RoomStatus status);
 
-    List<Room> findByHotelIdAndStatus(Long hotelId, RoomStatus status);
+    List<Room> findByHotel_IdAndStatus(Integer hotelId, RoomStatus status);
 }

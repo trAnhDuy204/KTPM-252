@@ -2,11 +2,14 @@ package com.ktpm.hotelmanagement.room.service;
 
 import com.ktpm.hotelmanagement.common.BusinessRuleException;
 import com.ktpm.hotelmanagement.common.ResourceNotFoundException;
+import com.ktpm.hotelmanagement.hotel.entity.Hotel;
 import com.ktpm.hotelmanagement.room.dto.CreateRoomRequest;
 import com.ktpm.hotelmanagement.room.dto.RoomResponse;
 import com.ktpm.hotelmanagement.room.entity.Room;
 import com.ktpm.hotelmanagement.room.entity.RoomStatus;
+import com.ktpm.hotelmanagement.room.entity.RoomType;
 import com.ktpm.hotelmanagement.room.repository.RoomRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import java.util.EnumMap;
 import java.util.List;
@@ -33,21 +36,26 @@ public class RoomService {
     }
 
     private final RoomRepository roomRepository;
+    private final EntityManager entityManager;
 
-    public RoomService(RoomRepository roomRepository) {
+    public RoomService(RoomRepository roomRepository, EntityManager entityManager) {
         this.roomRepository = roomRepository;
+        this.entityManager = entityManager;
     }
 
     @Transactional
     public RoomResponse createRoom(CreateRoomRequest request) {
         String roomNumber = request.roomNumber().trim();
-        if (roomRepository.existsByHotelIdAndRoomNumber(request.hotelId(), roomNumber)) {
+        if (roomRepository.existsByHotel_IdAndRoomNumber(request.hotelId(), roomNumber)) {
             throw new BusinessRuleException("Room number already exists in this hotel");
         }
 
+        Hotel hotel = entityManager.getReference(Hotel.class, request.hotelId());
+        RoomType roomType = entityManager.getReference(RoomType.class, request.roomTypeId());
+
         Room room = new Room();
-        room.setHotelId(request.hotelId());
-        room.setRoomTypeId(request.roomTypeId());
+        room.setHotel(hotel);
+        room.setRoomType(roomType);
         room.setRoomNumber(roomNumber);
         room.setStatus(request.status() == null ? RoomStatus.AVAILABLE : request.status());
 
@@ -55,12 +63,12 @@ public class RoomService {
         return RoomResponse.from(savedRoom);
     }
 
-    public List<RoomResponse> getRooms(Long hotelId, RoomStatus status) {
+    public List<RoomResponse> getRooms(Integer hotelId, RoomStatus status) {
         List<Room> rooms;
         if (hotelId != null && status != null) {
-            rooms = roomRepository.findByHotelIdAndStatus(hotelId, status);
+            rooms = roomRepository.findByHotel_IdAndStatus(hotelId, status);
         } else if (hotelId != null) {
-            rooms = roomRepository.findByHotelId(hotelId);
+            rooms = roomRepository.findByHotel_Id(hotelId);
         } else if (status != null) {
             rooms = roomRepository.findByStatus(status);
         } else {
@@ -70,12 +78,12 @@ public class RoomService {
         return rooms.stream().map(RoomResponse::from).toList();
     }
 
-    public RoomResponse getRoom(Long roomId) {
+    public RoomResponse getRoom(Integer roomId) {
         return RoomResponse.from(findRoom(roomId));
     }
 
     @Transactional
-    public RoomResponse updateRoomStatus(Long roomId, RoomStatus targetStatus) {
+    public RoomResponse updateRoomStatus(Integer roomId, RoomStatus targetStatus) {
         Room room = findRoom(roomId);
         RoomStatus currentStatus = room.getStatus();
         if (currentStatus == targetStatus) {
@@ -93,7 +101,7 @@ public class RoomService {
         return RoomResponse.from(roomRepository.save(room));
     }
 
-    private Room findRoom(Long roomId) {
+    private Room findRoom(Integer roomId) {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));
     }
