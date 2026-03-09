@@ -1,0 +1,32 @@
+.status-summary {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.summary-item {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px 20px;
+  text-align: center;
+  min-width: 100px;
+}
+
+.summary-item.summary-total {
+  border: 2px solid #1a1a2e;
+}
+
+.summary-count {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.summary-label {
+  display: block;
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}

@@ -1,0 +1,89 @@
+.room-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.room-number {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.room-id {
+  font-size: 12px;
+  color: #999;
+}
+
+.room-status-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 20px;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  align-self: flex-start;
+}
+
+.room-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-label {
+  color: #888;
+}
+
+.info-value {
+  font-weight: 600;
+  color: #333;
+}
+
+.room-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+}
+
+.actions-label {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 2px;
+}
+
+.btn-status {
+  padding: 6px 12px;
+  background: white;
+  border: 2px solid;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-status:hover {
+  opacity: 0.8;
+  transform: scale(1.02);
+}

@@ -1,19 +1,14 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import RoomManagement from "./pages/reception/RoomManagement";
 
 function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    axios.get("http://localhost:8080/api/hello")
-      .then(res => setMessage(res.data));
-  }, []);
-
   return (
-    <div>
-      <h1>Hotel Management System</h1>
-      <p>{message}</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/reception/rooms" replace />} />
+        <Route path="/reception/rooms" element={<RoomManagement />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
