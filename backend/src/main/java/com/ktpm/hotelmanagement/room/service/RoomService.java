@@ -101,6 +101,15 @@ public class RoomService {
         return RoomResponse.from(roomRepository.save(room));
     }
 
+    @Transactional
+    public void deleteRoom(Integer roomId) {
+        Room room = findRoom(roomId);
+        if (room.getStatus() == RoomStatus.OCCUPIED) {
+            throw new BusinessRuleException("Cannot delete a room that is currently occupied");
+        }
+        roomRepository.delete(room);
+    }
+
     private Room findRoom(Integer roomId) {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));

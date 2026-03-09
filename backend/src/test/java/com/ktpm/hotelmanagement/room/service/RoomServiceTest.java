@@ -332,6 +332,54 @@ class RoomServiceTest {
         }
     }
 
+    // ==================== DELETE ROOM ====================
+
+    @Nested
+    class DeleteRoom {
+
+        @Test
+        void shouldDeleteRoomWhenNotOccupied() {
+            Room room = buildRoom(10, "101", RoomStatus.AVAILABLE);
+            when(roomRepository.findById(10)).thenReturn(Optional.of(room));
+
+            roomService.deleteRoom(10);
+
+            verify(roomRepository).delete(room);
+        }
+
+        @Test
+        void shouldRejectDeleteWhenRoomIsOccupied() {
+            Room room = buildRoom(10, "101", RoomStatus.OCCUPIED);
+            when(roomRepository.findById(10)).thenReturn(Optional.of(room));
+
+            assertThatThrownBy(() -> roomService.deleteRoom(10))
+                    .isInstanceOf(BusinessRuleException.class)
+                    .hasMessage("Cannot delete a room that is currently occupied");
+
+            verify(roomRepository, never()).delete(any());
+        }
+
+        @Test
+        void shouldThrowWhenRoomNotFoundForDelete() {
+            when(roomRepository.findById(99)).thenReturn(Optional.empty());
+
+            assertThatThrownBy(() -> roomService.deleteRoom(99))
+                    .isInstanceOf(ResourceNotFoundException.class)
+                    .hasMessage("Room not found with id: 99");
+        }
+
+        @ParameterizedTest(name = "Should allow delete when status is {0}")
+        @CsvSource({"AVAILABLE", "RESERVED", "CLEANING", "MAINTENANCE"})
+        void shouldAllowDeleteForNonOccupiedStatuses(RoomStatus status) {
+            Room room = buildRoom(10, "101", status);
+            when(roomRepository.findById(10)).thenReturn(Optional.of(room));
+
+            roomService.deleteRoom(10);
+
+            verify(roomRepository).delete(room);
+        }
+    }
+
     // ==================== Helper ====================
 
     private Room buildRoom(Integer id, String roomNumber, RoomStatus status) {
