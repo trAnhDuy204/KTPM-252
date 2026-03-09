@@ -21,6 +21,8 @@ describe('RoomCard', () => {
   it('shows correct transition buttons for AVAILABLE status', () => {
     render(<RoomCard room={baseRoom} onStatusChange={vi.fn()} />);
     expect(screen.getByText('Đã đặt')).toBeInTheDocument();
+    expect(screen.getByText('Đang ở')).toBeInTheDocument();
+    expect(screen.getByText('Đang dọn')).toBeInTheDocument();
     expect(screen.getByText('Bảo trì')).toBeInTheDocument();
   });
 
@@ -63,8 +65,9 @@ describe('RoomCard', () => {
     const room = { ...baseRoom, status: 'RESERVED' };
     render(<RoomCard room={room} onStatusChange={vi.fn()} />);
 
-    expect(screen.getByText('Đang ở')).toBeInTheDocument();
     expect(screen.getByText('Trống')).toBeInTheDocument();
+    expect(screen.getByText('Đang ở')).toBeInTheDocument();
+    expect(screen.getByText('Bảo trì')).toBeInTheDocument();
   });
 
   it('shows correct transition buttons for CLEANING status', () => {

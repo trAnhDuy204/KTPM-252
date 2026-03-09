@@ -22,6 +22,8 @@ export const createRoom = (data) => API.post("", data);
 export const updateRoomStatus = (roomId, status) =>
   API.patch(`/${roomId}/status`, { status });
 
+export const deleteRoom = (roomId) => API.delete(`/${roomId}`);
+
 export const getHotels = () => BASE.get("/hotels");
 
 export const getRoomTypes = (hotelId) =>

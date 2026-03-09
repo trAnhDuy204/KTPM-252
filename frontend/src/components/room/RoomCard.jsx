@@ -1,7 +1,7 @@
 import { STATUS_LABELS, STATUS_COLORS, STATUS_TRANSITIONS } from "@/constants/roomStatus";
 import "./RoomCard.css";
 
-export default function RoomCard({ room, onStatusChange }) {
+export default function RoomCard({ room, onStatusChange, onDelete }) {
   const transitions = STATUS_TRANSITIONS[room.status] || [];
 
   return (
@@ -46,6 +46,15 @@ export default function RoomCard({ room, onStatusChange }) {
             </button>
           ))}
         </div>
+      )}
+
+      {room.status !== "OCCUPIED" && (
+        <button
+          className="btn-delete"
+          onClick={() => onDelete(room.id)}
+        >
+          Xóa phòng
+        </button>
       )}
     </div>
   );
