@@ -8,6 +8,7 @@ import com.ktpm.hotelmanagement.room.service.RoomService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -55,5 +56,11 @@ public class RoomController {
             @Valid @RequestBody UpdateRoomStatusRequest request
     ) {
         return roomService.updateRoomStatus(roomId, request.status());
+    }
+
+    @DeleteMapping("/{roomId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteRoom(@PathVariable Integer roomId) {
+        roomService.deleteRoom(roomId);
     }
 }
