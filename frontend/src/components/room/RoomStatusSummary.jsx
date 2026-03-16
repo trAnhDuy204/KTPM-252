@@ -7,19 +7,19 @@ export default function RoomStatusSummary({ rooms }) {
   }
 
   return (
-    <div className="flex gap-3 mb-5 flex-wrap">
-      <div className="flex-1 min-w-30 bg-slate-900 border border-slate-900 rounded-xl px-5 py-4 text-center transition-shadow hover:shadow-md">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="bg-slate-900 rounded-2xl px-4 py-4 text-center transition-all duration-200 hover:shadow-lg hover:shadow-slate-900/20 hover:scale-[1.02]">
         <span className="block text-3xl font-extrabold leading-tight text-white">
           {rooms.length}
         </span>
-        <span className="block text-xs font-semibold text-slate-400 mt-1 uppercase tracking-wider">
+        <span className="block text-[11px] font-semibold text-slate-400 mt-1.5 uppercase tracking-wider">
           Tổng phòng
         </span>
       </div>
       {Object.entries(STATUS_LABELS).map(([status, label]) => (
         <div
           key={status}
-          className="flex-1 min-w-30 bg-white border border-slate-200 rounded-xl px-5 py-4 text-center transition-shadow hover:shadow-md"
+          className="bg-white border border-slate-200/80 rounded-2xl px-4 py-4 text-center transition-all duration-200 hover:shadow-lg hover:scale-[1.02] hover:border-slate-300"
         >
           <span
             className="block text-3xl font-extrabold leading-tight"
@@ -27,7 +27,7 @@ export default function RoomStatusSummary({ rooms }) {
           >
             {counts[status]}
           </span>
-          <span className="block text-xs font-semibold text-slate-500 mt-1 uppercase tracking-wider">
+          <span className="block text-[11px] font-semibold text-slate-400 mt-1.5 uppercase tracking-wider">
             {label}
           </span>
         </div>

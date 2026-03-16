@@ -70,64 +70,102 @@ export default function RoomManagement() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
-      <div className="flex justify-between items-center mb-7">
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-          Quản lý phòng - Lễ tân
-        </h1>
-        <button
-          className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-blue-600 text-white rounded-lg font-semibold text-sm hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/30 transition-all cursor-pointer"
-          onClick={() => setShowCreate(!showCreate)}
-        >
-          + Thêm phòng
-        </button>
-      </div>
-
-      <RoomStatusSummary rooms={rooms} />
-
-      <div className="flex justify-between items-center mb-5 flex-wrap gap-3 bg-white px-5 py-4 rounded-xl border border-slate-200">
-        <RoomStatusFilter value={filterStatus} onChange={setFilterStatus} />
-      </div>
-
-      {error && (
-        <div className="flex justify-between items-center bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-4 border border-red-200 text-sm">
-          <span>{error}</span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
+      {/* Header */}
+      <div className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+              Quản lý phòng
+            </h1>
+            <p className="text-sm text-slate-400 mt-0.5">Lễ tân &mdash; Tổng quan & quản lý trạng thái</p>
+          </div>
           <button
-            className="bg-transparent border-none text-red-600 cursor-pointer text-lg font-bold px-1 leading-none"
-            onClick={() => setError("")}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 active:scale-95 transition-all duration-200 cursor-pointer"
+            onClick={() => setShowCreate(!showCreate)}
           >
-            x
+            <svg
+              className="w-4 h-4 transition-transform duration-200"
+              style={{ transform: showCreate ? "rotate(45deg)" : "none" }}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+            </svg>
+            {showCreate ? "Đóng" : "Thêm phòng"}
           </button>
         </div>
-      )}
+      </div>
 
-      {showCreate && (
-        <CreateRoomForm
-          onSubmit={handleCreate}
-          onCancel={() => setShowCreate(false)}
-        />
-      )}
+      <div className="max-w-7xl mx-auto px-6 py-6 space-y-5">
+        {/* Error */}
+        {error && (
+          <div className="flex items-center justify-between bg-red-50 text-red-600 px-4 py-3 rounded-xl border border-red-200 text-sm animate-fadein">
+            <span className="font-medium">{error}</span>
+            <button
+              className="ml-3 text-red-400 hover:text-red-600 transition-colors cursor-pointer bg-transparent border-none text-lg font-bold"
+              onClick={() => setError("")}
+            >&times;</button>
+          </div>
+        )}
 
-      {loading ? (
-        <p className="text-slate-400 text-center py-8">Đang tải...</p>
-      ) : (
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4">
-          {rooms.length === 0 ? (
-            <p className="text-center py-16 text-slate-400 text-base col-span-full">
-              Chưa có phòng nào. Bấm "+ Thêm phòng" để bắt đầu.
-            </p>
-          ) : (
-            rooms.map((room) => (
-              <RoomCard
-                key={room.id}
-                room={room}
-                onStatusChange={handleStatusChange}
-                onDelete={handleDelete}
-              />
-            ))
-          )}
+        {/* Summary */}
+        <RoomStatusSummary rooms={rooms} />
+
+        {/* Filter */}
+        <RoomStatusFilter value={filterStatus} onChange={setFilterStatus} />
+
+        {/* Create Form with slide animation */}
+        <div
+          className="grid transition-all duration-300 ease-in-out"
+          style={{
+            gridTemplateRows: showCreate ? "1fr" : "0fr",
+            opacity: showCreate ? 1 : 0,
+          }}
+        >
+          <div className="overflow-hidden">
+            <CreateRoomForm
+              onSubmit={handleCreate}
+              onCancel={() => setShowCreate(false)}
+            />
+          </div>
         </div>
-      )}
+
+        {/* Room Grid */}
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="w-8 h-8 border-[3px] border-blue-200 border-t-blue-600 rounded-full animate-spin" />
+            <span className="ml-3 text-slate-400 text-sm">Đang tải...</span>
+          </div>
+        ) : rooms.length === 0 ? (
+          <div className="text-center py-20 animate-fadein">
+            <div className="w-16 h-16 mx-auto mb-4 bg-slate-100 rounded-2xl flex items-center justify-center">
+              <svg className="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+            </div>
+            <p className="text-slate-500 font-medium">Chưa có phòng nào</p>
+            <p className="text-slate-400 text-sm mt-1">Bấm "Thêm phòng" để bắt đầu.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {rooms.map((room, index) => (
+              <div
+                key={room.id}
+                className="animate-fadein"
+                style={{ animationDelay: `${index * 60}ms` }}
+              >
+                <RoomCard
+                  room={room}
+                  onStatusChange={handleStatusChange}
+                  onDelete={handleDelete}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

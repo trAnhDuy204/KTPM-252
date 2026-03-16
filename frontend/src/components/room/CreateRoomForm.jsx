@@ -37,19 +37,26 @@ export default function CreateRoomForm({ onSubmit, onCancel }) {
     });
   };
 
+  const inputClass =
+    "w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-700 bg-white outline-none transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 placeholder:text-slate-400";
+  const selectClass = `${inputClass} disabled:bg-slate-50 disabled:text-slate-400 disabled:cursor-not-allowed`;
+
   return (
     <form
-      className="mb-6 p-6 bg-white border border-slate-200 rounded-2xl shadow-sm"
+      className="mb-4 p-6 bg-white border border-slate-200/80 rounded-2xl shadow-sm animate-fadein"
       onSubmit={handleSubmit}
     >
-      <h3 className="mb-5 text-slate-900 text-lg font-bold">Thêm phòng mới</h3>
-      <div className="flex gap-5 flex-wrap mb-5">
+      <h3 className="mb-5 text-slate-900 text-lg font-bold tracking-tight">
+        Thêm phòng mới
+      </h3>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-bold text-slate-500 uppercase tracking-wide">
+          <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
             Khách sạn
           </label>
           <select
-            className="px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm min-w-55 text-slate-700 outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+            className={selectClass}
             value={formData.hotelId}
             onChange={(e) => handleChange("hotelId", e.target.value)}
             required
@@ -62,12 +69,13 @@ export default function CreateRoomForm({ onSubmit, onCancel }) {
             ))}
           </select>
         </div>
+
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-bold text-slate-500 uppercase tracking-wide">
+          <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
             Loại phòng
           </label>
           <select
-            className="px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm min-w-55 text-slate-700 outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed"
+            className={selectClass}
             value={formData.roomTypeId}
             onChange={(e) => handleChange("roomTypeId", e.target.value)}
             required
@@ -81,30 +89,35 @@ export default function CreateRoomForm({ onSubmit, onCancel }) {
             ))}
           </select>
         </div>
+
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-bold text-slate-500 uppercase tracking-wide">
+          <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
             Số phòng
           </label>
           <input
             type="text"
             placeholder="VD: 101"
-            className="px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm min-w-55 text-slate-700 outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+            className={inputClass}
             value={formData.roomNumber}
             onChange={(e) => handleChange("roomNumber", e.target.value)}
             required
           />
         </div>
       </div>
+
       <div className="flex gap-3">
         <button
           type="submit"
-          className="px-6 py-2.5 bg-green-500 text-white border-none rounded-lg cursor-pointer font-bold text-sm transition-all hover:bg-green-600 hover:shadow-md hover:shadow-green-500/30"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 active:scale-95 transition-all duration-200 cursor-pointer border-none"
         >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+          </svg>
           Tạo phòng
         </button>
         <button
           type="button"
-          className="px-6 py-2.5 bg-slate-100 text-slate-500 border-none rounded-lg cursor-pointer font-semibold text-sm transition-all hover:bg-slate-200 hover:text-slate-600"
+          className="px-5 py-2.5 bg-slate-100 text-slate-500 border-none rounded-xl cursor-pointer font-semibold text-sm transition-all duration-200 hover:bg-slate-200 hover:text-slate-600 active:scale-95"
           onClick={onCancel}
         >
           Hủy

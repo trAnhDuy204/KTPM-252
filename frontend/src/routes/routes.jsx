@@ -5,6 +5,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import { CustomerDashboard, ReceptionDashboard, AdminDashboard } from '../pages/DashboardPage';
+import RoomManagement from '../pages/reception/RoomManagement';
 
 function RootRedirect() {
   const { user } = useAuth();
@@ -32,6 +33,9 @@ function AppRoutes() {
           <ReceptionDashboard />
         </ProtectedRoute>
       } />
+
+      {/* TODO: thêm lại ProtectedRoute sau khi test xong */}
+      <Route path="/reception/rooms" element={<RoomManagement />} />
 
       <Route path="/admin" element={
         <ProtectedRoute allowedRoles={['ADMIN']}>
