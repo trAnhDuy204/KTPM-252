@@ -4,7 +4,6 @@ import RoomCard from "@/components/room/RoomCard";
 import RoomStatusFilter from "@/components/room/RoomStatusFilter";
 import RoomStatusSummary from "@/components/room/RoomStatusSummary";
 import CreateRoomForm from "@/components/room/CreateRoomForm";
-import "./RoomManagement.css";
 
 export default function RoomManagement() {
   const [rooms, setRooms] = useState([]);
@@ -71,22 +70,34 @@ export default function RoomManagement() {
   };
 
   return (
-    <div className="room-management">
-      <h1>Quản lý phòng - Lễ tân</h1>
-
-      <RoomStatusSummary rooms={rooms} />
-
-      <div className="toolbar">
-        <RoomStatusFilter value={filterStatus} onChange={setFilterStatus} />
-        <button className="btn-create" onClick={() => setShowCreate(!showCreate)}>
+    <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="flex justify-between items-center mb-7">
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+          Quản lý phòng - Lễ tân
+        </h1>
+        <button
+          className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-blue-600 text-white rounded-lg font-semibold text-sm hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/30 transition-all cursor-pointer"
+          onClick={() => setShowCreate(!showCreate)}
+        >
           + Thêm phòng
         </button>
       </div>
 
+      <RoomStatusSummary rooms={rooms} />
+
+      <div className="flex justify-between items-center mb-5 flex-wrap gap-3 bg-white px-5 py-4 rounded-xl border border-slate-200">
+        <RoomStatusFilter value={filterStatus} onChange={setFilterStatus} />
+      </div>
+
       {error && (
-        <div className="error-msg">
+        <div className="flex justify-between items-center bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-4 border border-red-200 text-sm">
           <span>{error}</span>
-          <button className="error-close" onClick={() => setError("")}>x</button>
+          <button
+            className="bg-transparent border-none text-red-600 cursor-pointer text-lg font-bold px-1 leading-none"
+            onClick={() => setError("")}
+          >
+            x
+          </button>
         </div>
       )}
 
@@ -98,11 +109,13 @@ export default function RoomManagement() {
       )}
 
       {loading ? (
-        <p>Đang tải...</p>
+        <p className="text-slate-400 text-center py-8">Đang tải...</p>
       ) : (
-        <div className="room-grid">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-4">
           {rooms.length === 0 ? (
-            <p>Không có phòng nào</p>
+            <p className="text-center py-16 text-slate-400 text-base col-span-full">
+              Chưa có phòng nào. Bấm "+ Thêm phòng" để bắt đầu.
+            </p>
           ) : (
             rooms.map((room) => (
               <RoomCard

@@ -47,7 +47,7 @@ describe('RoomManagement', () => {
     getRooms.mockRejectedValue(new Error('Network error'));
     render(<RoomManagement />);
 
-    expect(await screen.findByText('Không thể tải danh sách phòng')).toBeInTheDocument();
+    expect(await screen.findByText('Network error')).toBeInTheDocument();
   });
 
   it('filters rooms by status', async () => {

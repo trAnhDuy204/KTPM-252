@@ -37,11 +37,13 @@ describe('RoomCard', () => {
 
   it('shows only "Trống" button for MAINTENANCE room', () => {
     const room = { ...baseRoom, status: 'MAINTENANCE' };
-    render(<RoomCard room={room} onStatusChange={vi.fn()} />);
+    render(<RoomCard room={room} onStatusChange={vi.fn()} onDelete={vi.fn()} />);
 
     const buttons = screen.getAllByRole('button');
-    expect(buttons).toHaveLength(1);
+    // 1 transition button ("Trống") + 1 delete button ("Xóa phòng")
+    expect(buttons).toHaveLength(2);
     expect(buttons[0]).toHaveTextContent('Trống');
+    expect(buttons[1]).toHaveTextContent('Xóa phòng');
   });
 
   it('calls onStatusChange when transition button is clicked', async () => {
