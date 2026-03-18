@@ -16,6 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotel.backend.common.BusinessRuleException;
 import com.hotel.backend.common.ResourceNotFoundException;
 import com.hotel.backend.config.SecurityConfig;
+import com.hotel.backend.security.JwtService;
+import com.hotel.backend.service.CustomUserDetailsService;
 import com.hotel.backend.room.dto.CreateRoomRequest;
 import com.hotel.backend.room.dto.RoomResponse;
 import com.hotel.backend.room.dto.UpdateRoomStatusRequest;
@@ -29,10 +31,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(RoomController.class)
 @Import(SecurityConfig.class)
+@WithMockUser(roles = "RECEPTION")
 class RoomControllerTest {
 
     @Autowired
@@ -43,6 +47,12 @@ class RoomControllerTest {
 
     @MockitoBean
     private RoomService roomService;
+
+    @MockitoBean
+    private JwtService jwtService;
+
+    @MockitoBean
+    private CustomUserDetailsService customUserDetailsService;
 
     private static final String BASE_URL = "/api/reception/rooms";
 
@@ -297,6 +307,19 @@ class RoomControllerTest {
                             .content(objectMapper.writeValueAsString(request)))
                     .andExpect(status().isNotFound())
                     .andExpect(jsonPath("$.message", is("Room not found with id: 99")));
+        }
+    }
+
+    // ==================== Authorization ====================
+
+    @Nested
+    class Authorization {
+
+        @Test
+        @WithMockUser(roles = "CUSTOMER")
+        void shouldReturn403WhenNotReceptionRole() throws Exception {
+            mockMvc.perform(get(BASE_URL))
+                    .andExpect(status().isForbidden());
         }
     }
 }

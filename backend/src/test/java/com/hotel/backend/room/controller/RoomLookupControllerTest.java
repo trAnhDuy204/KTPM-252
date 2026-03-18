@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.hotel.backend.config.SecurityConfig;
+import com.hotel.backend.security.JwtService;
+import com.hotel.backend.service.CustomUserDetailsService;
 import com.hotel.backend.hotel.entity.Hotel;
 import com.hotel.backend.hotel.repository.HotelRepository;
 import com.hotel.backend.room.entity.RoomType;
@@ -20,10 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(RoomLookupController.class)
 @Import(SecurityConfig.class)
+@WithMockUser(roles = "RECEPTION")
 class RoomLookupControllerTest {
 
     @Autowired
@@ -34,6 +38,12 @@ class RoomLookupControllerTest {
 
     @MockitoBean
     private RoomTypeRepository roomTypeRepository;
+
+    @MockitoBean
+    private JwtService jwtService;
+
+    @MockitoBean
+    private CustomUserDetailsService customUserDetailsService;
 
     // ==================== GET /api/reception/hotels ====================
 
@@ -128,5 +138,18 @@ class RoomLookupControllerTest {
         roomType.setCapacity(capacity);
         roomType.setBasePrice(basePrice);
         return roomType;
+    }
+
+    // ==================== Authorization ====================
+
+    @Nested
+    class Authorization {
+
+        @Test
+        @WithMockUser(roles = "CUSTOMER")
+        void shouldReturn403WhenNotReceptionRole() throws Exception {
+            mockMvc.perform(get("/api/reception/hotels"))
+                    .andExpect(status().isForbidden());
+        }
     }
 }

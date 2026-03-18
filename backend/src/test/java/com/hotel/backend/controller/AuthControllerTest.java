@@ -4,15 +4,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotel.backend.dto.AuthDto;
 import com.hotel.backend.entity.Role;
 import com.hotel.backend.exception.AuthException;
+import com.hotel.backend.config.SecurityConfig;
+import com.hotel.backend.security.JwtService;
 import com.hotel.backend.service.AuthService;
+import com.hotel.backend.service.CustomUserDetailsService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -22,12 +26,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AuthController.class)
+@Import(SecurityConfig.class)
 @DisplayName("AuthController Tests")
 class AuthControllerTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired ObjectMapper objectMapper;
-    @MockBean AuthService authService;
+    @MockitoBean AuthService authService;
+    @MockitoBean JwtService jwtService;
+    @MockitoBean CustomUserDetailsService customUserDetailsService;
 
     private final AuthDto.AuthResponse mockAuthResponse = AuthDto.AuthResponse.builder()
             .accessToken("access-token")
