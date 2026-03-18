@@ -57,9 +57,9 @@ describe('RoomCard', () => {
 
   it('shows hotel and room type info', () => {
     render(<RoomCard room={baseRoom} onStatusChange={vi.fn()} />);
-    expect(screen.getByText('Khách sạn:')).toBeInTheDocument();
+    expect(screen.getByText('Khách sạn')).toBeInTheDocument();
     expect(screen.getByText('10')).toBeInTheDocument();
-    expect(screen.getByText('Loại phòng:')).toBeInTheDocument();
+    expect(screen.getByText('Loại phòng')).toBeInTheDocument();
     expect(screen.getByText('20')).toBeInTheDocument();
   });
 

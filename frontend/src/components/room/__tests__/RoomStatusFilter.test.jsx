@@ -4,11 +4,11 @@ import { describe, it, expect, vi } from 'vitest';
 import RoomStatusFilter from '../RoomStatusFilter';
 
 describe('RoomStatusFilter', () => {
-  it('renders all status options plus "Tất cả"', () => {
+  it('renders all status buttons plus "Tất cả"', () => {
     render(<RoomStatusFilter value="" onChange={vi.fn()} />);
 
-    const options = screen.getAllByRole('option');
-    expect(options).toHaveLength(6); // "Tất cả" + 5 statuses
+    const buttons = screen.getAllByRole('button');
+    expect(buttons).toHaveLength(6); // "Tất cả" + 5 statuses
 
     expect(screen.getByText('Tất cả')).toBeInTheDocument();
     expect(screen.getByText('Trống')).toBeInTheDocument();
@@ -18,27 +18,26 @@ describe('RoomStatusFilter', () => {
     expect(screen.getByText('Bảo trì')).toBeInTheDocument();
   });
 
-  it('shows correct selected value', () => {
+  it('highlights active filter button', () => {
     render(<RoomStatusFilter value="OCCUPIED" onChange={vi.fn()} />);
 
-    const select = screen.getByRole('combobox');
-    expect(select.value).toBe('OCCUPIED');
+    const activeBtn = screen.getByText('Đang ở');
+    expect(activeBtn.className).toContain('text-white');
   });
 
-  it('calls onChange when option is selected', async () => {
+  it('calls onChange when a status button is clicked', async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(<RoomStatusFilter value="" onChange={onChange} />);
 
-    await user.selectOptions(screen.getByRole('combobox'), 'AVAILABLE');
+    await user.click(screen.getByText('Trống'));
     expect(onChange).toHaveBeenCalledWith('AVAILABLE');
   });
 
-  it('shows "Tất cả" as default when value is empty', () => {
+  it('highlights "Tất cả" when value is empty', () => {
     render(<RoomStatusFilter value="" onChange={vi.fn()} />);
 
-    const select = screen.getByRole('combobox');
-    expect(select.value).toBe('');
-    expect(screen.getByText('Tất cả').selected).toBe(true);
+    const allBtn = screen.getByText('Tất cả');
+    expect(allBtn.className).toContain('text-white');
   });
 });

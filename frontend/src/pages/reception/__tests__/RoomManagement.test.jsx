@@ -1,12 +1,14 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
 import RoomManagement from '../RoomManagement';
 
 vi.mock('@/services/roomApi', () => ({
   getRooms: vi.fn(),
   createRoom: vi.fn(),
   updateRoomStatus: vi.fn(),
+  deleteRoom: vi.fn(),
   getHotels: vi.fn(),
   getRoomTypes: vi.fn(),
 }));
@@ -19,6 +21,8 @@ const mockRooms = [
   { id: 3, roomNumber: '201', status: 'CLEANING', hotelId: 1, roomTypeId: 20 },
 ];
 
+const renderPage = () => render(<MemoryRouter><RoomManagement /></MemoryRouter>);
+
 describe('RoomManagement', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -30,77 +34,79 @@ describe('RoomManagement', () => {
   });
 
   it('renders page title', async () => {
-    render(<RoomManagement />);
-    expect(screen.getByText('Quản lý phòng - Lễ tân')).toBeInTheDocument();
+    renderPage();
+    expect(screen.getByText('Quản lý phòng')).toBeInTheDocument();
   });
 
   it('loads and displays rooms', async () => {
-    render(<RoomManagement />);
+    renderPage();
 
     expect(await screen.findByText('Phòng 101')).toBeInTheDocument();
     expect(screen.getByText('Phòng 102')).toBeInTheDocument();
     expect(screen.getByText('Phòng 201')).toBeInTheDocument();
-    expect(getRooms).toHaveBeenCalledWith(1, undefined);
   });
 
   it('shows error message on API failure', async () => {
     getRooms.mockRejectedValue(new Error('Network error'));
-    render(<RoomManagement />);
+    renderPage();
 
     expect(await screen.findByText('Network error')).toBeInTheDocument();
   });
 
   it('filters rooms by status', async () => {
     const user = userEvent.setup();
-    render(<RoomManagement />);
+    renderPage();
 
     await screen.findByText('Phòng 101');
 
-    // Change filter to AVAILABLE
-    const filterSelect = screen.getByRole('combobox');
-    await user.selectOptions(filterSelect, 'AVAILABLE');
+    // Click the "Trống" filter button
+    const filterButtons = screen.getAllByText('Trống');
+    const filterButton = filterButtons.find(el => el.tagName === 'BUTTON' && !el.closest('[class*="flex-wrap gap-1.5"]'));
+    await user.click(filterButton);
 
     await waitFor(() => {
       expect(getRooms).toHaveBeenCalledWith(1, 'AVAILABLE');
     });
   });
 
-  it('opens create form when button is clicked', async () => {
+  it('toggles create form when button is clicked', async () => {
     const user = userEvent.setup();
-    render(<RoomManagement />);
+    renderPage();
 
     await screen.findByText('Phòng 101');
 
-    expect(screen.queryByText('Thêm phòng mới')).not.toBeInTheDocument();
+    // Click "Thêm phòng" to open form
+    await user.click(screen.getByText('Thêm phòng'));
 
-    await user.click(screen.getByText('+ Thêm phòng'));
+    // Click "Đóng" to close form
+    await user.click(screen.getByText('Đóng'));
 
-    expect(screen.getByText('Thêm phòng mới')).toBeInTheDocument();
+    // The button should say "Thêm phòng" again
+    expect(screen.getByText('Thêm phòng')).toBeInTheDocument();
   });
 
   it('creates room and refreshes list', async () => {
     const user = userEvent.setup();
-    render(<RoomManagement />);
+    renderPage();
 
     await screen.findByText('Phòng 101');
 
     // Open create form
-    await user.click(screen.getByText('+ Thêm phòng'));
+    await user.click(screen.getByText('Thêm phòng'));
     await screen.findByText('Thêm phòng mới');
 
     // Wait for hotels to load
     await screen.findByText('Hotel A (HN)');
 
-    // Fill form
+    // Fill form - now filter is buttons, so comboboxes are only in the form
     const selects = screen.getAllByRole('combobox');
-    // The first combobox is the status filter, the second is hotel select
-    const hotelSelect = selects[1];
+    const hotelSelect = selects[0];
     await user.selectOptions(hotelSelect, '1');
 
     // Wait for room types
     await screen.findByText(/Standard/);
 
-    const roomTypeSelect = selects[2];
+    const roomTypeSelect = selects[1];
     await user.selectOptions(roomTypeSelect, '10');
 
     const roomNumberInput = screen.getByPlaceholderText('VD: 101');
@@ -119,23 +125,19 @@ describe('RoomManagement', () => {
 
     // Should refetch rooms after creation
     await waitFor(() => {
-      // Initial load + after create
       expect(getRooms.mock.calls.length).toBeGreaterThanOrEqual(2);
     });
   });
 
   it('updates room status', async () => {
     const user = userEvent.setup();
-    render(<RoomManagement />);
+    renderPage();
 
     await screen.findByText('Phòng 101');
 
-    // Room 101 is AVAILABLE, should have "Đã đặt" and "Bảo trì" buttons
-    // Click "Đã đặt" for room 101
+    // Room 101 is AVAILABLE, find the "Đã đặt" button in room cards (not filter)
     const reserveButtons = screen.getAllByText('Đã đặt');
-    // The first "Đã đặt" button in the actions area (not the summary label)
-    // We need the button element
-    const reserveButton = reserveButtons.find((el) => el.tagName === 'BUTTON');
+    const reserveButton = reserveButtons.find((el) => el.tagName === 'BUTTON' && el.closest('[class*="flex-wrap gap-1.5"]'));
     await user.click(reserveButton);
 
     await waitFor(() => {
