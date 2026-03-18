@@ -7,6 +7,8 @@ public record RoomResponse(
         Integer id,
         Integer hotelId,
         Integer roomTypeId,
+        String roomTypeName,
+        Integer roomTypeCapacity,
         String roomNumber,
         RoomStatus status
 ) {
@@ -15,6 +17,8 @@ public record RoomResponse(
                 room.getId(),
                 room.getHotel().getId(),
                 room.getRoomType().getId(),
+                room.getRoomType().getName(),
+                room.getRoomType().getCapacity(),
                 room.getRoomNumber(),
                 room.getStatus()
         );
