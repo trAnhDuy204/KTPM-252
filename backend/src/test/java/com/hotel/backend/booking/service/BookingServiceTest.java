@@ -224,6 +224,54 @@ class BookingServiceTest {
         }
 
         @Test
+        void shouldRecalculatePriceOnCheckOut() {
+            // Booking checked in today, original checkout was +5 days, but checking out now (same day)
+            Booking booking = buildBooking(1, BookingStatus.CHECKED_IN);
+            booking.setCheckIn(LocalDate.now()); // checked in today
+            booking.setCheckOut(LocalDate.now().plusDays(5)); // original: 5 nights
+            booking.setTotalPrice(new BigDecimal("2500000")); // 5 * 500,000
+            when(bookingRepository.findById(1)).thenReturn(Optional.of(booking));
+            when(bookingRepository.save(any(Booking.class))).thenAnswer(inv -> inv.getArgument(0));
+            when(roomRepository.save(any(Room.class))).thenReturn(room);
+
+            BookingResponse response = bookingService.checkOut(1);
+
+            // Same-day checkout = minimum 1 night = 500,000
+            assertThat(response.totalPrice()).isEqualByComparingTo(new BigDecimal("500000"));
+        }
+
+        @Test
+        void shouldRecalculatePriceForEarlyCheckOut() {
+            // Checked in 2 days ago, original checkout was +5 days from check-in
+            Booking booking = buildBooking(1, BookingStatus.CHECKED_IN);
+            booking.setCheckIn(LocalDate.now().minusDays(2)); // checked in 2 days ago
+            booking.setCheckOut(LocalDate.now().plusDays(3)); // original: 5 nights
+            booking.setTotalPrice(new BigDecimal("2500000")); // 5 * 500,000
+            when(bookingRepository.findById(1)).thenReturn(Optional.of(booking));
+            when(bookingRepository.save(any(Booking.class))).thenAnswer(inv -> inv.getArgument(0));
+            when(roomRepository.save(any(Room.class))).thenReturn(room);
+
+            BookingResponse response = bookingService.checkOut(1);
+
+            // Actual stay: 2 nights * 500,000 = 1,000,000
+            assertThat(response.totalPrice()).isEqualByComparingTo(new BigDecimal("1000000"));
+        }
+
+        @Test
+        void shouldChargeMinimumOneNightOnSameDayCheckOut() {
+            Booking booking = buildBooking(1, BookingStatus.CHECKED_IN);
+            booking.setCheckIn(LocalDate.now());
+            when(bookingRepository.findById(1)).thenReturn(Optional.of(booking));
+            when(bookingRepository.save(any(Booking.class))).thenAnswer(inv -> inv.getArgument(0));
+            when(roomRepository.save(any(Room.class))).thenReturn(room);
+
+            BookingResponse response = bookingService.checkOut(1);
+
+            // Minimum 1 night charge
+            assertThat(response.totalPrice()).isEqualByComparingTo(new BigDecimal("500000"));
+        }
+
+        @Test
         void shouldSetRoomToCleaningOnCheckOut() {
             Booking booking = buildBooking(1, BookingStatus.CHECKED_IN);
             when(bookingRepository.findById(1)).thenReturn(Optional.of(booking));
@@ -277,15 +325,33 @@ class BookingServiceTest {
         }
 
         @Test
-        void shouldCancelPendingBookingWithoutChangingRoom() {
+        void shouldCancelPendingBookingAndRestoreRoomToAvailable() {
             Booking booking = buildBooking(1, BookingStatus.PENDING);
             when(bookingRepository.findById(1)).thenReturn(Optional.of(booking));
             when(bookingRepository.save(any(Booking.class))).thenAnswer(inv -> inv.getArgument(0));
+            when(roomRepository.save(any(Room.class))).thenReturn(room);
 
             BookingResponse response = bookingService.cancelBooking(1);
 
             assertThat(response.status()).isEqualTo(BookingStatus.CANCELLED);
-            verify(roomRepository, never()).save(any());
+            ArgumentCaptor<Room> roomCaptor = ArgumentCaptor.forClass(Room.class);
+            verify(roomRepository).save(roomCaptor.capture());
+            assertThat(roomCaptor.getValue().getStatus()).isEqualTo(RoomStatus.AVAILABLE);
+        }
+
+        @Test
+        void shouldCancelConfirmedBookingAndRestoreRoomToAvailable() {
+            Booking booking = buildBooking(1, BookingStatus.CONFIRMED);
+            when(bookingRepository.findById(1)).thenReturn(Optional.of(booking));
+            when(bookingRepository.save(any(Booking.class))).thenAnswer(inv -> inv.getArgument(0));
+            when(roomRepository.save(any(Room.class))).thenReturn(room);
+
+            BookingResponse response = bookingService.cancelBooking(1);
+
+            assertThat(response.status()).isEqualTo(BookingStatus.CANCELLED);
+            ArgumentCaptor<Room> roomCaptor = ArgumentCaptor.forClass(Room.class);
+            verify(roomRepository).save(roomCaptor.capture());
+            assertThat(roomCaptor.getValue().getStatus()).isEqualTo(RoomStatus.AVAILABLE);
         }
 
         @Test
