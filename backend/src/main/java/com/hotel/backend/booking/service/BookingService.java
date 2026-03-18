@@ -76,8 +76,17 @@ public class BookingService {
             throw new BusinessRuleException("Booking is not checked in. Current status: " + booking.getStatus());
         }
 
+        LocalDate actualCheckOut = LocalDate.now();
         booking.setStatus(BookingStatus.COMPLETED);
-        booking.setCheckOut(LocalDate.now());
+        booking.setCheckOut(actualCheckOut);
+
+        // Recalculate price based on actual stay duration
+        long actualNights = ChronoUnit.DAYS.between(booking.getCheckIn(), actualCheckOut);
+        if (actualNights < 1) {
+            actualNights = 1; // Minimum 1 night charge
+        }
+        BigDecimal pricePerNight = booking.getRoom().getRoomType().getBasePrice();
+        booking.setTotalPrice(pricePerNight.multiply(BigDecimal.valueOf(actualNights)));
 
         Room room = booking.getRoom();
         room.setStatus(RoomStatus.CLEANING);
@@ -95,12 +104,15 @@ public class BookingService {
             throw new BusinessRuleException("Cannot cancel a booking that is " + booking.getStatus());
         }
 
-        boolean wasCheckedIn = booking.getStatus() == BookingStatus.CHECKED_IN;
+        BookingStatus previousStatus = booking.getStatus();
         booking.setStatus(BookingStatus.CANCELLED);
 
-        if (wasCheckedIn) {
-            Room room = booking.getRoom();
+        Room room = booking.getRoom();
+        if (previousStatus == BookingStatus.CHECKED_IN) {
             room.setStatus(RoomStatus.CLEANING);
+            roomRepository.save(room);
+        } else if (previousStatus == BookingStatus.PENDING || previousStatus == BookingStatus.CONFIRMED) {
+            room.setStatus(RoomStatus.AVAILABLE);
             roomRepository.save(room);
         }
 
