@@ -11,3 +11,6 @@ frontend/build/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Vite cache
+frontend/.vite/
