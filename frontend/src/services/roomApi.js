@@ -1,30 +1,22 @@
-import axios from "axios";
-
-const BASE = axios.create({
-  baseURL: "http://localhost:8080/api/reception",
-});
-
-const API = axios.create({
-  baseURL: "http://localhost:8080/api/reception/rooms",
-});
+import api from "./api";
 
 export const getRooms = (hotelId, status) => {
   const params = {};
   if (hotelId) params.hotelId = hotelId;
   if (status) params.status = status;
-  return API.get("", { params });
+  return api.get("/reception/rooms", { params });
 };
 
-export const getRoom = (roomId) => API.get(`/${roomId}`);
+export const getRoom = (roomId) => api.get(`/reception/rooms/${roomId}`);
 
-export const createRoom = (data) => API.post("", data);
+export const createRoom = (data) => api.post("/reception/rooms", data);
 
 export const updateRoomStatus = (roomId, status) =>
-  API.patch(`/${roomId}/status`, { status });
+  api.patch(`/reception/rooms/${roomId}/status`, { status });
 
-export const deleteRoom = (roomId) => API.delete(`/${roomId}`);
+export const deleteRoom = (roomId) => api.delete(`/reception/rooms/${roomId}`);
 
-export const getHotels = () => BASE.get("/hotels");
+export const getHotels = () => api.get("/reception/hotels");
 
 export const getRoomTypes = (hotelId) =>
-  BASE.get("/room-types", { params: { hotelId } });
+  api.get("/reception/room-types", { params: { hotelId } });

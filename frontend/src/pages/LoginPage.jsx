@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useForm } from '../hooks/useForm';
+import { Building2, AlertCircle } from 'lucide-react';
 
 const validate = (v) => ({
   email: !v.email ? 'Email là bắt buộc'
@@ -44,8 +45,9 @@ export default function LoginPage() {
           backgroundSize: '28px 28px',
         }} />
         <div className="relative z-10 text-center">
-          <div className="text-gold-500 text-7xl mb-4 leading-none"
-            style={{ filter: 'drop-shadow(0 0 40px rgba(201,169,110,0.35))' }}>⬡</div>
+          <div className="mb-4" style={{ filter: 'drop-shadow(0 0 40px rgba(201,169,110,0.35))' }}>
+            <Building2 className="w-16 h-16 text-gold-500 mx-auto" />
+          </div>
           <h1 className="font-display text-6xl font-semibold tracking-[0.2em] text-gold-500 mb-2">LUMIÈRE</h1>
           <p className="text-xs tracking-[0.35em] text-zinc-500 uppercase">Hotel Management System</p>
           <div className="mt-10 flex items-center gap-4 justify-center">
@@ -63,7 +65,7 @@ export default function LoginPage() {
       <div className="w-full lg:w-[480px] flex items-center justify-center p-8 bg-zinc-950 lg:border-l border-zinc-800/60">
         <div className="w-full max-w-sm">
           <div className="lg:hidden text-center mb-10">
-            <span className="text-yellow-500 text-4xl">⬡</span>
+            <Building2 className="w-10 h-10 text-yellow-500 mx-auto" />
             <h1 className="font-display text-3xl font-semibold tracking-widest text-yellow-500 mt-2">LUMIÈRE</h1>
           </div>
 
@@ -74,7 +76,7 @@ export default function LoginPage() {
 
           {serverError && (
             <div className="mb-5 flex items-center gap-3 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/25 text-red-400 text-sm">
-              <span className="flex-shrink-0">⚠</span>{serverError}
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />{serverError}
             </div>
           )}
 
