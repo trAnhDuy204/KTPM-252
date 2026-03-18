@@ -48,12 +48,10 @@ public class SecurityConfig {
                     "/api/auth/login",
                     "/api/auth/refresh",
                     "/api/rooms/**",
-                    "/api/room-types/**",
-                    "/api/reception/rooms/**",
-                    "/api/reception/room-types/**"
+                    "/api/room-types/**"
                 ).permitAll()
+                .requestMatchers("/api/reception/**").hasRole("RECEPTION")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/reception/**").hasAnyRole("ADMIN", "RECEPTION")
                 .anyRequest().authenticated()
             )
             .sessionManagement(session ->
