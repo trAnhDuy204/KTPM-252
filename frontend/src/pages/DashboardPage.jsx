@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getRooms } from '../services/roomApi';
+import { getBookings } from '../services/bookingApi';
+import { Home, Clipboard, Building2, Star, User, LogOut, Plus, X, AlertCircle, CheckCircle2, Users, TrendingUp, Lock } from 'lucide-react';
 
 /*Shared components*/
 
@@ -19,10 +22,10 @@ function RoleBadge({ role }) {
   );
 }
 
-function StatCard({ icon, label, value, sub }) {
+function StatCard({ Icon, label, value, sub }) {
   return (
     <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-colors duration-200">
-      <div className="text-2xl mb-3">{icon}</div>
+      {Icon && <Icon className="w-6 h-6 mb-3 text-yellow-500" />}
       <div className="font-display text-3xl font-semibold text-zinc-100 mb-1">{value}</div>
       <div className="text-xs font-medium text-zinc-500 uppercase tracking-wider">{label}</div>
       {sub && <div className="text-xs text-zinc-600 mt-1">{sub}</div>}
@@ -37,21 +40,21 @@ function Sidebar({ navItems, onLogout }) {
       {/* Brand */}
       <div className="px-5 py-6 border-b border-zinc-800">
         <div className="flex items-center gap-2.5">
-          <span className="text-yellow-500 text-2xl leading-none">⬡</span>
+          <Building2 className="w-6 h-6 text-yellow-500" />
           <span className="font-display text-xl font-semibold tracking-widest text-yellow-500">LUMIÈRE</span>
         </div>
       </div>
 
       {/* Nav */}
       <nav className="flex-1 p-3 space-y-0.5">
-        {navItems.map(({ icon, label, active }) => (
+        {navItems.map(({ Icon, label, active }) => (
           <button key={label}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors duration-150 ${
               active
                 ? 'bg-yellow-600/15 text-yellow-500'
                 : 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800'
             }`}>
-            <span className="text-base w-5 text-center">{icon}</span>
+            <Icon className="w-5 h-5" />
             {label}
           </button>
         ))}
@@ -61,7 +64,7 @@ function Sidebar({ navItems, onLogout }) {
       <div className="p-3 border-t border-zinc-800">
         <button onClick={onLogout}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors duration-150">
-          <span className="text-base w-5 text-center">←</span>
+          <LogOut className="w-5 h-5" />
           Đăng xuất
         </button>
       </div>
@@ -69,10 +72,10 @@ function Sidebar({ navItems, onLogout }) {
   );
 }
 
-function EmptyState({ icon, text, action }) {
+function EmptyState({ Icon, text, action }) {
   return (
     <div className="flex flex-col items-center justify-center py-14 gap-3 text-center">
-      <span className="text-4xl opacity-30">{icon}</span>
+      {Icon && <Icon className="w-12 h-12 opacity-30 text-zinc-400" />}
       <p className="text-sm text-zinc-500 leading-relaxed">{text}</p>
       {action && (
         <button className="mt-1 px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-zinc-950 text-xs font-medium tracking-widest uppercase transition-colors">
@@ -90,11 +93,11 @@ export function CustomerDashboard() {
   const navigate = useNavigate();
 
   const nav = [
-    { icon: '🏠', label: 'Tổng quan', active: true },
-    { icon: '📅', label: 'Đặt phòng' },
-    { icon: '🏨', label: 'Khách sạn' },
-    { icon: '⭐', label: 'Đánh giá' },
-    { icon: '👤', label: 'Hồ sơ' },
+    { Icon: Home, label: 'Tổng quan', active: true },
+    { Icon: Clipboard, label: 'Đặt phòng' },
+    { Icon: Building2, label: 'Khách sạn' },
+    { Icon: Star, label: 'Đánh giá' },
+    { Icon: User, label: 'Hồ sơ' },
   ];
 
   return (
@@ -115,21 +118,21 @@ export function CustomerDashboard() {
 
         {/* Stats */}
         <div className="grid grid-cols-4 gap-4 mb-8">
-          <StatCard icon="📋" label="Tổng đặt phòng" value="0" sub="Chưa có lịch sử" />
-          <StatCard icon="✅" label="Đã hoàn thành" value="0" />
-          <StatCard icon="⏳" label="Chờ xác nhận" value="0" />
-          <StatCard icon="⭐" label="Đánh giá" value="0" />
+          <StatCard Icon={Clipboard} label="Tổng đặt phòng" value="0" sub="Chưa có lịch sử" />
+          <StatCard Icon={CheckCircle2} label="Đã hoàn thành" value="0" />
+          <StatCard Icon={AlertCircle} label="Chờ xác nhận" value="0" />
+          <StatCard Icon={Star} label="Đánh giá" value="0" />
         </div>
 
         {/* Cards */}
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
             <h3 className="text-sm font-medium text-zinc-300 mb-4">Đặt phòng gần đây</h3>
-            <EmptyState icon="🏨" text={"Chưa có đặt phòng nào.\nHãy khám phá các khách sạn ngay!"} action="Tìm khách sạn" />
+            <EmptyState Icon={Building2} text={"Chưa có đặt phòng nào.\nHãy khám phá các khách sạn ngay!"} action="Tìm khách sạn" />
           </div>
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
             <h3 className="text-sm font-medium text-zinc-300 mb-4">Khách sạn yêu thích</h3>
-            <EmptyState icon="❤️" text="Chưa có khách sạn yêu thích." />
+            <EmptyState Icon={Star} text="Chưa có khách sạn yêu thích." />
           </div>
         </div>
       </main>
@@ -140,49 +143,99 @@ export function CustomerDashboard() {
 /*Reception Dashboard*/
 
 export function ReceptionDashboard() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [stats, setStats] = useState({ available: 0, occupied: 0, checkinToday: 0, checkoutToday: 0 });
+  const [recentBookings, setRecentBookings] = useState([]);
 
-  const nav = [
-    { icon: '🏠', label: 'Tổng quan', active: true },
-    { icon: '📋', label: 'Đặt phòng' },
-    { icon: '🚪', label: 'Phòng' },
-    { icon: '👥', label: 'Khách hàng' },
-    { icon: '🧾', label: 'Dịch vụ' },
-  ];
+  useEffect(() => {
+    const hotelId = user?.hotelId || null;
+
+    getRooms(hotelId).then(res => {
+      const rooms = res.data;
+      setStats(s => ({
+        ...s,
+        available: rooms.filter(r => r.status === 'AVAILABLE').length,
+        occupied: rooms.filter(r => r.status === 'OCCUPIED').length,
+      }));
+    }).catch(() => {});
+
+    getBookings(hotelId).then(res => {
+      const bookings = res.data;
+      const today = new Date().toISOString().split('T')[0];
+      setStats(s => ({
+        ...s,
+        checkinToday: bookings.filter(b => b.checkIn === today && b.status === 'CHECKED_IN').length,
+        checkoutToday: bookings.filter(b => b.checkOut === today && b.status === 'COMPLETED').length,
+      }));
+      setRecentBookings(bookings.slice(0, 5));
+    }).catch(() => {});
+  }, [user?.hotelId]);
 
   return (
-    <div className="flex min-h-screen bg-zinc-950">
-      <Sidebar navItems={nav} onLogout={() => { logout(); navigate('/login'); }} />
-
-      <main className="flex-1 ml-56 p-8">
-        <div className="flex items-start justify-between mb-8">
-          <div>
-            <h1 className="font-display text-3xl font-semibold text-zinc-100 mb-1">Quầy Lễ tân</h1>
-            <p className="text-zinc-500 text-sm">Khách sạn #{user?.hotelId} · {user?.fullName}</p>
-          </div>
-          <RoleBadge role={user?.role} />
+    <>
+      <div className="flex items-start justify-between mb-8">
+        <div>
+          <h1 className="font-display text-3xl font-semibold text-zinc-100 mb-1">Quầy Lễ tân</h1>
+          <p className="text-zinc-500 text-sm">Khách sạn #{user?.hotelId} · {user?.fullName}</p>
         </div>
+        <RoleBadge role={user?.role} />
+      </div>
 
-        <div className="grid grid-cols-4 gap-4 mb-8">
-          <StatCard icon="🟢" label="Phòng trống" value="—" sub="Kết nối dữ liệu" />
-          <StatCard icon="🔴" label="Đang sử dụng" value="—" />
-          <StatCard icon="📥" label="Check-in hôm nay" value="—" />
-          <StatCard icon="📤" label="Check-out hôm nay" value="—" />
-        </div>
+      <div className="grid grid-cols-4 gap-4 mb-8">
+        <StatCard Icon={CheckCircle2} label="Phòng trống" value={stats.available} />
+        <StatCard Icon={AlertCircle} label="Đang sử dụng" value={stats.occupied} />
+        <StatCard Icon={Clipboard} label="Check-in hôm nay" value={stats.checkinToday} />
+        <StatCard Icon={Clipboard} label="Check-out hôm nay" value={stats.checkoutToday} />
+      </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-            <h3 className="text-sm font-medium text-zinc-300 mb-4">Đặt phòng chờ xác nhận</h3>
-            <EmptyState icon="📋" text="Không có yêu cầu đang chờ." />
-          </div>
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-            <h3 className="text-sm font-medium text-zinc-300 mb-4">Hoạt động gần đây</h3>
-            <EmptyState icon="📊" text="Chưa có hoạt động." />
+      <div className="grid grid-cols-2 gap-4">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <h3 className="text-sm font-medium text-zinc-300 mb-4">Booking gần đây</h3>
+          {recentBookings.length === 0
+            ? <EmptyState Icon={Clipboard} text="Chưa có booking nào." />
+            : (
+              <div className="space-y-2">
+                {recentBookings.map(b => (
+                  <div key={b.id} className="flex items-center justify-between px-3 py-2 rounded-lg bg-zinc-800/50">
+                    <div>
+                      <span className="text-sm text-zinc-200">Phòng {b.roomNumber}</span>
+                      <span className="text-xs text-zinc-500 ml-2">{b.guestName}</span>
+                    </div>
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${
+                      b.status === 'CHECKED_IN' ? 'bg-green-500/15 text-green-400'
+                      : b.status === 'COMPLETED' ? 'bg-zinc-500/15 text-zinc-400'
+                      : b.status === 'CANCELLED' ? 'bg-red-500/15 text-red-400'
+                      : 'bg-yellow-500/15 text-yellow-400'
+                    }`}>{b.status}</span>
+                  </div>
+                ))}
+              </div>
+            )
+          }
+        </div>
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <h3 className="text-sm font-medium text-zinc-300 mb-4">Thống kê nhanh</h3>
+          <div className="space-y-3 text-sm">
+            <div className="flex justify-between text-zinc-400">
+              <span>Tổng phòng trống</span>
+              <span className="text-emerald-400 font-medium">{stats.available}</span>
+            </div>
+            <div className="flex justify-between text-zinc-400">
+              <span>Đang sử dụng</span>
+              <span className="text-red-400 font-medium">{stats.occupied}</span>
+            </div>
+            <div className="flex justify-between text-zinc-400">
+              <span>Check-in hôm nay</span>
+              <span className="text-sky-400 font-medium">{stats.checkinToday}</span>
+            </div>
+            <div className="flex justify-between text-zinc-400">
+              <span>Check-out hôm nay</span>
+              <span className="text-orange-400 font-medium">{stats.checkoutToday}</span>
+            </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </>
   );
 }
 
@@ -197,11 +250,11 @@ export function AdminDashboard() {
   const [successMsg, setSuccessMsg] = useState('');
 
   const nav = [
-    { icon: '🏠', label: 'Tổng quan', active: true },
-    { icon: '🏨', label: 'Khách sạn' },
-    { icon: '👥', label: 'Nhân viên' },
-    { icon: '📊', label: 'Báo cáo' },
-    { icon: '⚙️', label: 'Cài đặt' },
+    { Icon: Home, label: 'Tổng quan', active: true },
+    { Icon: Building2, label: 'Khách sạn' },
+    { Icon: Users, label: 'Nhân viên' },
+    { Icon: TrendingUp, label: 'Báo cáo' },
+    { Icon: Lock, label: 'Cài đặt' },
   ];
 
   const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
@@ -236,23 +289,24 @@ export function AdminDashboard() {
           <div className="flex items-center gap-3">
             <RoleBadge role={user?.role} />
             <button onClick={() => setShowModal(true)}
-              className="px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-zinc-950 text-xs font-medium tracking-widest uppercase transition-all hover:shadow-lg hover:shadow-yellow-500/20">
-              + Thêm nhân viên
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-zinc-950 text-xs font-medium tracking-widest uppercase transition-all hover:shadow-lg hover:shadow-yellow-500/20">
+              <Plus className="w-4 h-4" />
+              Thêm nhân viên
             </button>
           </div>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-4 gap-4 mb-8">
-          <StatCard icon="🏨" label="Khách sạn" value="—" />
-          <StatCard icon="👥" label="Nhân viên" value="—" />
-          <StatCard icon="📅" label="Đặt phòng tháng này" value="—" />
-          <StatCard icon="💰" label="Doanh thu" value="—" />
+          <StatCard Icon={Building2} label="Khách sạn" value="—" />
+          <StatCard Icon={Users} label="Nhân viên" value="—" />
+          <StatCard Icon={Clipboard} label="Đặt phòng tháng này" value="—" />
+          <StatCard Icon={TrendingUp} label="Doanh thu" value="—" />
         </div>
 
         <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
           <h3 className="text-sm font-medium text-zinc-300 mb-4">Quản lý nhân viên</h3>
-          <EmptyState icon="👥" text={"Chưa có nhân viên nào.\nNhấn " + "Thêm nhân viên để tạo tài khoản."} />
+          <EmptyState Icon={Users} text={"Chưa có nhân viên nào.\nNhấn " + "Thêm nhân viên để tạo tài khoản."} />
         </div>
       </main>
 
@@ -267,18 +321,20 @@ export function AdminDashboard() {
             <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-800">
               <h2 className="font-display text-2xl font-semibold text-zinc-100">Tạo tài khoản nhân viên</h2>
               <button onClick={() => setShowModal(false)}
-                className="text-zinc-500 hover:text-zinc-200 text-lg transition-colors leading-none">✕</button>
+                className="text-zinc-500 hover:text-zinc-200 transition-colors leading-none">
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
             <div className="px-6 py-5">
               {formError && (
                 <div className="mb-4 flex items-center gap-2 px-3.5 py-2.5 rounded-lg bg-red-500/10 border border-red-500/25 text-red-400 text-sm">
-                  <span>⚠</span>{formError}
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />{formError}
                 </div>
               )}
               {successMsg && (
                 <div className="mb-4 flex items-center gap-2 px-3.5 py-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-sm">
-                  <span>✓</span>{successMsg}
+                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" />{successMsg}
                 </div>
               )}
 
@@ -334,8 +390,9 @@ export function AdminDashboard() {
                   <button type="submit" disabled={loading}
                     className="px-5 py-2.5 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-zinc-950 text-sm font-medium tracking-widest uppercase transition-all disabled:opacity-50 flex items-center gap-2">
                     {loading
-                      ? <span className="w-3.5 h-3.5 border-2 border-zinc-950/30 border-t-zinc-950 rounded-full animate-spin" />
-                      : 'Tạo tài khoản'}
+                      ? <div className="w-4 h-4 border-2 border-zinc-950/30 border-t-zinc-950 rounded-full animate-spin" />
+                      : <Plus className="w-4 h-4" />}
+                    Tạo tài khoản
                   </button>
                 </div>
               </form>

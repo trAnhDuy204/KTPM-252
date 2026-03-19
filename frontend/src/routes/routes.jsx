@@ -1,10 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from '../context/AuthContext';
-import ProtectedRoute from '../components/ProtectedRoute';
-import LoginPage from '../pages/LoginPage';
-import RegisterPage from '../pages/RegisterPage';
-import { CustomerDashboard, ReceptionDashboard, AdminDashboard } from '../pages/DashboardPage';
+import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { ThemeProvider } from '@/context/ThemeContext';
+import ProtectedRoute from '@/components/ProtectedRoute';
+import ReceptionLayout from '@/components/layout/ReceptionLayout';
+import LoginPage from '@/pages/LoginPage';
+import RegisterPage from '@/pages/RegisterPage';
+import { CustomerDashboard, ReceptionDashboard, AdminDashboard } from '@/pages/DashboardPage';
+import RoomManagement from '@/pages/reception/RoomManagement';
+import CheckInOut from '@/pages/reception/CheckInOut';
 
 function RootRedirect() {
   const { user } = useAuth();
@@ -12,6 +16,14 @@ function RootRedirect() {
   if (user.role === 'ADMIN') return <Navigate to="/admin" replace />;
   if (user.role === 'RECEPTION') return <Navigate to="/reception" replace />;
   return <Navigate to="/dashboard" replace />;
+}
+
+function ReceptionRoute({ children }) {
+  return (
+    <ProtectedRoute allowedRoles={['RECEPTION', 'ADMIN']}>
+      <ReceptionLayout>{children}</ReceptionLayout>
+    </ProtectedRoute>
+  );
 }
 
 function AppRoutes() {
@@ -27,11 +39,10 @@ function AppRoutes() {
         </ProtectedRoute>
       } />
 
-      <Route path="/reception" element={
-        <ProtectedRoute allowedRoles={['RECEPTION', 'ADMIN']}>
-          <ReceptionDashboard />
-        </ProtectedRoute>
-      } />
+      {/* Reception routes — all wrapped in sidebar layout */}
+      <Route path="/reception" element={<ReceptionRoute><ReceptionDashboard /></ReceptionRoute>} />
+      <Route path="/reception/rooms" element={<ReceptionRoute><RoomManagement /></ReceptionRoute>} />
+      <Route path="/reception/check-in-out" element={<ReceptionRoute><CheckInOut /></ReceptionRoute>} />
 
       <Route path="/admin" element={
         <ProtectedRoute allowedRoles={['ADMIN']}>
@@ -47,9 +58,11 @@ function AppRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

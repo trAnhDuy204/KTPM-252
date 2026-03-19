@@ -10,20 +10,103 @@
   }
 
   body {
-    @apply bg-zinc-950 text-zinc-100 font-body antialiased;
-    margin: 0;
+    @apply antialiased font-body m-0;
+  }
+
+  /* ── Dark theme (default) ── */
+  .dark body {
+    @apply bg-zinc-950 text-zinc-100;
+  }
+
+  /* ── Light theme overrides ── */
+  .light body {
+    background-color: #f2f0eb;
+    color: #1c1917;
   }
 }
 
-@layer components {
+/* ========================================================
+   LIGHT THEME – soft warm palette (không chói, dễ nhìn)
+   Dùng stone/warm tones thay vì white thuần và black thuần
+   ======================================================== */
 
-  /* Staggered animation delays */
+/*
+  Bảng màu light:
+  bg primary  : #f2f0eb  (warm off-white – không chói)
+  bg card     : #faf8f5  (ấm hơn white thuần)
+  bg input    : #edeae3  (warm light gray)
+  border      : #dedad1  (warm border, nhẹ)
+  border hover: #c5c0b4  (hover – rõ hơn một chút)
+  text primary: #1c1917  (stone-900 – ấm, không đen thuần)
+  text sec    : #78716c  (stone-500 – dễ đọc)
+  text muted  : #a8a29e  (stone-400)
+  accent      : #92400e  (amber-800 – vàng tối, đọc được trên nền sáng)
+*/
+
+/* Backgrounds */
+.light .bg-zinc-950   { background-color: #f2f0eb !important; }
+.light .bg-zinc-900   { background-color: #faf8f5 !important; }
+.light .bg-zinc-800   { background-color: #edeae3 !important; }
+.light .bg-zinc-800\/50 { background-color: rgba(237,234,227,0.5) !important; }
+
+/* Borders */
+.light .border-zinc-800 { border-color: #dedad1 !important; }
+.light .border-zinc-700 { border-color: #c5c0b4 !important; }
+
+/* Hover states */
+.light .hover\:border-zinc-700:hover { border-color: #a39e94 !important; }
+.light .hover\:bg-zinc-800:hover     { background-color: #e8e4db !important; }
+
+/* Text – warm stone palette */
+.light .text-zinc-100 { color: #1c1917 !important; }
+.light .text-zinc-200 { color: #292524 !important; }
+.light .text-zinc-300 { color: #44403c !important; }
+.light .text-zinc-400 { color: #57534e !important; }
+.light .text-zinc-500 { color: #78716c !important; }
+.light .text-zinc-600 { color: #a8a29e !important; }
+
+/* Accent yellow → amber ấm hơn trên nền sáng */
+.light .bg-yellow-600\/15 { background-color: rgba(146,64,14,0.08) !important; }
+.light .text-yellow-500   { color: #92400e !important; }
+
+/* Inputs & form elements */
+.light input[class*="bg-zinc"],
+.light select[class*="bg-zinc"],
+.light textarea[class*="bg-zinc"] {
+  background-color: #faf8f5 !important;
+  border-color: #c5c0b4 !important;
+  color: #1c1917 !important;
+}
+
+/* Opacity variants */
+.light .bg-zinc-900\/80,
+.light .bg-zinc-800\/80 { background-color: rgba(250,248,245,0.92) !important; }
+.light .border-zinc-800\/60 { border-color: rgba(222,218,209,0.6) !important; }
+
+/* Placeholder text */
+.light .placeholder\:text-zinc-600::placeholder,
+.light .placeholder\:text-zinc-500::placeholder { color: #a8a29e !important; }
+
+/* Status / accent badges – giảm độ bão hòa trên nền sáng */
+.light .bg-green-500\/15  { background-color: rgba(22,163,74,0.1) !important; }
+.light .bg-red-500\/10    { background-color: rgba(220,38,38,0.08) !important; }
+.light .bg-red-500\/15    { background-color: rgba(220,38,38,0.1) !important; }
+.light .bg-yellow-500\/15 { background-color: rgba(234,179,8,0.1) !important; }
+.light .bg-sky-500\/10    { background-color: rgba(14,165,233,0.08) !important; }
+.light .bg-emerald-500\/10 { background-color: rgba(16,185,129,0.08) !important; }
+
+/* Hover states cho sidebar + buttons */
+.light .hover\:bg-red-500\/10:hover  { background-color: rgba(220,38,38,0.07) !important; }
+.light .hover\:bg-zinc-800:hover     { background-color: #e8e4db !important; }
+.light .hover\:border-zinc-700:hover { border-color: #a39e94 !important; }
+.light .hover\:text-zinc-200:hover   { color: #1c1917 !important; }
+
+@layer components {
   .delay-100 { animation-delay: 100ms; }
   .delay-200 { animation-delay: 200ms; }
   .delay-300 { animation-delay: 300ms; }
   .delay-400 { animation-delay: 400ms; }
 
-  /* Gold shimmer border */
   .gold-border {
     border: 1px solid rgba(201,169,110,0.25);
   }
@@ -33,7 +116,6 @@
     box-shadow: 0 0 0 3px rgba(201,169,110,0.1);
   }
 
-  /* Input base */
   .input-base {
     @apply w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-zinc-100
            text-sm font-light outline-none transition-all duration-200

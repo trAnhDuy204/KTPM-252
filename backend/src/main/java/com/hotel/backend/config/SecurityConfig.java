@@ -46,10 +46,12 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/api/auth/register",
                     "/api/auth/login",
-                    "/api/auth/refresh"
+                    "/api/auth/refresh",
+                    "/api/rooms/**",
+                    "/api/room-types/**"
                 ).permitAll()
+                .requestMatchers("/api/reception/**").hasRole("RECEPTION")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/reception/**").hasAnyRole("ADMIN", "RECEPTION")
                 .anyRequest().authenticated()
             )
             .sessionManagement(session ->
@@ -64,7 +66,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(allowedOrigins.split(",")));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
