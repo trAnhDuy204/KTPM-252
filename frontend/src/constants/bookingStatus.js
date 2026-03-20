@@ -7,9 +7,9 @@ export const BOOKING_STATUS_LABELS = {
 };
 
 export const BOOKING_STATUS_COLORS = {
-  PENDING: "#ff9800",
-  CONFIRMED: "#2196f3",
-  CHECKED_IN: "#4caf50",
-  COMPLETED: "#64748b",
-  CANCELLED: "#ef4444",
+  PENDING: "#c48a4a",
+  CONFIRMED: "#5c82a8",
+  CHECKED_IN: "#5c8f6b",
+  COMPLETED: "#8a8694",
+  CANCELLED: "#c56a64",
 };

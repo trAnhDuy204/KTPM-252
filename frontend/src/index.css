@@ -5,125 +5,113 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --c-raised-rgb: 237 234 227;
+    --c-surface: #f2f0eb;
+    --c-card: #faf8f5;
+    --c-raised: #edeae3;
+    --c-raised-2: #e4e0d8;
+    --c-edge: #dedad1;
+    --c-edge-md: #c5c0b4;
+    --c-edge-str: #a39e94;
+    --c-hi: #1c1917;
+    --c-dim: #44403c;
+    --c-muted: #78716c;
+    --c-ghost: #a8a29e;
+    --c-accent-rgb: 178 133 59;
+    --c-accent-strong-rgb: 143 100 39;
+    --c-accent-soft-rgb: 239 226 199;
+    --c-accent-contrast: #1d1609;
+    --c-success-rgb: 92 143 107;
+    --c-success-soft-rgb: 219 234 221;
+    --c-info-rgb: 92 130 168;
+    --c-info-soft-rgb: 220 232 242;
+    --c-warning-rgb: 196 138 74;
+    --c-warning-soft-rgb: 243 229 208;
+    --c-danger-rgb: 197 106 100;
+    --c-danger-soft-rgb: 244 223 220;
+  }
+
+  .dark {
+    --c-raised-rgb: 39 39 42;
+    --c-surface: #111114;
+    --c-card: #1b1b1f;
+    --c-raised: #27272a;
+    --c-raised-2: #35353b;
+    --c-edge: #2e2e35;
+    --c-edge-md: #464652;
+    --c-edge-str: #5f5f6b;
+    --c-hi: #f4efe7;
+    --c-dim: #d8cebf;
+    --c-muted: #a49a8e;
+    --c-ghost: #736c65;
+    --c-accent-rgb: 210 170 102;
+    --c-accent-strong-rgb: 184 138 67;
+    --c-accent-soft-rgb: 61 50 32;
+    --c-accent-contrast: #140f09;
+    --c-success-rgb: 107 170 131;
+    --c-success-soft-rgb: 33 52 40;
+    --c-info-rgb: 127 162 201;
+    --c-info-soft-rgb: 31 45 61;
+    --c-warning-rgb: 213 161 96;
+    --c-warning-soft-rgb: 64 49 29;
+    --c-danger-rgb: 213 123 113;
+    --c-danger-soft-rgb: 66 38 36;
+  }
+
   * {
     @apply box-border;
   }
 
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
   body {
-    @apply antialiased font-body m-0;
+    @apply m-0 font-body antialiased;
+    background-color: var(--c-surface);
+    background-image:
+      radial-gradient(circle at top right, rgb(var(--c-accent-soft-rgb) / 0.52), transparent 22rem),
+      radial-gradient(circle at bottom left, rgb(var(--c-raised-rgb) / 0.18), transparent 24rem);
+    background-attachment: fixed;
+    color: var(--c-hi);
   }
 
-  /* ── Dark theme (default) ── */
-  .dark body {
-    @apply bg-zinc-950 text-zinc-100;
+  select option {
+    background-color: var(--c-raised);
+    color: var(--c-hi);
   }
 
-  /* ── Light theme overrides ── */
-  .light body {
-    background-color: #f2f0eb;
-    color: #1c1917;
+  ::selection {
+    background: rgb(var(--c-accent-rgb) / 0.24);
   }
 }
-
-/* ========================================================
-   LIGHT THEME – soft warm palette (không chói, dễ nhìn)
-   Dùng stone/warm tones thay vì white thuần và black thuần
-   ======================================================== */
-
-/*
-  Bảng màu light:
-  bg primary  : #f2f0eb  (warm off-white – không chói)
-  bg card     : #faf8f5  (ấm hơn white thuần)
-  bg input    : #edeae3  (warm light gray)
-  border      : #dedad1  (warm border, nhẹ)
-  border hover: #c5c0b4  (hover – rõ hơn một chút)
-  text primary: #1c1917  (stone-900 – ấm, không đen thuần)
-  text sec    : #78716c  (stone-500 – dễ đọc)
-  text muted  : #a8a29e  (stone-400)
-  accent      : #92400e  (amber-800 – vàng tối, đọc được trên nền sáng)
-*/
-
-/* Backgrounds */
-.light .bg-zinc-950   { background-color: #f2f0eb !important; }
-.light .bg-zinc-900   { background-color: #faf8f5 !important; }
-.light .bg-zinc-800   { background-color: #edeae3 !important; }
-.light .bg-zinc-800\/50 { background-color: rgba(237,234,227,0.5) !important; }
-
-/* Borders */
-.light .border-zinc-800 { border-color: #dedad1 !important; }
-.light .border-zinc-700 { border-color: #c5c0b4 !important; }
-
-/* Hover states */
-.light .hover\:border-zinc-700:hover { border-color: #a39e94 !important; }
-.light .hover\:bg-zinc-800:hover     { background-color: #e8e4db !important; }
-
-/* Text – warm stone palette */
-.light .text-zinc-100 { color: #1c1917 !important; }
-.light .text-zinc-200 { color: #292524 !important; }
-.light .text-zinc-300 { color: #44403c !important; }
-.light .text-zinc-400 { color: #57534e !important; }
-.light .text-zinc-500 { color: #78716c !important; }
-.light .text-zinc-600 { color: #a8a29e !important; }
-
-/* Accent yellow → amber ấm hơn trên nền sáng */
-.light .bg-yellow-600\/15 { background-color: rgba(146,64,14,0.08) !important; }
-.light .text-yellow-500   { color: #92400e !important; }
-
-/* Inputs & form elements */
-.light input[class*="bg-zinc"],
-.light select[class*="bg-zinc"],
-.light textarea[class*="bg-zinc"] {
-  background-color: #faf8f5 !important;
-  border-color: #c5c0b4 !important;
-  color: #1c1917 !important;
-}
-
-/* Opacity variants */
-.light .bg-zinc-900\/80,
-.light .bg-zinc-800\/80 { background-color: rgba(250,248,245,0.92) !important; }
-.light .border-zinc-800\/60 { border-color: rgba(222,218,209,0.6) !important; }
-
-/* Placeholder text */
-.light .placeholder\:text-zinc-600::placeholder,
-.light .placeholder\:text-zinc-500::placeholder { color: #a8a29e !important; }
-
-/* Status / accent badges – giảm độ bão hòa trên nền sáng */
-.light .bg-green-500\/15  { background-color: rgba(22,163,74,0.1) !important; }
-.light .bg-red-500\/10    { background-color: rgba(220,38,38,0.08) !important; }
-.light .bg-red-500\/15    { background-color: rgba(220,38,38,0.1) !important; }
-.light .bg-yellow-500\/15 { background-color: rgba(234,179,8,0.1) !important; }
-.light .bg-sky-500\/10    { background-color: rgba(14,165,233,0.08) !important; }
-.light .bg-emerald-500\/10 { background-color: rgba(16,185,129,0.08) !important; }
-
-/* Hover states cho sidebar + buttons */
-.light .hover\:bg-red-500\/10:hover  { background-color: rgba(220,38,38,0.07) !important; }
-.light .hover\:bg-zinc-800:hover     { background-color: #e8e4db !important; }
-.light .hover\:border-zinc-700:hover { border-color: #a39e94 !important; }
-.light .hover\:text-zinc-200:hover   { color: #1c1917 !important; }
 
 @layer components {
-  .delay-100 { animation-delay: 100ms; }
-  .delay-200 { animation-delay: 200ms; }
-  .delay-300 { animation-delay: 300ms; }
-  .delay-400 { animation-delay: 400ms; }
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .delay-400 {
+    animation-delay: 400ms;
+  }
 
   .gold-border {
-    border: 1px solid rgba(201,169,110,0.25);
+    border: 1px solid rgb(var(--c-accent-rgb) / 0.25);
   }
 
   .gold-border:focus-within {
-    border-color: rgba(201,169,110,0.7);
-    box-shadow: 0 0 0 3px rgba(201,169,110,0.1);
-  }
-
-  .input-base {
-    @apply w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-zinc-100
-           text-sm font-light outline-none transition-all duration-200
-           placeholder:text-zinc-500
-           focus:border-gold-500 focus:ring-2 focus:ring-gold-500/10;
-  }
-
-  .input-error {
-    @apply border-red-500/60 focus:border-red-500 focus:ring-red-500/10;
+    border-color: rgb(var(--c-accent-rgb) / 0.7);
+    box-shadow: 0 0 0 3px rgb(var(--c-accent-rgb) / 0.12);
   }
 }

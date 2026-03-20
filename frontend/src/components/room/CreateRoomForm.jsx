@@ -1,21 +1,35 @@
 import { useState, useEffect } from "react";
+import { AlertCircle, Check } from "lucide-react";
 import { getHotels, getRoomTypes } from "@/services/roomApi";
-import { Check, AlertCircle } from "lucide-react";
+import {
+  btnAccent,
+  btnSecondary,
+  formPanel,
+  inputBase,
+  inputError,
+  label,
+  sectionHeading,
+} from "@/utils/cls";
 
 const validate = (data) => {
   const errors = {};
   if (!data.hotelId) errors.hotelId = "Vui lòng chọn khách sạn";
   if (!data.roomTypeId) errors.roomTypeId = "Vui lòng chọn loại phòng";
   if (!data.roomNumber.trim()) errors.roomNumber = "Vui lòng nhập số phòng";
-  else if (!/^[A-Za-z0-9\-]+$/.test(data.roomNumber.trim()))
+  else if (!/^[A-Za-z0-9-]+$/.test(data.roomNumber.trim())) {
     errors.roomNumber = "Số phòng chỉ gồm chữ, số và dấu gạch ngang";
+  }
   return errors;
 };
 
 export default function CreateRoomForm({ onSubmit, onCancel }) {
   const [hotels, setHotels] = useState([]);
   const [roomTypes, setRoomTypes] = useState([]);
-  const [formData, setFormData] = useState({ hotelId: "", roomTypeId: "", roomNumber: "" });
+  const [formData, setFormData] = useState({
+    hotelId: "",
+    roomTypeId: "",
+    roomNumber: "",
+  });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -53,6 +67,7 @@ export default function CreateRoomForm({ onSubmit, onCancel }) {
       setErrors(errs);
       return;
     }
+
     setErrors({});
     onSubmit({
       hotelId: Number(formData.hotelId),
@@ -61,38 +76,33 @@ export default function CreateRoomForm({ onSubmit, onCancel }) {
     });
   };
 
-  const inputClass = (field) =>
-    `w-full px-3.5 py-2.5 border rounded-xl text-sm bg-zinc-800 text-zinc-200 outline-none transition-all duration-200 placeholder:text-zinc-600 ${
-      errors[field]
-        ? "border-red-500/60 focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
-        : "border-zinc-700 focus:border-yellow-600/70 focus:ring-2 focus:ring-yellow-500/10"
-    }`;
-
-  const selectClass = (field) =>
-    `${inputClass(field)} disabled:opacity-40 disabled:cursor-not-allowed`;
+  const fieldClass = (field) =>
+    `${inputBase} ${errors[field] ? inputError : ""}`.trim();
 
   const FieldError = ({ field }) =>
     errors[field] ? (
-      <p className="flex items-center gap-1 mt-1 text-xs text-red-400">
-        <AlertCircle className="w-3 h-3" /> {errors[field]}
+      <p className="mt-1 flex items-center gap-1 text-xs text-danger">
+        <AlertCircle className="h-3.5 w-3.5" />
+        {errors[field]}
       </p>
     ) : null;
 
   return (
-    <form
-      className="mb-4 p-6 bg-zinc-900 border border-zinc-700/50 rounded-2xl animate-fadein"
-      onSubmit={handleSubmit}
-      noValidate
-    >
-      <h3 className="mb-5 text-zinc-100 text-lg font-bold tracking-tight">Thêm phòng mới</h3>
+    <form className={`${formPanel} animate-fadein`} onSubmit={handleSubmit} noValidate>
+      <div className="mb-5">
+        <h3 className={sectionHeading}>Thêm phòng mới</h3>
+        <p className="mt-1 text-sm text-muted">
+          Khai báo khách sạn, loại phòng và mã phòng theo cùng một hệ giao diện.
+        </p>
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
-        <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
-            Khách sạn <span className="text-red-400">*</span>
+      <div className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="flex flex-col gap-1.5">
+          <label className={label}>
+            Khách sạn <span className="text-danger">*</span>
           </label>
           <select
-            className={selectClass("hotelId")}
+            className={`${fieldClass("hotelId")} disabled:cursor-not-allowed disabled:opacity-40`}
             value={formData.hotelId}
             onChange={(e) => handleChange("hotelId", e.target.value)}
           >
@@ -106,12 +116,12 @@ export default function CreateRoomForm({ onSubmit, onCancel }) {
           <FieldError field="hotelId" />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
-            Loại phòng <span className="text-red-400">*</span>
+        <div className="flex flex-col gap-1.5">
+          <label className={label}>
+            Loại phòng <span className="text-danger">*</span>
           </label>
           <select
-            className={selectClass("roomTypeId")}
+            className={`${fieldClass("roomTypeId")} disabled:cursor-not-allowed disabled:opacity-40`}
             value={formData.roomTypeId}
             onChange={(e) => handleChange("roomTypeId", e.target.value)}
             disabled={!formData.hotelId}
@@ -126,14 +136,14 @@ export default function CreateRoomForm({ onSubmit, onCancel }) {
           <FieldError field="roomTypeId" />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
-            Số phòng <span className="text-red-400">*</span>
+        <div className="flex flex-col gap-1.5">
+          <label className={label}>
+            Số phòng <span className="text-danger">*</span>
           </label>
           <input
             type="text"
             placeholder="VD: 101"
-            className={inputClass("roomNumber")}
+            className={fieldClass("roomNumber")}
             value={formData.roomNumber}
             onChange={(e) => handleChange("roomNumber", e.target.value)}
           />
@@ -141,19 +151,12 @@ export default function CreateRoomForm({ onSubmit, onCancel }) {
         </div>
       </div>
 
-      <div className="flex gap-3">
-        <button
-          type="submit"
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-yellow-600 hover:bg-yellow-500 text-zinc-950 rounded-lg font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer border-none"
-        >
-          <Check className="w-4 h-4" />
+      <div className="flex flex-wrap gap-3">
+        <button type="submit" className={btnAccent}>
+          <Check className="h-4 w-4" />
           Tạo phòng
         </button>
-        <button
-          type="button"
-          className="px-5 py-2.5 bg-zinc-800 text-zinc-400 border border-zinc-700 rounded-lg cursor-pointer font-semibold text-sm transition-all duration-200 hover:bg-zinc-700 hover:text-zinc-200 active:scale-95"
-          onClick={onCancel}
-        >
+        <button type="button" className={btnSecondary} onClick={onCancel}>
           Hủy
         </button>
       </div>

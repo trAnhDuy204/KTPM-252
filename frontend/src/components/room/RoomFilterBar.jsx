@@ -1,12 +1,14 @@
 import { useMemo } from "react";
 import { Search, X } from "lucide-react";
-import { STATUS_LABELS } from "@/constants/roomStatus";
+import {
+  btnSecondary,
+  inputBase,
+  panelRaised,
+} from "@/utils/cls";
 
 const selectClass = (active) =>
-  `px-3 py-2 rounded-lg text-xs border outline-none cursor-pointer transition-colors bg-zinc-800 ${
-    active
-      ? "border-yellow-600/70 text-zinc-100"
-      : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
+  `${inputBase} min-w-[140px] appearance-none py-2 text-xs ${
+    active ? "border-accent" : ""
   }`;
 
 export default function RoomFilterBar({ filters, onChange, rooms }) {
@@ -29,32 +31,18 @@ export default function RoomFilterBar({ filters, onChange, rooms }) {
     filters.status || filters.type || filters.floor || filters.search;
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      {/* Search */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500 pointer-events-none" />
+    <div className={`${panelRaised} flex flex-wrap items-center gap-3 p-3`}>
+      <div className="relative min-w-[220px] flex-1">
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
         <input
           type="text"
           placeholder="Tìm số phòng..."
           value={filters.search}
           onChange={(e) => onChange("search", e.target.value)}
-          className="pl-8 pr-3 py-2 w-40 bg-zinc-800 border border-zinc-700 rounded-lg text-xs text-zinc-200 placeholder:text-zinc-600 outline-none focus:border-zinc-500 transition-colors"
+          className={`${inputBase} py-2 pl-9 text-xs`}
         />
       </div>
 
-      {/* Status */}
-      <select
-        className={selectClass(!!filters.status)}
-        value={filters.status}
-        onChange={(e) => onChange("status", e.target.value)}
-      >
-        <option value="">Trạng thái</option>
-        {Object.entries(STATUS_LABELS).map(([key, label]) => (
-          <option key={key} value={key}>{label}</option>
-        ))}
-      </select>
-
-      {/* Room type */}
       {roomTypes.length > 0 && (
         <select
           className={selectClass(!!filters.type)}
@@ -63,12 +51,13 @@ export default function RoomFilterBar({ filters, onChange, rooms }) {
         >
           <option value="">Loại phòng</option>
           {roomTypes.map((t) => (
-            <option key={t} value={t}>{t}</option>
+            <option key={t} value={t}>
+              {t}
+            </option>
           ))}
         </select>
       )}
 
-      {/* Floor */}
       {floors.length > 0 && (
         <select
           className={selectClass(!!filters.floor)}
@@ -77,18 +66,20 @@ export default function RoomFilterBar({ filters, onChange, rooms }) {
         >
           <option value="">Tầng</option>
           {floors.map((f) => (
-            <option key={f} value={f}>Tầng {f}</option>
+            <option key={f} value={f}>
+              Tầng {f}
+            </option>
           ))}
         </select>
       )}
 
-      {/* Reset */}
       {hasActiveFilter && (
         <button
           onClick={() => onChange("reset")}
-          className="inline-flex items-center gap-1 px-3 py-2 text-xs text-zinc-400 border border-zinc-700 rounded-lg bg-zinc-800 hover:text-zinc-200 hover:border-zinc-500 transition-all cursor-pointer"
+          className={`${btnSecondary} px-4 py-2 text-xs`}
         >
-          <X className="w-3 h-3" /> Xóa lọc
+          <X className="h-3.5 w-3.5" />
+          Xóa lọc
         </button>
       )}
     </div>

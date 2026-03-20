@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { MemoryRouter } from "react-router-dom";
@@ -9,13 +9,22 @@ vi.mock("@/services/bookingApi", () => ({
   checkIn: vi.fn(),
   checkOut: vi.fn(),
   cancelBooking: vi.fn(),
+  createBooking: vi.fn(),
+  confirmBooking: vi.fn(),
 }));
 
 vi.mock("@/services/roomApi", () => ({
   getRooms: vi.fn().mockResolvedValue({ data: [] }),
 }));
 
-import { getBookings, checkIn, checkOut, cancelBooking } from "@/services/bookingApi";
+import {
+  cancelBooking,
+  checkIn,
+  checkOut,
+  confirmBooking,
+  createBooking,
+  getBookings,
+} from "@/services/bookingApi";
 
 const mockBookings = [
   {
@@ -42,7 +51,12 @@ const mockBookings = [
   },
 ];
 
-const renderPage = () => render(<MemoryRouter><CheckInOut /></MemoryRouter>);
+const renderPage = () =>
+  render(
+    <MemoryRouter>
+      <CheckInOut />
+    </MemoryRouter>
+  );
 
 describe("CheckInOut", () => {
   beforeEach(() => {
@@ -51,9 +65,11 @@ describe("CheckInOut", () => {
     checkIn.mockResolvedValue({ data: {} });
     checkOut.mockResolvedValue({ data: {} });
     cancelBooking.mockResolvedValue({ data: {} });
+    createBooking.mockResolvedValue({ data: {} });
+    confirmBooking.mockResolvedValue({ data: {} });
   });
 
-  it("renders page title", async () => {
+  it("renders page title", () => {
     renderPage();
     expect(screen.getByText("Check-in / Check-out")).toBeInTheDocument();
   });
@@ -61,9 +77,9 @@ describe("CheckInOut", () => {
   it("loads and displays bookings", async () => {
     renderPage();
 
-    expect(await screen.findByText("Phòng 101")).toBeInTheDocument();
-    expect(screen.getByText("Phòng 102")).toBeInTheDocument();
-    expect(screen.getByText("Nguyen Van A")).toBeInTheDocument();
+    expect(await screen.findByText("Nguyen Van A")).toBeInTheDocument();
+    expect(screen.getByText(/Phòng 101/i)).toBeInTheDocument();
+    expect(screen.getByText(/Phòng 102/i)).toBeInTheDocument();
   });
 
   it("shows error message on API failure", async () => {
@@ -76,37 +92,41 @@ describe("CheckInOut", () => {
   it("shows summary counts", async () => {
     renderPage();
 
-    await screen.findByText("Phòng 101");
+    await screen.findByText("Nguyen Van A");
 
-    // Total bookings = 2
-    expect(screen.getByText("2")).toBeInTheDocument();
+    const totalCard = screen.getByText("Tổng booking").closest("div");
+    const checkedInCard = screen.getByText("Đang ở").closest("div");
+
+    expect(within(totalCard).getByText("2")).toBeInTheDocument();
+    expect(within(checkedInCard).getByText("1")).toBeInTheDocument();
   });
 
   it("toggles check-in form when button is clicked", async () => {
     const user = userEvent.setup();
     renderPage();
 
-    await screen.findByText("Phòng 101");
+    await screen.findByText("Nguyen Van A");
 
-    // Click to open
-    await user.click(screen.getByText("Check-in mới"));
-    expect(screen.getByText("Đóng")).toBeInTheDocument();
+    await user.click(screen.getByText(/Check-in mới/i));
+    expect(screen.getByText(/Đóng check-in/i)).toBeInTheDocument();
 
-    // Click to close
-    await user.click(screen.getByText("Đóng"));
-    expect(screen.getByText("Check-in mới")).toBeInTheDocument();
+    await user.click(screen.getByText(/Đóng check-in/i));
+    expect(screen.getByText(/Check-in mới/i)).toBeInTheDocument();
   });
 
-  it("calls checkOut when check-out button is clicked", async () => {
+  it("calls checkOut when check-out button is confirmed", async () => {
     const user = userEvent.setup();
-    window.confirm = vi.fn(() => true);
     renderPage();
 
-    await screen.findByText("Phòng 101");
+    await screen.findByText("Nguyen Van A");
 
-    // Find the Check-out button (not the "Check-out" label in booking info)
-    const checkOutBtns = screen.getAllByText("Check-out").filter(el => el.tagName === "BUTTON");
+    const checkOutBtns = screen
+      .getAllByText("Check-out")
+      .filter((el) => el.tagName === "BUTTON");
+
     await user.click(checkOutBtns[0]);
+    const dialog = await screen.findByRole("dialog", { name: "Check-out" });
+    await user.click(within(dialog).getByRole("button", { name: "Xác nhận" }));
 
     await waitFor(() => {
       expect(checkOut).toHaveBeenCalledWith(1);

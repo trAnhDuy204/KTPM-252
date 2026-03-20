@@ -1,24 +1,41 @@
 import { useState, useEffect } from "react";
+import { AlertCircle, Check } from "lucide-react";
 import { getRooms } from "@/services/roomApi";
-import { Check, AlertCircle } from "lucide-react";
+import {
+  btnAccent,
+  btnSecondary,
+  formPanel,
+  inputBase,
+  inputError,
+  label,
+  sectionHeading,
+} from "@/utils/cls";
 
 const validate = (data) => {
   const errors = {};
   if (!data.roomId) errors.roomId = "Vui lòng chọn phòng";
   if (!data.checkIn) errors.checkIn = "Vui lòng chọn ngày nhận phòng";
   if (!data.checkOut) errors.checkOut = "Vui lòng chọn ngày trả phòng";
-  else if (data.checkIn && data.checkOut <= data.checkIn)
+  else if (data.checkIn && data.checkOut <= data.checkIn) {
     errors.checkOut = "Ngày trả phòng phải sau ngày nhận phòng";
+  }
   if (!data.guestName.trim()) errors.guestName = "Tên khách không được để trống";
   else if (data.guestName.trim().length < 2) errors.guestName = "Tên khách quá ngắn";
-  if (data.guestPhone && !/^[0-9]{10,11}$/.test(data.guestPhone.trim()))
-    errors.guestPhone = "Số điện thoại không hợp lệ (10–11 chữ số)";
+  if (data.guestPhone && !/^[0-9]{10,11}$/.test(data.guestPhone.trim())) {
+    errors.guestPhone = "Số điện thoại không hợp lệ (10-11 chữ số)";
+  }
   return errors;
 };
 
 export default function CreateBookingForm({ onSubmit, onCancel }) {
   const [availableRooms, setAvailableRooms] = useState([]);
-  const [formData, setFormData] = useState({ roomId: "", checkIn: "", checkOut: "", guestName: "", guestPhone: "" });
+  const [formData, setFormData] = useState({
+    roomId: "",
+    checkIn: "",
+    checkOut: "",
+    guestName: "",
+    guestPhone: "",
+  });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -60,36 +77,33 @@ export default function CreateBookingForm({ onSubmit, onCancel }) {
   };
 
   const today = new Date().toISOString().split("T")[0];
-
-  const inputClass = (field) =>
-    `w-full px-3.5 py-2.5 border rounded-xl text-sm bg-zinc-800 text-zinc-200 outline-none transition-all duration-200 placeholder:text-zinc-600 ${
-      errors[field]
-        ? "border-red-500/60 focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
-        : "border-zinc-700 focus:border-blue-600/70 focus:ring-2 focus:ring-blue-500/10"
-    }`;
+  const fieldClass = (field) =>
+    `${inputBase} ${errors[field] ? inputError : ""}`.trim();
 
   const FieldError = ({ field }) =>
     errors[field] ? (
-      <p className="flex items-center gap-1 mt-1 text-xs text-red-400">
-        <AlertCircle className="w-3 h-3" /> {errors[field]}
+      <p className="mt-1 flex items-center gap-1 text-xs text-danger">
+        <AlertCircle className="h-3.5 w-3.5" />
+        {errors[field]}
       </p>
     ) : null;
 
   return (
-    <form
-      className="mb-4 p-6 bg-zinc-900 border border-zinc-700/50 rounded-2xl"
-      onSubmit={handleSubmit}
-      noValidate
-    >
-      <h3 className="mb-5 text-zinc-100 text-lg font-bold tracking-tight">Đặt phòng trước</h3>
+    <form className={`${formPanel} mb-4`} onSubmit={handleSubmit} noValidate>
+      <div className="mb-5">
+        <h3 className={sectionHeading}>Đặt phòng trước</h3>
+        <p className="mt-1 text-sm text-muted">
+          Tạo booking mới với cùng palette màu của quầy lễ tân.
+        </p>
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-        <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
-            Phòng <span className="text-red-400">*</span>
+      <div className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="flex flex-col gap-1.5">
+          <label className={label}>
+            Phòng <span className="text-danger">*</span>
           </label>
           <select
-            className={`${inputClass("roomId")} disabled:opacity-40 disabled:cursor-not-allowed`}
+            className={`${fieldClass("roomId")} disabled:cursor-not-allowed disabled:opacity-40`}
             value={formData.roomId}
             onChange={(e) => handleChange("roomId", e.target.value)}
           >
@@ -103,27 +117,27 @@ export default function CreateBookingForm({ onSubmit, onCancel }) {
           <FieldError field="roomId" />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
-            Tên khách <span className="text-red-400">*</span>
+        <div className="flex flex-col gap-1.5">
+          <label className={label}>
+            Tên khách <span className="text-danger">*</span>
           </label>
           <input
             type="text"
             placeholder="VD: Nguyen Van A"
-            className={inputClass("guestName")}
+            className={fieldClass("guestName")}
             value={formData.guestName}
             onChange={(e) => handleChange("guestName", e.target.value)}
           />
           <FieldError field="guestName" />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
-            Ngày nhận phòng <span className="text-red-400">*</span>
+        <div className="flex flex-col gap-1.5">
+          <label className={label}>
+            Ngày nhận phòng <span className="text-danger">*</span>
           </label>
           <input
             type="date"
-            className={inputClass("checkIn")}
+            className={fieldClass("checkIn")}
             value={formData.checkIn}
             min={today}
             onChange={(e) => handleChange("checkIn", e.target.value)}
@@ -131,13 +145,13 @@ export default function CreateBookingForm({ onSubmit, onCancel }) {
           <FieldError field="checkIn" />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
-            Ngày trả phòng <span className="text-red-400">*</span>
+        <div className="flex flex-col gap-1.5">
+          <label className={label}>
+            Ngày trả phòng <span className="text-danger">*</span>
           </label>
           <input
             type="date"
-            className={inputClass("checkOut")}
+            className={fieldClass("checkOut")}
             value={formData.checkOut}
             min={formData.checkIn || today}
             onChange={(e) => handleChange("checkOut", e.target.value)}
@@ -145,14 +159,12 @@ export default function CreateBookingForm({ onSubmit, onCancel }) {
           <FieldError field="checkOut" />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
-            Số điện thoại
-          </label>
+        <div className="flex flex-col gap-1.5">
+          <label className={label}>Số điện thoại</label>
           <input
             type="tel"
             placeholder="VD: 0901234567"
-            className={inputClass("guestPhone")}
+            className={fieldClass("guestPhone")}
             value={formData.guestPhone}
             onChange={(e) => handleChange("guestPhone", e.target.value)}
           />
@@ -160,19 +172,12 @@ export default function CreateBookingForm({ onSubmit, onCancel }) {
         </div>
       </div>
 
-      <div className="flex gap-3">
-        <button
-          type="submit"
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer border-none"
-        >
-          <Check className="w-4 h-4" />
+      <div className="flex flex-wrap gap-3">
+        <button type="submit" className={btnAccent}>
+          <Check className="h-4 w-4" />
           Đặt phòng
         </button>
-        <button
-          type="button"
-          className="px-5 py-2.5 bg-zinc-800 text-zinc-400 border border-zinc-700 rounded-lg cursor-pointer font-semibold text-sm transition-all duration-200 hover:bg-zinc-700 hover:text-zinc-200 active:scale-95"
-          onClick={onCancel}
-        >
+        <button type="button" className={btnSecondary} onClick={onCancel}>
           Hủy
         </button>
       </div>

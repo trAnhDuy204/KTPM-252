@@ -1,15 +1,11 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { authApi } from '../service/authApi';
+import { clearAuthStorage, getStoredUser } from '@/utils/authStorage';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    try {
-      const saved = localStorage.getItem('user');
-      return saved ? JSON.parse(saved) : null;
-    } catch { return null; }
-  });
+  const [user, setUser] = useState(() => getStoredUser());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -48,7 +44,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const logout = useCallback(() => {
-    localStorage.clear();
+    clearAuthStorage();
     setUser(null);
     setError(null);
   }, []);

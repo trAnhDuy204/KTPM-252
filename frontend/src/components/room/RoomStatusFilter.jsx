@@ -7,7 +7,7 @@ export default function RoomStatusFilter({ value, onChange }) {
   ];
 
   return (
-    <div className="flex items-center gap-2 flex-wrap">
+    <div className="flex flex-wrap items-center gap-2">
       {options.map(({ key, label }) => {
         const isActive = value === key;
         const color = STATUS_COLORS[key];
@@ -15,14 +15,14 @@ export default function RoomStatusFilter({ value, onChange }) {
         return (
           <button
             key={key}
-            className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 cursor-pointer
-              ${isActive
-                ? "text-white shadow-md scale-[1.02]"
-                : "bg-zinc-800 text-zinc-400 border-zinc-700 hover:border-zinc-500 hover:text-zinc-200"
-              }`}
+            className={`rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200 ${
+              isActive
+                ? "scale-[1.02] text-white shadow-md"
+                : "border-edge bg-raised text-muted hover:border-edge-md hover:bg-raised-2 hover:text-hi"
+            }`}
             style={
               isActive
-                ? { backgroundColor: color || "#52525b", borderColor: color || "#52525b" }
+                ? { backgroundColor: color || "#8d8378", borderColor: color || "#8d8378" }
                 : undefined
             }
             onClick={() => onChange(key)}

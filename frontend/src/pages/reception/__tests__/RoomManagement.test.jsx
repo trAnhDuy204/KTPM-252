@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
@@ -98,8 +98,8 @@ describe('RoomManagement', () => {
     // Wait for hotels to load
     await screen.findByText('Hotel A (HN)');
 
-    // Fill form - now filter is buttons, so comboboxes are only in the form
-    const selects = screen.getAllByRole('combobox');
+    const form = screen.getByPlaceholderText('VD: 101').closest('form');
+    const selects = within(form).getAllByRole('combobox');
     const hotelSelect = selects[0];
     await user.selectOptions(hotelSelect, '1');
 
@@ -109,7 +109,7 @@ describe('RoomManagement', () => {
     const roomTypeSelect = selects[1];
     await user.selectOptions(roomTypeSelect, '10');
 
-    const roomNumberInput = screen.getByPlaceholderText('VD: 101');
+    const roomNumberInput = within(form).getByPlaceholderText('VD: 101');
     await user.type(roomNumberInput, '301');
 
     // Submit
