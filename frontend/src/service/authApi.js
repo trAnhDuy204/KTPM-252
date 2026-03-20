@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { clearAuthStorage } from '@/utils/authStorage';
 
 const API_BASE = 'http://localhost:8080/api/auth';
 
@@ -30,7 +31,7 @@ api.interceptors.response.use(
         original.headers.Authorization = `Bearer ${data.accessToken}`;
         return api(original);
       } catch {
-        localStorage.clear();
+        clearAuthStorage();
         window.location.href = '/login';
       }
     }

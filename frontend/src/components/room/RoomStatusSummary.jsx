@@ -1,4 +1,5 @@
 import { STATUS_LABELS, STATUS_COLORS } from "@/constants/roomStatus";
+import { statCard, statLabel } from "@/utils/cls";
 
 export default function RoomStatusSummary({ rooms }) {
   const counts = {};
@@ -7,29 +8,23 @@ export default function RoomStatusSummary({ rooms }) {
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-      <div className="bg-zinc-800 border border-zinc-700/30 rounded-2xl px-4 py-4 text-center transition-all duration-200 hover:border-zinc-600 hover:scale-[1.02]">
-        <span className="block text-3xl font-extrabold leading-tight text-zinc-100">
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
+      <div className={`${statCard} bg-accent-soft/55 text-center`}>
+        <span className="block text-3xl font-semibold leading-tight text-hi">
           {rooms.length}
         </span>
-        <span className="block text-[11px] font-semibold text-zinc-500 mt-1.5 uppercase tracking-wider">
-          Tổng phòng
-        </span>
+        <span className={`${statLabel} text-dim`}>Tổng phòng</span>
       </div>
+
       {Object.entries(STATUS_LABELS).map(([status, label]) => (
-        <div
-          key={status}
-          className="bg-zinc-900 border border-zinc-700/30 rounded-2xl px-4 py-4 text-center transition-all duration-200 hover:border-zinc-600 hover:scale-[1.02]"
-        >
+        <div key={status} className={`${statCard} text-center`}>
           <span
-            className="block text-3xl font-extrabold leading-tight"
+            className="block text-3xl font-semibold leading-tight"
             style={{ color: STATUS_COLORS[status] }}
           >
             {counts[status]}
           </span>
-          <span className="block text-[11px] font-semibold text-zinc-500 mt-1.5 uppercase tracking-wider">
-            {label}
-          </span>
+          <span className={statLabel}>{label}</span>
         </div>
       ))}
     </div>

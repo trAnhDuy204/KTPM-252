@@ -1,9 +1,23 @@
-import { useEffect, useState, useMemo } from "react";
-import { getRooms, createRoom, updateRoomStatus, deleteRoom } from "@/services/roomApi";
+import { useEffect, useMemo, useState } from "react";
+import {
+  Building2,
+  Plus,
+  SearchX,
+  X,
+} from "lucide-react";
+import { createRoom, deleteRoom, getRooms, updateRoomStatus } from "@/services/roomApi";
+import ConfirmDialog from "@/components/ConfirmDialog";
+import CreateRoomForm from "@/components/room/CreateRoomForm";
 import RoomCard from "@/components/room/RoomCard";
 import RoomFilterBar from "@/components/room/RoomFilterBar";
+import RoomStatusFilter from "@/components/room/RoomStatusFilter";
 import RoomStatusSummary from "@/components/room/RoomStatusSummary";
-import CreateRoomForm from "@/components/room/CreateRoomForm";
+import {
+  btnAccent,
+  errorBanner,
+  pageSubtitle,
+  pageTitle,
+} from "@/utils/cls";
 
 const DEFAULT_FILTERS = { status: "", type: "", floor: "", search: "" };
 
@@ -13,6 +27,7 @@ export default function RoomManagement() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showCreate, setShowCreate] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(null);
 
   const showError = (err) => {
     const data = err.response?.data;
@@ -29,7 +44,7 @@ export default function RoomManagement() {
     setLoading(true);
     setError("");
     try {
-      const res = await getRooms(1);
+      const res = await getRooms(1, filters.status || undefined);
       setRooms(res.data);
     } catch (err) {
       showError(err);
@@ -40,7 +55,7 @@ export default function RoomManagement() {
 
   useEffect(() => {
     fetchRooms();
-  }, []);
+  }, [filters.status]);
 
   const handleFilterChange = (key, value) => {
     if (key === "reset") {
@@ -63,6 +78,16 @@ export default function RoomManagement() {
     });
   }, [rooms, filters]);
 
+  const groupedFloors = useMemo(() => {
+    const groups = {};
+    filteredRooms.forEach((room) => {
+      const floor = String(Math.floor(parseInt(room.roomNumber) / 100));
+      if (!groups[floor]) groups[floor] = [];
+      groups[floor].push(room);
+    });
+    return Object.entries(groups).sort(([a], [b]) => Number(a) - Number(b));
+  }, [filteredRooms]);
+
   const handleCreate = async (formData) => {
     try {
       await createRoom(formData);
@@ -82,62 +107,56 @@ export default function RoomManagement() {
     }
   };
 
-  const handleDelete = async (roomId) => {
-    if (!window.confirm("Bạn có chắc muốn xóa phòng này?")) return;
+  const confirmDelete = async () => {
     try {
-      await deleteRoom(roomId);
+      await deleteRoom(deleteConfirm);
       fetchRooms();
     } catch (err) {
       showError(err);
+    } finally {
+      setDeleteConfirm(null);
     }
   };
 
   return (
     <>
-      {/* Header */}
-      <div className="flex items-start justify-between mb-8">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-3xl font-semibold text-zinc-100 mb-1">
-            Quản lý phòng
-          </h1>
-          <p className="text-zinc-500 text-sm">Tổng quan & quản lý trạng thái</p>
+          <h1 className={pageTitle}>Quản lý phòng</h1>
+          <p className={`${pageSubtitle} mt-1`}>
+            Theo dõi trạng thái phòng và quản lý sơ đồ tầng theo cùng một hệ màu.
+          </p>
         </div>
-        <button
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-yellow-600 hover:bg-yellow-500 text-zinc-950 rounded-lg font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer"
-          onClick={() => setShowCreate(!showCreate)}
-        >
-          <svg
-            className="w-4 h-4 transition-transform duration-200"
+
+        <button className={btnAccent} onClick={() => setShowCreate(!showCreate)}>
+          <Plus
+            className="h-4 w-4 transition-transform duration-200"
             style={{ transform: showCreate ? "rotate(45deg)" : "none" }}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-          </svg>
+          />
           {showCreate ? "Đóng" : "Thêm phòng"}
         </button>
       </div>
 
       <div className="space-y-5">
-        {/* Error */}
         {error && (
-          <div className="flex items-center justify-between bg-red-500/10 text-red-400 px-4 py-3 rounded-lg border border-red-500/25 text-sm animate-fadein">
+          <div className={`${errorBanner} flex items-center justify-between gap-3 animate-fadein`}>
             <span className="font-medium">{error}</span>
             <button
-              className="ml-3 text-red-400 hover:text-red-300 transition-colors cursor-pointer bg-transparent border-none text-lg font-bold"
+              className="text-danger transition-colors hover:text-danger/80"
               onClick={() => setError("")}
-            >&times;</button>
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
         )}
 
-        {/* Summary */}
         <RoomStatusSummary rooms={rooms} />
-
-        {/* Filter */}
+        <RoomStatusFilter
+          value={filters.status}
+          onChange={(value) => handleFilterChange("status", value)}
+        />
         <RoomFilterBar filters={filters} onChange={handleFilterChange} rooms={rooms} />
 
-        {/* Create Form with slide animation */}
         <div
           className="grid transition-all duration-300 ease-in-out"
           style={{
@@ -153,57 +172,79 @@ export default function RoomManagement() {
           </div>
         </div>
 
-        {/* Result count */}
         {!loading && rooms.length > 0 && (
-          <p className="text-xs text-zinc-500">
-            Hiển thị <span className="text-zinc-300 font-semibold">{filteredRooms.length}</span> / {rooms.length} phòng
+          <p className="text-xs text-muted">
+            Hiển thị <span className="font-semibold text-dim">{filteredRooms.length}</span> /{" "}
+            {rooms.length} phòng
           </p>
         )}
 
-        {/* Room Grid */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="w-8 h-8 border-[3px] border-yellow-600/30 border-t-yellow-600 rounded-full animate-spin" />
-            <span className="ml-3 text-zinc-400 text-sm">Đang tải...</span>
+            <div className="h-8 w-8 rounded-full border-[3px] border-accent/25 border-t-accent animate-spin" />
+            <span className="ml-3 text-sm text-muted">Đang tải dữ liệu phòng...</span>
           </div>
         ) : rooms.length === 0 ? (
-          <div className="text-center py-20 animate-fadein">
-            <div className="w-16 h-16 mx-auto mb-4 bg-zinc-800 rounded-2xl flex items-center justify-center">
-              <svg className="w-8 h-8 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
+          <div className="rounded-2xl border border-edge bg-card px-6 py-20 text-center animate-fadein">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-accent-soft/55 text-accent">
+              <Building2 className="h-8 w-8" />
             </div>
-            <p className="text-zinc-300 font-medium">Chưa có phòng nào</p>
-            <p className="text-zinc-500 text-sm mt-1">Bấm "Thêm phòng" để bắt đầu.</p>
+            <p className="font-semibold text-dim">Chưa có phòng nào</p>
+            <p className="mt-1 text-sm text-muted">Bấm "Thêm phòng" để bắt đầu.</p>
           </div>
         ) : filteredRooms.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-zinc-400 font-medium">Không có phòng nào khớp bộ lọc</p>
+          <div className="rounded-2xl border border-edge bg-card px-6 py-16 text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-raised text-ghost">
+              <SearchX className="h-7 w-7" />
+            </div>
+            <p className="font-semibold text-dim">Không có phòng nào khớp bộ lọc</p>
             <button
-              className="mt-3 text-sm text-zinc-500 hover:text-zinc-300 underline cursor-pointer"
+              className="mt-3 text-sm font-medium text-accent underline-offset-4 transition hover:underline"
               onClick={() => setFilters(DEFAULT_FILTERS)}
             >
               Xóa bộ lọc
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredRooms.map((room, index) => (
-              <div
-                key={room.id}
-                className="animate-fadein"
-                style={{ animationDelay: `${index * 60}ms` }}
-              >
-                <RoomCard
-                  room={room}
-                  onStatusChange={handleStatusChange}
-                  onDelete={handleDelete}
-                />
+          <div className="space-y-6">
+            {groupedFloors.map(([floor, floorRooms]) => (
+              <div key={floor}>
+                <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-muted">
+                  <Building2 className="h-4 w-4 text-accent" />
+                  Tầng {floor}
+                  <span className="font-normal normal-case tracking-normal text-ghost">
+                    ({floorRooms.length} phòng)
+                  </span>
+                </h2>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                  {floorRooms.map((room, index) => (
+                    <div
+                      key={room.id}
+                      className="animate-fadein"
+                      style={{ animationDelay: `${index * 60}ms` }}
+                    >
+                      <RoomCard
+                        room={room}
+                        onStatusChange={handleStatusChange}
+                        onDelete={setDeleteConfirm}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      <ConfirmDialog
+        open={deleteConfirm !== null}
+        title="Xóa phòng"
+        message="Bạn có chắc muốn xóa phòng này? Hành động không thể hoàn tác."
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteConfirm(null)}
+      />
     </>
   );
 }

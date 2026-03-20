@@ -7,11 +7,11 @@ export const STATUS_LABELS = {
 };
 
 export const STATUS_COLORS = {
-  AVAILABLE: "#4caf50",
-  RESERVED: "#ff9800",
-  OCCUPIED: "#f44336",
-  CLEANING: "#2196f3",
-  MAINTENANCE: "#9e9e9e",
+  AVAILABLE: "#5c8f6b",
+  RESERVED: "#c48a4a",
+  OCCUPIED: "#c56a64",
+  CLEANING: "#5c82a8",
+  MAINTENANCE: "#8d8378",
 };
 
 export const STATUS_TRANSITIONS = {

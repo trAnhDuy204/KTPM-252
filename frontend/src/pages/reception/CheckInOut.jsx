@@ -1,9 +1,38 @@
 import { useEffect, useState } from "react";
-import { getBookings, checkIn, checkOut, cancelBooking, createBooking, confirmBooking } from "@/services/bookingApi";
-import BookingCard from "@/components/booking/BookingCard";
+import { Plus, ReceiptText, X } from "lucide-react";
+import {
+  cancelBooking,
+  checkIn,
+  checkOut,
+  confirmBooking,
+  createBooking,
+  getBookings,
+} from "@/services/bookingApi";
 import BookingStatusFilter from "@/components/booking/BookingStatusFilter";
+import BookingTable from "@/components/booking/BookingTable";
 import CheckInForm from "@/components/booking/CheckInForm";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import CreateBookingForm from "@/components/booking/CreateBookingForm";
+import {
+  btnAccent,
+  btnSoftSuccess,
+  errorBanner,
+  pageSubtitle,
+  pageTitle,
+  statCard,
+  statLabel,
+} from "@/utils/cls";
+
+function SummaryCard({ label, value, valueClass = "text-hi", accent = false }) {
+  return (
+    <div className={`${statCard} ${accent ? "bg-accent-soft/55" : ""} text-center`}>
+      <span className={`block text-3xl font-semibold leading-tight ${valueClass}`}>
+        {value}
+      </span>
+      <span className={statLabel}>{label}</span>
+    </div>
+  );
+}
 
 export default function CheckInOut() {
   const [bookings, setBookings] = useState([]);
@@ -12,6 +41,7 @@ export default function CheckInOut() {
   const [error, setError] = useState("");
   const [showCheckIn, setShowCheckIn] = useState(false);
   const [showCreateBooking, setShowCreateBooking] = useState(false);
+  const [dialog, setDialog] = useState(null);
 
   const showError = (err) => {
     const data = err.response?.data;
@@ -51,24 +81,38 @@ export default function CheckInOut() {
     }
   };
 
-  const handleCheckOut = async (bookingId) => {
-    if (!window.confirm("Xác nhận check-out?")) return;
-    try {
-      await checkOut(bookingId);
-      fetchBookings();
-    } catch (err) {
-      showError(err);
-    }
+  const handleCheckOut = (bookingId) => {
+    setDialog({
+      title: "Check-out",
+      message: "Xác nhận trả phòng cho booking này?",
+      variant: "warning",
+      onConfirm: async () => {
+        setDialog(null);
+        try {
+          await checkOut(bookingId);
+          fetchBookings();
+        } catch (err) {
+          showError(err);
+        }
+      },
+    });
   };
 
-  const handleCancel = async (bookingId) => {
-    if (!window.confirm("Xác nhận hủy booking này?")) return;
-    try {
-      await cancelBooking(bookingId);
-      fetchBookings();
-    } catch (err) {
-      showError(err);
-    }
+  const handleCancel = (bookingId) => {
+    setDialog({
+      title: "Hủy booking",
+      message: "Bạn có chắc muốn hủy booking này? Hành động không thể hoàn tác.",
+      variant: "danger",
+      onConfirm: async () => {
+        setDialog(null);
+        try {
+          await cancelBooking(bookingId);
+          fetchBookings();
+        } catch (err) {
+          showError(err);
+        }
+      },
+    });
   };
 
   const handleConfirm = async (bookingId) => {
@@ -95,88 +139,65 @@ export default function CheckInOut() {
 
   return (
     <>
-      {/* Header */}
-      <div className="flex items-start justify-between mb-8">
+      <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h1 className="font-display text-3xl font-semibold text-zinc-100 mb-1">
-            Check-in / Check-out
-          </h1>
-          <p className="text-zinc-500 text-sm">Quản lý nhận &amp; trả phòng</p>
+          <h1 className={pageTitle}>Check-in / Check-out</h1>
+          <p className={`${pageSubtitle} mt-1`}>
+            Quản lý nhận và trả phòng với màu hành động đồng bộ hơn ở khu lễ tân.
+          </p>
         </div>
-        <div className="flex gap-2">
+
+        <div className="flex flex-wrap gap-3">
           <button
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer"
-            onClick={() => { setShowCreateBooking(!showCreateBooking); setShowCheckIn(false); }}
+            className={btnAccent}
+            onClick={() => {
+              setShowCreateBooking(!showCreateBooking);
+              setShowCheckIn(false);
+            }}
           >
-            <svg
-              className="w-4 h-4 transition-transform duration-200"
+            <Plus
+              className="h-4 w-4 transition-transform duration-200"
               style={{ transform: showCreateBooking ? "rotate(45deg)" : "none" }}
-              fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-            </svg>
-            {showCreateBooking ? "Đóng" : "Đặt phòng trước"}
+            />
+            {showCreateBooking ? "Đóng đặt phòng" : "Đặt phòng trước"}
           </button>
           <button
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer"
-            onClick={() => { setShowCheckIn(!showCheckIn); setShowCreateBooking(false); }}
+            className={btnSoftSuccess}
+            onClick={() => {
+              setShowCheckIn(!showCheckIn);
+              setShowCreateBooking(false);
+            }}
           >
-            <svg
-              className="w-4 h-4 transition-transform duration-200"
+            <Plus
+              className="h-4 w-4 transition-transform duration-200"
               style={{ transform: showCheckIn ? "rotate(45deg)" : "none" }}
-              fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-            </svg>
-            {showCheckIn ? "Đóng" : "Check-in mới"}
+            />
+            {showCheckIn ? "Đóng check-in" : "Check-in mới"}
           </button>
         </div>
       </div>
 
       <div className="space-y-5">
-        {/* Error */}
         {error && (
-          <div className="flex items-center justify-between bg-red-500/10 text-red-400 px-4 py-3 rounded-lg border border-red-500/25 text-sm">
+          <div className={`${errorBanner} flex items-center justify-between gap-3`}>
             <span className="font-medium">{error}</span>
             <button
-              className="ml-3 text-red-400 hover:text-red-300 transition-colors cursor-pointer bg-transparent border-none text-lg font-bold"
+              className="text-danger transition-colors hover:text-danger/80"
               onClick={() => setError("")}
-            >&times;</button>
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
         )}
 
-        {/* Summary */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4 text-center transition-all duration-200 hover:border-zinc-700 hover:scale-[1.02]">
-            <span className="block text-3xl font-extrabold leading-tight text-zinc-100">
-              {bookings.length}
-            </span>
-            <span className="block text-[11px] font-semibold text-zinc-500 mt-1.5 uppercase tracking-wider">
-              Tổng booking
-            </span>
-          </div>
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4 text-center transition-all duration-200 hover:border-zinc-700 hover:scale-[1.02]">
-            <span className="block text-3xl font-extrabold leading-tight text-emerald-400">
-              {checkedInCount}
-            </span>
-            <span className="block text-[11px] font-semibold text-zinc-500 mt-1.5 uppercase tracking-wider">
-              Đang ở
-            </span>
-          </div>
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4 text-center transition-all duration-200 hover:border-zinc-700 hover:scale-[1.02]">
-            <span className="block text-3xl font-extrabold leading-tight text-zinc-400">
-              {completedCount}
-            </span>
-            <span className="block text-[11px] font-semibold text-zinc-500 mt-1.5 uppercase tracking-wider">
-              Đã trả
-            </span>
-          </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <SummaryCard label="Tổng booking" value={bookings.length} accent />
+          <SummaryCard label="Đang ở" value={checkedInCount} valueClass="text-success" />
+          <SummaryCard label="Đã trả" value={completedCount} valueClass="text-warning" />
         </div>
 
-        {/* Filter */}
         <BookingStatusFilter value={filterStatus} onChange={setFilterStatus} />
 
-        {/* Create Booking Form */}
         <div
           className="grid transition-all duration-300 ease-in-out"
           style={{
@@ -192,7 +213,6 @@ export default function CheckInOut() {
           </div>
         </div>
 
-        {/* Check-in Form */}
         <div
           className="grid transition-all duration-300 ease-in-out"
           style={{
@@ -208,40 +228,37 @@ export default function CheckInOut() {
           </div>
         </div>
 
-        {/* Booking Grid */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="w-8 h-8 border-[3px] border-emerald-600/30 border-t-emerald-600 rounded-full animate-spin" />
-            <span className="ml-3 text-zinc-400 text-sm">Đang tải...</span>
+            <div className="h-8 w-8 rounded-full border-[3px] border-accent/25 border-t-accent animate-spin" />
+            <span className="ml-3 text-sm text-muted">Đang tải dữ liệu booking...</span>
           </div>
         ) : bookings.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="w-16 h-16 mx-auto mb-4 bg-zinc-800 rounded-2xl flex items-center justify-center">
-              <svg className="w-8 h-8 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
+          <div className="rounded-2xl border border-edge bg-card px-6 py-20 text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-raised text-ghost">
+              <ReceiptText className="h-8 w-8" />
             </div>
-            <p className="text-zinc-300 font-medium">Chưa có booking nào</p>
-            <p className="text-zinc-500 text-sm mt-1">Bấm "Check-in mới" để bắt đầu.</p>
+            <p className="font-semibold text-dim">Chưa có booking nào</p>
+            <p className="mt-1 text-sm text-muted">Bấm "Check-in mới" để bắt đầu.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {bookings.map((booking, index) => (
-              <div
-                key={booking.id}
-                style={{ animationDelay: `${index * 60}ms` }}
-              >
-                <BookingCard
-                  booking={booking}
-                  onCheckOut={handleCheckOut}
-                  onCancel={handleCancel}
-                  onConfirm={handleConfirm}
-                />
-              </div>
-            ))}
-          </div>
+          <BookingTable
+            bookings={bookings}
+            onCheckOut={handleCheckOut}
+            onCancel={handleCancel}
+            onConfirm={handleConfirm}
+          />
         )}
       </div>
+
+      <ConfirmDialog
+        open={dialog !== null}
+        title={dialog?.title}
+        message={dialog?.message}
+        variant={dialog?.variant}
+        onConfirm={dialog?.onConfirm}
+        onCancel={() => setDialog(null)}
+      />
     </>
   );
 }

@@ -20,7 +20,7 @@ function RootRedirect() {
 
 function ReceptionRoute({ children }) {
   return (
-    <ProtectedRoute allowedRoles={['RECEPTION', 'ADMIN']}>
+    <ProtectedRoute allowedRoles={['RECEPTION']}>
       <ReceptionLayout>{children}</ReceptionLayout>
     </ProtectedRoute>
   );

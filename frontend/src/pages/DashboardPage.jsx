@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { getRooms } from '../services/roomApi';
 import { getBookings } from '../services/bookingApi';
 import { Home, Clipboard, Building2, Star, User, LogOut, Plus, X, AlertCircle, CheckCircle2, Users, TrendingUp, Lock } from 'lucide-react';
+import { BOOKING_STATUS_COLORS, BOOKING_STATUS_LABELS } from '@/constants/bookingStatus';
+import { pageTitle, pageSubtitle, panelCard, panelRaised } from '@/utils/cls';
 
 /*Shared components*/
 
@@ -82,6 +84,27 @@ function EmptyState({ Icon, text, action }) {
           {action}
         </button>
       )}
+    </div>
+  );
+}
+
+const receptionStatTones = {
+  available: { icon: 'text-success', value: 'text-success' },
+  occupied: { icon: 'text-danger', value: 'text-danger' },
+  checkinToday: { icon: 'text-info', value: 'text-info' },
+  checkoutToday: { icon: 'text-warning', value: 'text-warning' },
+};
+
+function ReceptionStatCard({ Icon, label, value, tone }) {
+  return (
+    <div className={`${panelCard} p-5`}>
+      <Icon className={`w-5 h-5 mb-4 ${tone.icon}`} />
+      <div className={`font-display text-3xl font-semibold tracking-tight ${tone.value}`}>
+        {value}
+      </div>
+      <div className="mt-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
+        {label}
+      </div>
     </div>
   );
 }
@@ -173,64 +196,94 @@ export function ReceptionDashboard() {
 
   return (
     <>
-      <div className="flex items-start justify-between mb-8">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-3xl font-semibold text-zinc-100 mb-1">Quầy Lễ tân</h1>
-          <p className="text-zinc-500 text-sm">Khách sạn #{user?.hotelId} · {user?.fullName}</p>
+          <h1 className={pageTitle}>Quầy Lễ tân</h1>
+          <p className={`${pageSubtitle} mt-1`}>
+            Khách sạn #{user?.hotelId} · {user?.fullName}
+          </p>
         </div>
-        <RoleBadge role={user?.role} />
+        <span className="inline-flex items-center rounded-full border border-accent/20 bg-accent-soft/75 px-3 py-1 text-xs font-semibold text-accent">
+          Lễ tân
+        </span>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mb-8">
-        <StatCard Icon={CheckCircle2} label="Phòng trống" value={stats.available} />
-        <StatCard Icon={AlertCircle} label="Đang sử dụng" value={stats.occupied} />
-        <StatCard Icon={Clipboard} label="Check-in hôm nay" value={stats.checkinToday} />
-        <StatCard Icon={Clipboard} label="Check-out hôm nay" value={stats.checkoutToday} />
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <ReceptionStatCard
+          Icon={CheckCircle2}
+          label="Phòng trống"
+          value={stats.available}
+          tone={receptionStatTones.available}
+        />
+        <ReceptionStatCard
+          Icon={AlertCircle}
+          label="Đang sử dụng"
+          value={stats.occupied}
+          tone={receptionStatTones.occupied}
+        />
+        <ReceptionStatCard
+          Icon={Clipboard}
+          label="Check-in hôm nay"
+          value={stats.checkinToday}
+          tone={receptionStatTones.checkinToday}
+        />
+        <ReceptionStatCard
+          Icon={Clipboard}
+          label="Check-out hôm nay"
+          value={stats.checkoutToday}
+          tone={receptionStatTones.checkoutToday}
+        />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-          <h3 className="text-sm font-medium text-zinc-300 mb-4">Booking gần đây</h3>
-          {recentBookings.length === 0
-            ? <EmptyState Icon={Clipboard} text="Chưa có booking nào." />
-            : (
-              <div className="space-y-2">
-                {recentBookings.map(b => (
-                  <div key={b.id} className="flex items-center justify-between px-3 py-2 rounded-lg bg-zinc-800/50">
-                    <div>
-                      <span className="text-sm text-zinc-200">Phòng {b.roomNumber}</span>
-                      <span className="text-xs text-zinc-500 ml-2">{b.guestName}</span>
-                    </div>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${
-                      b.status === 'CHECKED_IN' ? 'bg-green-500/15 text-green-400'
-                      : b.status === 'COMPLETED' ? 'bg-zinc-500/15 text-zinc-400'
-                      : b.status === 'CANCELLED' ? 'bg-red-500/15 text-red-400'
-                      : 'bg-yellow-500/15 text-yellow-400'
-                    }`}>{b.status}</span>
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1.2fr,0.8fr]">
+        <div className={`${panelCard} p-6`}>
+          <h3 className="mb-4 text-base font-semibold text-hi">Booking gần đây</h3>
+          {recentBookings.length === 0 ? (
+            <div className="flex flex-col items-center justify-center gap-3 py-14 text-center">
+              <Clipboard className="h-12 w-12 text-ghost opacity-40" />
+              <p className="text-sm text-muted">Chưa có booking nào.</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {recentBookings.map((b) => (
+                <div
+                  key={b.id}
+                  className={`${panelRaised} flex items-center justify-between gap-3 px-4 py-3`}
+                >
+                  <div>
+                    <p className="text-sm font-semibold text-dim">Phòng {b.roomNumber}</p>
+                    <p className="text-xs text-muted">{b.guestName}</p>
                   </div>
-                ))}
-              </div>
-            )
-          }
+                  <span
+                    className="inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white"
+                    style={{ backgroundColor: BOOKING_STATUS_COLORS[b.status] }}
+                  >
+                    {BOOKING_STATUS_LABELS[b.status]}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-          <h3 className="text-sm font-medium text-zinc-300 mb-4">Thống kê nhanh</h3>
+
+        <div className={`${panelCard} p-6`}>
+          <h3 className="mb-4 text-base font-semibold text-hi">Thống kê nhanh</h3>
           <div className="space-y-3 text-sm">
-            <div className="flex justify-between text-zinc-400">
+            <div className="flex items-center justify-between text-dim">
               <span>Tổng phòng trống</span>
-              <span className="text-emerald-400 font-medium">{stats.available}</span>
+              <span className="font-semibold text-success">{stats.available}</span>
             </div>
-            <div className="flex justify-between text-zinc-400">
+            <div className="flex items-center justify-between text-dim">
               <span>Đang sử dụng</span>
-              <span className="text-red-400 font-medium">{stats.occupied}</span>
+              <span className="font-semibold text-danger">{stats.occupied}</span>
             </div>
-            <div className="flex justify-between text-zinc-400">
+            <div className="flex items-center justify-between text-dim">
               <span>Check-in hôm nay</span>
-              <span className="text-sky-400 font-medium">{stats.checkinToday}</span>
+              <span className="font-semibold text-info">{stats.checkinToday}</span>
             </div>
-            <div className="flex justify-between text-zinc-400">
+            <div className="flex items-center justify-between text-dim">
               <span>Check-out hôm nay</span>
-              <span className="text-orange-400 font-medium">{stats.checkoutToday}</span>
+              <span className="font-semibold text-warning">{stats.checkoutToday}</span>
             </div>
           </div>
         </div>
