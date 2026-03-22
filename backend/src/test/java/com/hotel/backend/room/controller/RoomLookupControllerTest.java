@@ -7,9 +7,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.hotel.backend.auth.service.CustomUserDetailsService;
 import com.hotel.backend.config.SecurityConfig;
 import com.hotel.backend.security.JwtService;
-import com.hotel.backend.service.CustomUserDetailsService;
 import com.hotel.backend.hotel.entity.Hotel;
 import com.hotel.backend.hotel.repository.HotelRepository;
 import com.hotel.backend.room.entity.RoomType;

@@ -1,4 +1,4 @@
-package com.hotel.backend.entity;
+package com.hotel.backend.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

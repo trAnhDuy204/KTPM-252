@@ -1,10 +1,11 @@
-package com.hotel.backend.service;
+package com.hotel.backend.auth.service;
 
-import com.hotel.backend.dto.AuthDto;
-import com.hotel.backend.entity.Role;
-import com.hotel.backend.entity.User;
-import com.hotel.backend.exception.AuthException;
-import com.hotel.backend.repository.UserRepository;
+import com.hotel.backend.auth.dto.AuthDto;
+import com.hotel.backend.auth.entity.Role;
+import com.hotel.backend.auth.entity.User;
+import com.hotel.backend.auth.exception.AuthException;
+import com.hotel.backend.auth.repository.UserRepository;
+import com.hotel.backend.auth.service.AuthService;
 import com.hotel.backend.security.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

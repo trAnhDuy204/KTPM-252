@@ -1,6 +1,5 @@
-package com.hotel.backend.exception;
+package com.hotel.backend.auth.exception;
 
-import com.hotel.backend.dto.AuthDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -9,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.hotel.backend.auth.dto.AuthDto;
 
 import java.util.HashMap;
 import java.util.Map;

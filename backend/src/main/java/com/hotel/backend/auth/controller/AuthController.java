@@ -1,7 +1,8 @@
-package com.hotel.backend.controller;
+package com.hotel.backend.auth.controller;
 
-import com.hotel.backend.dto.AuthDto;
-import com.hotel.backend.service.AuthService;
+import com.hotel.backend.auth.dto.AuthDto;
+import com.hotel.backend.auth.service.AuthService;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

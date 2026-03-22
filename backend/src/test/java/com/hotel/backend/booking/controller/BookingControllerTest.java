@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hotel.backend.auth.service.CustomUserDetailsService;
 import com.hotel.backend.booking.dto.BookingResponse;
 import com.hotel.backend.booking.dto.CheckInRequest;
 import com.hotel.backend.booking.dto.CreateBookingRequest;
@@ -20,7 +21,7 @@ import com.hotel.backend.common.ResourceNotFoundException;
 import com.hotel.backend.config.SecurityConfig;
 import com.hotel.backend.security.JwtAuthFilter;
 import com.hotel.backend.security.JwtService;
-import com.hotel.backend.service.CustomUserDetailsService;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;

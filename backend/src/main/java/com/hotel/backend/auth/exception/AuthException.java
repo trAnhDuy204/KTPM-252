@@ -1,4 +1,4 @@
-package com.hotel.backend.exception;
+package com.hotel.backend.auth.exception;
 
 public class AuthException extends RuntimeException {
     public AuthException(String message) {

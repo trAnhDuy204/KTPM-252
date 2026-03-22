@@ -1,6 +1,7 @@
-package com.hotel.backend.dto;
+package com.hotel.backend.auth.dto;
 
-import com.hotel.backend.entity.Role;
+import com.hotel.backend.auth.entity.Role;
+
 import jakarta.validation.constraints.*;
 import lombok.*;
 

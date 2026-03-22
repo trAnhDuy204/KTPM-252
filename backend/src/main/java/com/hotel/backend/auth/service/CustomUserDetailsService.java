@@ -1,11 +1,12 @@
-package com.hotel.backend.service;
+package com.hotel.backend.auth.service;
 
-import com.hotel.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import com.hotel.backend.auth.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor

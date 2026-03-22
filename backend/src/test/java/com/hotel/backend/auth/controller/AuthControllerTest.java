@@ -1,13 +1,15 @@
-package com.hotel.backend.controller;
+package com.hotel.backend.auth.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hotel.backend.dto.AuthDto;
-import com.hotel.backend.entity.Role;
-import com.hotel.backend.exception.AuthException;
+import com.hotel.backend.auth.controller.AuthController;
+import com.hotel.backend.auth.dto.AuthDto;
+import com.hotel.backend.auth.entity.Role;
+import com.hotel.backend.auth.exception.AuthException;
+import com.hotel.backend.auth.service.AuthService;
+import com.hotel.backend.auth.service.CustomUserDetailsService;
 import com.hotel.backend.config.SecurityConfig;
 import com.hotel.backend.security.JwtService;
-import com.hotel.backend.service.AuthService;
-import com.hotel.backend.service.CustomUserDetailsService;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,11 @@
-package com.hotel.backend.repository;
+package com.hotel.backend.auth.repository;
 
-import com.hotel.backend.entity.Role;
-import com.hotel.backend.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
- 
+
+import com.hotel.backend.auth.entity.Role;
+import com.hotel.backend.auth.entity.User;
+
 import java.util.Optional;
  
 @Repository
