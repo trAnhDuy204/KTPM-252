@@ -25,7 +25,7 @@ public class AuthController {
                 .body(authService.register(request));
     }
 
-    /*POST /api/auth/login*/
+    /*POST /api/auth/login*/ 
     @PostMapping("/login")
     public ResponseEntity<AuthDto.AuthResponse> login(
             @Valid @RequestBody AuthDto.LoginRequest request) {

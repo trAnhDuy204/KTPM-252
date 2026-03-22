@@ -4,6 +4,8 @@ import com.hotel.backend.hotel.entity.Hotel;
 import com.hotel.backend.hotel.repository.HotelRepository;
 import com.hotel.backend.room.entity.RoomType;
 import com.hotel.backend.room.repository.RoomTypeRepository;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,7 @@ public class RoomLookupController {
     }
 
     @GetMapping("/hotels")
+    @PreAuthorize("hasRole('RECEPTION') or hasRole('ADMIN')")
     public List<HotelOption> getHotels() {
         return hotelRepository.findAll().stream()
                 .map(h -> new HotelOption(h.getId(), h.getName(), h.getCity()))
@@ -33,6 +36,7 @@ public class RoomLookupController {
     }
 
     @GetMapping("/room-types")
+    @PreAuthorize("hasRole('RECEPTION') or hasRole('ADMIN')")
     public List<RoomTypeOption> getRoomTypes(@RequestParam Integer hotelId) {
         return roomTypeRepository.findByHotel_Id(hotelId).stream()
                 .map(rt -> new RoomTypeOption(rt.getId(), rt.getName(), rt.getCapacity(), rt.getBasePrice().toPlainString()))

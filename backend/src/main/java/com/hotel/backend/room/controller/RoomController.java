@@ -8,6 +8,7 @@ import com.hotel.backend.room.service.RoomService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,12 +33,14 @@ public class RoomController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('RECEPTION') or hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public RoomResponse createRoom(@Valid @RequestBody CreateRoomRequest request) {
         return roomService.createRoom(request);
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('RECEPTION') or hasRole('ADMIN')")
     public List<RoomResponse> getRooms(
             @RequestParam(required = false) Integer hotelId,
             @RequestParam(required = false) RoomStatus status
@@ -46,11 +49,13 @@ public class RoomController {
     }
 
     @GetMapping("/{roomId}")
+    @PreAuthorize("hasRole('RECEPTION') or hasRole('ADMIN')")
     public RoomResponse getRoom(@PathVariable Integer roomId) {
         return roomService.getRoom(roomId);
     }
 
     @PatchMapping("/{roomId}/status")
+    @PreAuthorize("hasRole('RECEPTION') or hasRole('ADMIN')")
     public RoomResponse updateRoomStatus(
             @PathVariable Integer roomId,
             @Valid @RequestBody UpdateRoomStatusRequest request
@@ -59,6 +64,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/{roomId}")
+    @PreAuthorize("hasRole('RECEPTION') or hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRoom(@PathVariable Integer roomId) {
         roomService.deleteRoom(roomId);
