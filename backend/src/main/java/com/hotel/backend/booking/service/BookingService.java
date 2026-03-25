@@ -32,19 +32,19 @@ public class BookingService {
     @Transactional
     public BookingResponse checkIn(CheckInRequest request) {
         Room room = roomRepository.findById(request.roomId())
-                .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + request.roomId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy phòng với id: " + request.roomId()));
 
         if (room.getStatus() != RoomStatus.AVAILABLE && room.getStatus() != RoomStatus.RESERVED) {
-            throw new BusinessRuleException("Room is not available for check-in. Current status: " + room.getStatus());
+            throw new BusinessRuleException("Phòng không khả dụng để check-in. Trạng thái hiện tại: " + room.getStatus());
         }
 
         if (bookingRepository.existsByRoom_IdAndStatus(request.roomId(), BookingStatus.CHECKED_IN)) {
-            throw new BusinessRuleException("Room already has an active check-in");
+            throw new BusinessRuleException("Phòng đã có khách đang ở");
         }
 
         LocalDate today = LocalDate.now();
         if (request.checkOut().isBefore(today) || request.checkOut().isEqual(today)) {
-            throw new BusinessRuleException("Check-out date must be after today");
+            throw new BusinessRuleException("Ngày check-out phải sau ngày hôm nay");
         }
 
         long nights = ChronoUnit.DAYS.between(today, request.checkOut());
@@ -73,7 +73,7 @@ public class BookingService {
         Booking booking = findBooking(bookingId);
 
         if (booking.getStatus() != BookingStatus.CHECKED_IN) {
-            throw new BusinessRuleException("Booking is not checked in. Current status: " + booking.getStatus());
+            throw new BusinessRuleException("Booking chưa check-in. Trạng thái hiện tại: " + booking.getStatus());
         }
 
         LocalDate actualCheckOut = LocalDate.now();
@@ -101,7 +101,7 @@ public class BookingService {
         Booking booking = findBooking(bookingId);
 
         if (booking.getStatus() == BookingStatus.COMPLETED || booking.getStatus() == BookingStatus.CANCELLED) {
-            throw new BusinessRuleException("Cannot cancel a booking that is " + booking.getStatus());
+            throw new BusinessRuleException("Không thể huỷ booking có trạng thái: " + booking.getStatus());
         }
 
         BookingStatus previousStatus = booking.getStatus();
@@ -141,18 +141,18 @@ public class BookingService {
     @Transactional
     public BookingResponse createBooking(CreateBookingRequest request) {
         Room room = roomRepository.findById(request.roomId())
-                .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + request.roomId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy phòng với id: " + request.roomId()));
 
         if (room.getStatus() != RoomStatus.AVAILABLE) {
-            throw new BusinessRuleException("Room is not available for booking. Current status: " + room.getStatus());
+            throw new BusinessRuleException("Phòng không khả dụng để đặt. Trạng thái hiện tại: " + room.getStatus());
         }
 
         LocalDate today = LocalDate.now();
         if (request.checkIn().isBefore(today)) {
-            throw new BusinessRuleException("Check-in date cannot be in the past");
+            throw new BusinessRuleException("Ngày check-in không được trong quá khứ");
         }
         if (!request.checkOut().isAfter(request.checkIn())) {
-            throw new BusinessRuleException("Check-out date must be after check-in date");
+            throw new BusinessRuleException("Ngày check-out phải sau ngày check-in");
         }
 
         long nights = ChronoUnit.DAYS.between(request.checkIn(), request.checkOut());
@@ -181,7 +181,7 @@ public class BookingService {
         Booking booking = findBooking(bookingId);
 
         if (booking.getStatus() != BookingStatus.PENDING) {
-            throw new BusinessRuleException("Only PENDING bookings can be confirmed. Current status: " + booking.getStatus());
+            throw new BusinessRuleException("Chỉ có thể xác nhận booking ở trạng thái PENDING. Trạng thái hiện tại: " + booking.getStatus());
         }
 
         booking.setStatus(BookingStatus.CONFIRMED);
@@ -191,6 +191,6 @@ public class BookingService {
 
     private Booking findBooking(Integer bookingId) {
         return bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + bookingId));
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy booking với id: " + bookingId));
     }
 }
