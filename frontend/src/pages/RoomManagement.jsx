@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { adminApi } from '../api/adminApi';
 import RoomModal from './RoomModal';
 
+export const getStatusVn = (status) => {
+        const map = { 'AVAILABLE': 'Trống', 'OCCUPIED': 'Có khách', 'CLEANING': 'Dọn dẹp', 'MAINTENANCE': 'Bảo trì' };
+        return map[status] || 'Trống';
+    };
+
 const RoomManagement = () => {
     const [rooms, setRooms] = useState([]);
     const [hotels, setHotels] = useState([]); 
@@ -56,14 +61,11 @@ const RoomManagement = () => {
             setIsModalOpen(false);
             fetchData();
         } catch (err) {
-            alert("Số phòng đã tồn tại!");
+            alert("Phòng đã tồn tại!");
         }
     };
 
-    const getStatusVn = (status) => {
-        const map = { 'AVAILABLE': 'Trống', 'OCCUPIED': 'Có khách', 'CLEANING': 'Dọn dẹp', 'MAINTENANCE': 'Bảo trì' };
-        return map[status] || 'Trống';
-    };
+    
 
     // Tìm phòng
     const filteredRooms = rooms.filter(r => {

@@ -17,7 +17,7 @@ public class User {
     private String email;
     private String password;
     private String phone;
-    private String role; // ADMIN, RECEPTION, CUSTOMER
+    private String role; 
     
     @Column(name = "hotel_id")
     private Integer hotelId;

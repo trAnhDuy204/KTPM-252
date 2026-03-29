@@ -21,7 +21,7 @@ const RoomTypeManagement = () => {
     useEffect(() => { fetchTypes(); }, []);
 
     //  lọc danh sách loại phòng dựa trên tên
-    const filteredTypes = types.filter(type => 
+    const filteredTypes = types.filter(type =>
         type.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -31,7 +31,7 @@ const RoomTypeManagement = () => {
                 await adminApi.deleteRoomType(id);
                 fetchTypes();
             } catch (err) {
-                alert("Lỗi khi xóa: Loại phòng có thể đang được sử dụng ở danh sách phòng!");
+                alert("Loại phòng có thể đang được sử dụng ở danh sách phòng!");
             }
         }
     };
@@ -53,6 +53,17 @@ const RoomTypeManagement = () => {
             return;
         }
 
+        const isNameExists = types.some(type =>
+            type.name.toLowerCase() === formData.name.toLowerCase() &&
+            type.id !== selectedType?.id // Nếu đang sửa thì bỏ qua chính nó
+        );
+
+        if (isNameExists) {
+            alert("Tên loại phòng này đã tồn tại trong hệ thống!");
+            return;
+        }
+        // ---------------------------------------------------
+
         try {
             if (selectedType) {
                 const isUnchanged =
@@ -62,7 +73,7 @@ const RoomTypeManagement = () => {
                     formData.description === selectedType.description;
 
                 if (isUnchanged) {
-                    alert("Thông tin này đã tồn tại (Bạn chưa thay đổi gì so với dữ liệu cũ)!");
+                    alert("Loại phòng này đã tồn tại!");
                     return;
                 }
             }
@@ -78,8 +89,9 @@ const RoomTypeManagement = () => {
             alert(selectedType ? "Cập nhật thành công!" : "Thêm mới thành công!");
             setIsModalOpen(false);
             fetchTypes();
+
         } catch (err) {
-            alert("Lỗi lưu dữ liệu! Kiểm tra xem tên có bị trùng không nhé.");
+            alert("Lỗi lưu dữ liệu! Vui lòng thử lại sau.");
         }
     };
 
@@ -97,8 +109,8 @@ const RoomTypeManagement = () => {
 
             {/* tìm kiếm */}
             <div className="mb-6">
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     placeholder="Tìm theo tên loại phòng (VD: Single, Family...)"
                     className="border border-[#842A3B]/10 p-3 rounded-2xl w-full max-w-md focus:border-[#842A3B] outline-none shadow-sm transition-all bg-white text-sm"
                     value={searchTerm}

@@ -19,37 +19,45 @@ const RoomModal = ({ isOpen, onClose, onSave, selectedRoom }) => {
     });
 
     useEffect(() => {
-        if (isOpen) {
-            const loadData = async () => {
-                try {
-                    const [resTypes, resHotels] = await Promise.all([
-                        adminApi.getRoomTypes(),
-                        adminApi.getHotels()
-                    ]);
-                    setRoomTypes(resTypes.data || []);
-                    setHotels(resHotels.data || []);
-                } catch (err) {
-                    setRoomTypes([]); setHotels([]);
-                }
-            };
-            loadData();
+    if (isOpen) {
+        const loadData = async () => {
+            try {
+                const [resTypes, resHotels] = await Promise.all([
+                    adminApi.getRoomTypes(),
+                    adminApi.getHotels()
+                ]);
+                const fetchedTypes = resTypes.data || [];
+                const fetchedHotels = resHotels.data || [];
+                
+                setRoomTypes(fetchedTypes);
+                setHotels(fetchedHotels);
 
-            if (selectedRoom) {
-                setRoomData({
-                    ...selectedRoom,
-                    hotelId: selectedRoom.hotelId || '',
-                    customPrice: selectedRoom.roomType?.basePrice || selectedRoom.customPrice || '',
-                    description: selectedRoom.roomType?.description || ''
-                });
-                setSelectedTypeName(selectedRoom.roomType?.name || '');
-                const currentHotel = resHotels.data?.find(h => String(h.id) === String(selectedRoom.hotelId));
-                setHotelSearch(currentHotel ? currentHotel.name : '');
-            } else {
-                setRoomData({ roomNumber: '', status: 'AVAILABLE', hotelId: '', roomType: { id: '' }, customPrice: '', description: '' });
-                setSelectedTypeName('');
+                // Sửa ở đây: Sử dụng trực tiếp dữ liệu vừa fetch được
+                if (selectedRoom) {
+                    setRoomData({
+                        ...selectedRoom,
+                        hotelId: selectedRoom.hotelId || '',
+                        customPrice: selectedRoom.roomType?.basePrice || selectedRoom.customPrice || '',
+                        description: selectedRoom.roomType?.description || ''
+                    });
+                    setSelectedTypeName(selectedRoom.roomType?.name || '');
+                    
+                    // Tìm tên khách sạn từ dữ liệu vừa lấy về
+                    const currentHotel = fetchedHotels.find(h => String(h.id) === String(selectedRoom.hotelId));
+                    setHotelSearch(currentHotel ? currentHotel.name : '');
+                } else {
+                    // Reset form khi thêm mới
+                    setRoomData({ roomNumber: '', status: 'AVAILABLE', hotelId: '', roomType: { id: '' }, customPrice: '', description: '' });
+                    setSelectedTypeName('');
+                    setHotelSearch('');
+                }
+            } catch (err) {
+                setRoomTypes([]); setHotels([]);
             }
-        }
-    }, [isOpen, selectedRoom]);
+        };
+        loadData();
+    }
+}, [isOpen, selectedRoom]);
 
     useEffect(() => {
         if (hotelSearch && showSuggestions) {

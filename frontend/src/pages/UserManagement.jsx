@@ -32,6 +32,7 @@ const UserManagement = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa nhân sự này?")) {
             await adminApi.deleteUser(id);
+            setSearchTerm('');
             fetchData();
         }
     };
@@ -57,28 +58,30 @@ const UserManagement = () => {
     };
 
     const handleSave = async () => {
-        const selectedHotels = formData.hotels || [];
-        if (selectedHotels.length === 0) {
-            alert("Vui lòng chọn ít nhất một khách sạn!");
-            return;
-        }
+    // 1. Kiểm tra nếu chưa chọn khách sạn
+    if (!formData.hotelId) {
+        alert("Vui lòng chọn khách sạn làm việc!");
+        return;
+    }
 
-        try {
-            const dataToSave = {
-                ...formData,
-                hotelId: selectedHotels[0].id //ID khách sạn chọn
-            };
+    try {
+        const dataToSave = {
+            ...formData,
+            // Đảm bảo hotelId là kiểu số để khớp với Backend
+            hotelId: Number(formData.hotelId) 
+        };
 
-            await adminApi.saveUser(dataToSave);
+        await adminApi.saveUser(dataToSave);
 
-            alert(selectedUser ? "Cập nhật thành công!" : "Tạo nhân viên thành công.");
-            setIsModalOpen(false);
-            fetchData();
-        } catch (err) {
-            const errorMessage = err.response?.data?.message || "Thông tin đã tồn tại!";
-            alert("Lỗi: " + errorMessage);
-        }
-    };
+        alert(selectedUser ? "Cập nhật thành công!" : "Tạo nhân viên thành công.");
+        setIsModalOpen(false);
+        setSearchTerm('');
+        fetchData();
+    } catch (err) {
+        const errorMessage = err.response?.data?.message || "Thông tin đã tồn tại!";
+        alert("Lỗi: " + errorMessage);
+    }
+};
 
     const filteredUsers = users.filter(u => {
         const roleLower = u.role?.toLowerCase();
@@ -128,7 +131,7 @@ const UserManagement = () => {
                         <tr className="bg-[#F8F4E1]/50 border-b border-[#842A3B]/10">
                             <th className="p-6 text-xs font-bold text-[#842A3B] uppercase tracking-widest">Nhân viên</th>
                             <th className="p-6 text-xs font-bold text-[#842A3B] uppercase tracking-widest">Vai trò</th>
-                            <th className="p-6 text-xs font-bold text-[#842A3B] uppercase tracking-widest">Thuộc khách sạn</th>
+                            <th className="p-6 text-xs font-bold text-[#842A3B] uppercase tracking-widest">Khách sạn</th>
                             <th className="p-6 text-xs font-bold text-[#842A3B] uppercase tracking-widest">Liên hệ</th>
                             <th className="p-6 text-xs font-bold text-[#842A3B] uppercase tracking-widest text-center">Thao tác</th>
                         </tr>

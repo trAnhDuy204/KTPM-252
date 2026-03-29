@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import RoomManagement from './pages/RoomManagement';
 import RoomTypeManagement from './pages/RoomTypeManagement';
-// 1. 🔴 Import trang quản lý nhân viên vào đây
 import UserManagement from './pages/UserManagement'; 
 
 const Sidebar = () => {
@@ -39,7 +38,6 @@ const Sidebar = () => {
           )}
         </div>
 
-        {/* 2. 🔴 CẬP NHẬT MENU NHÂN VIÊN (Bỏ cursor-not-allowed và đổi màu text) */}
         <Link 
           to="/staff" 
           className={`flex items-center gap-3 p-4 font-black uppercase text-xs tracking-widest rounded-2xl transition-all ${isActive('/staff') || "text-white hover:bg-white/10"}`}
@@ -66,7 +64,6 @@ function App() {
             <Routes>
               <Route path="/" element={<RoomManagement />} />
               <Route path="/room-types" element={<RoomTypeManagement />} />
-              {/* 3. 🔴 KHAI BÁO ROUTE CHO NHÂN VIÊN */}
               <Route path="/staff" element={<UserManagement />} />
             </Routes>
           </div>

@@ -8,9 +8,9 @@ export const adminApi = {
 
     saveRoomType(data) {
         if (data.id) {
-            return axios.put(`${API_URL}/room-types/${data.id}`, data); // ✅ đúng
+            return axios.put(`${API_URL}/room-types/${data.id}`, data); 
         }
-        return axios.post(`${API_URL}/room-types`, data); // ✅ đúng
+        return axios.post(`${API_URL}/room-types`, data); 
     },
 
     deleteRoomType: (id) => axios.delete(`${API_URL}/room-types/${id}`),

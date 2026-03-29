@@ -20,7 +20,7 @@ public class AdminController {
     @Autowired
     private UserRepository userRepo;
     @Autowired
-    private RoomRepository roomRepo; // Bổ sung Repository cho Room
+    private RoomRepository roomRepo; 
 
     // --- 1. QUẢN LÝ KHÁCH SẠN ---
     @GetMapping("/hotels")
@@ -40,8 +40,7 @@ public class AdminController {
         return roomRepo.findAll();
     }
 
-    // Thêm hoặc Sửa phòng (Dùng chung cho cả thêm mới và cập nhật số phòng/trạng
-    // thái)
+    // Thêm hoặc Sửa phòng 
     @PostMapping("/rooms")
     public Room saveRoom(@RequestBody Room room) {
         return roomRepo.save(room);
@@ -60,7 +59,6 @@ public class AdminController {
             room.setStatus(newRoom.getStatus());
             room.setRoomType(newRoom.getRoomType());
 
-            // 🔴 ĐỔI TÊN HÀM Ở ĐÂY CHO KHỚP VỚI FILE Room.java
             if (newRoom.getHotelId() != null) {
                 room.setHotelId(newRoom.getHotelId());
             }
@@ -69,7 +67,7 @@ public class AdminController {
         }).orElseThrow(() -> new RuntimeException("Không tìm thấy phòng id: " + id));
     }
 
-    // Lấy danh sách Loại phòng để Admin chọn khi tạo phòng (VIP, Thường...)
+    // Lấy danh sách Loại phòng 
     @GetMapping("/room-types")
     public List<RoomType> getAllRoomTypes() {
         return roomTypeRepo.findAll();
@@ -108,16 +106,16 @@ public class AdminController {
         return userRepo.findAll();
     }
 
-    // Tạo tài khoản mới với ràng buộc dữ liệu
+    // Tạo tài khoản mới 
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody User user) {
-        // 🔴 Ràng buộc 1: Nhập đủ thông tin cơ bản
+        // Nhập đủ thông tin cơ bản
         if (user.getFullName() == null || user.getEmail() == null ||
                 user.getPhone() == null || user.getPassword() == null) {
             return ResponseEntity.badRequest().body(Map.of("message", "Vui lòng nhập đầy đủ thông tin bắt buộc!"));
         }
 
-        // 🔴 Ràng buộc 2: Kiểm tra trùng Email hoặc SĐT
+        // Kiểm tra trùng Email hoặc SĐT
         if (userRepo.existsByEmail(user.getEmail())) {
             return ResponseEntity.badRequest().body(Map.of("message", "Email này đã tồn tại trên hệ thống!"));
         }
@@ -133,17 +131,17 @@ public class AdminController {
         return ResponseEntity.ok(savedUser);
     }
 
-    // Cập nhật tài khoản (Xử lý trùng dữ liệu khi sửa)
+    // Cập nhật tài khoản 
     @PutMapping("/users/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody User userDetails) {
         return userRepo.findById(id).map(user -> {
 
-            // 🔴 Check trùng Email (Trừ chính nó)
+            // Check trùng Email
             if (!user.getEmail().equals(userDetails.getEmail()) && userRepo.existsByEmail(userDetails.getEmail())) {
                 return ResponseEntity.badRequest().body(Map.of("message", "Email mới đã bị trùng với nhân viên khác!"));
             }
 
-            // 🔴 Check trùng SĐT (Trừ chính nó)
+            //Check trùng SĐT 
             if (userDetails.getPhone() != null && !userDetails.getPhone().equals(user.getPhone())
                     && userRepo.existsByPhone(userDetails.getPhone())) {
                 return ResponseEntity.badRequest().body(Map.of("message", "Số điện thoại mới đã bị trùng!"));
@@ -155,10 +153,6 @@ public class AdminController {
             user.setPhone(userDetails.getPhone());
             user.setRole(userDetails.getRole());
 
-            // 🔴 Xử lý Đa chi nhánh: Lưu hotelId (Có thể là chuỗi "1,4,5" hoặc tùy Entity
-            // của Lan Anh)
-            // Nếu Lan Anh dùng bảng trung gian thì code sẽ phức tạp hơn,
-            // hiện tại mình ưu tiên cập nhật hotelId theo data gửi lên từ React.
             user.setHotelId(userDetails.getHotelId());
 
             if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
