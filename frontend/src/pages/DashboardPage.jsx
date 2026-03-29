@@ -26,9 +26,9 @@ function RoleBadge({ role }) {
 
 function StatCard({ Icon, label, value, sub }) {
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-colors duration-200">
+    <div className=" border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-colors duration-200">
       {Icon && <Icon className="w-6 h-6 mb-3 text-yellow-500" />}
-      <div className="font-display text-3xl font-semibold text-zinc-100 mb-1">{value}</div>
+      <div className="font-display text-3xl font-semibold  mb-1">{value}</div>
       <div className="text-xs font-medium text-zinc-500 uppercase tracking-wider">{label}</div>
       {sub && <div className="text-xs text-zinc-600 mt-1">{sub}</div>}
     </div>
@@ -124,15 +124,12 @@ export function CustomerDashboard() {
   ];
 
   return (
-    <div className="flex min-h-screen bg-zinc-950">
-      <Sidebar navItems={nav} onLogout={() => { logout(); navigate('/login'); }} />
-
-      <main className="flex-1 ml-56 p-8">
+    <>
         {/* Header */}
         <div className="flex items-start justify-between mb-8">
           <div>
-            <h1 className="font-display text-3xl font-semibold text-zinc-100 mb-1">
-              Xin chào, {user?.fullName} 👋
+            <h1 className="font-display text-3xl font-semibold  mb-1">
+              Xin chào, {user?.fullName}
             </h1>
             <p className="text-zinc-500 text-sm">Khám phá và đặt phòng khách sạn yêu thích của bạn</p>
           </div>
@@ -149,17 +146,16 @@ export function CustomerDashboard() {
 
         {/* Cards */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <div className=" border border-zinc-800 rounded-xl p-6">
             <h3 className="text-sm font-medium text-zinc-300 mb-4">Đặt phòng gần đây</h3>
             <EmptyState Icon={Building2} text={"Chưa có đặt phòng nào.\nHãy khám phá các khách sạn ngay!"} action="Tìm khách sạn" />
           </div>
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+          <div className=" border border-zinc-800 rounded-xl p-6">
             <h3 className="text-sm font-medium text-zinc-300 mb-4">Khách sạn yêu thích</h3>
             <EmptyState Icon={Star} text="Chưa có khách sạn yêu thích." />
           </div>
         </div>
-      </main>
-    </div>
+    </>
   );
 }
 
@@ -302,14 +298,6 @@ export function AdminDashboard() {
   const [formError, setFormError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
-  const nav = [
-    { Icon: Home, label: 'Tổng quan', active: true },
-    { Icon: Building2, label: 'Khách sạn' },
-    { Icon: Users, label: 'Nhân viên' },
-    { Icon: TrendingUp, label: 'Báo cáo' },
-    { Icon: Lock, label: 'Cài đặt' },
-  ];
-
   const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
 
   const handleCreate = async (e) => {
@@ -329,14 +317,11 @@ export function AdminDashboard() {
   const inputCls = 'w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3.5 py-2.5 text-zinc-100 text-sm font-light outline-none placeholder:text-zinc-600 focus:border-yellow-600/70 focus:ring-2 focus:ring-yellow-500/10 transition-all';
 
   return (
-    <div className="flex min-h-screen bg-zinc-950">
-      <Sidebar navItems={nav} onLogout={() => { logout(); navigate('/login'); }} />
-
-      <main className="flex-1 ml-56 p-8">
+    <>
         {/* Header */}
         <div className="flex items-start justify-between mb-8">
           <div>
-            <h1 className="font-display text-3xl font-semibold text-zinc-100 mb-1">Quản trị hệ thống</h1>
+            <h1 className="font-display text-3xl font-semibold mb-1">Quản trị hệ thống</h1>
             <p className="text-zinc-500 text-sm">Xin chào, {user?.fullName}</p>
           </div>
           <div className="flex items-center gap-3">
@@ -357,11 +342,10 @@ export function AdminDashboard() {
           <StatCard Icon={TrendingUp} label="Doanh thu" value="—" />
         </div>
 
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-          <h3 className="text-sm font-medium text-zinc-300 mb-4">Quản lý nhân viên</h3>
+        <div className=" border border-zinc-800 rounded-xl p-6">
+          <h3 className="text-sm font-medium mb-4">Quản lý nhân viên</h3>
           <EmptyState Icon={Users} text={"Chưa có nhân viên nào.\nNhấn " + "Thêm nhân viên để tạo tài khoản."} />
         </div>
-      </main>
 
       {/*Modal tạo nhân viên*/}
       {showModal && (
@@ -453,6 +437,6 @@ export function AdminDashboard() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

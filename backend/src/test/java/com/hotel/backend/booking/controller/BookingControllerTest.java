@@ -19,7 +19,6 @@ import com.hotel.backend.booking.service.BookingService;
 import com.hotel.backend.common.BusinessRuleException;
 import com.hotel.backend.common.ResourceNotFoundException;
 import com.hotel.backend.config.SecurityConfig;
-import com.hotel.backend.security.JwtAuthFilter;
 import com.hotel.backend.security.JwtService;
 
 import java.math.BigDecimal;
@@ -68,8 +67,7 @@ class BookingControllerTest {
         );
     }
 
-    // ==================== POST / (create booking) ====================
-
+    // POST / (create booking)
     @Nested
     class CreateBookingEndpoint {
 
@@ -110,8 +108,7 @@ class BookingControllerTest {
         }
     }
 
-    // ==================== POST /{id}/confirm ====================
-
+    // POST /{id}/confirm
     @Nested
     class ConfirmBookingEndpoint {
 
@@ -145,7 +142,7 @@ class BookingControllerTest {
         }
     }
 
-    // ==================== POST /check-in ====================
+    // POST /check-in
 
     @Nested
     class CheckInEndpoint {
@@ -189,7 +186,7 @@ class BookingControllerTest {
         }
     }
 
-    // ==================== POST /{id}/check-out ====================
+    // POST /{id}/check-out
 
     @Nested
     class CheckOutEndpoint {
@@ -224,7 +221,7 @@ class BookingControllerTest {
         }
     }
 
-    // ==================== POST /{id}/cancel ====================
+    // POST /{id}/cancel
 
     @Nested
     class CancelEndpoint {
@@ -249,7 +246,7 @@ class BookingControllerTest {
         }
     }
 
-    // ==================== GET /bookings ====================
+    // GET /bookings
 
     @Nested
     class GetBookingsEndpoint {
@@ -286,7 +283,7 @@ class BookingControllerTest {
         }
     }
 
-    // ==================== Authorization ====================
+    // Authorization
 
     @Nested
     class Authorization {

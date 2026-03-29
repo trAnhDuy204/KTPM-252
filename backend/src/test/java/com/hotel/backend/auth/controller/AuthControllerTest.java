@@ -1,7 +1,6 @@
 package com.hotel.backend.auth.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hotel.backend.auth.controller.AuthController;
 import com.hotel.backend.auth.dto.AuthDto;
 import com.hotel.backend.auth.entity.Role;
 import com.hotel.backend.auth.exception.AuthException;

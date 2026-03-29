@@ -1,8 +1,6 @@
 package com.hotel.backend.room.controller;
 
-import com.hotel.backend.hotel.entity.Hotel;
 import com.hotel.backend.hotel.repository.HotelRepository;
-import com.hotel.backend.room.entity.RoomType;
 import com.hotel.backend.room.repository.RoomTypeRepository;
 
 import org.springframework.security.access.prepost.PreAuthorize;
