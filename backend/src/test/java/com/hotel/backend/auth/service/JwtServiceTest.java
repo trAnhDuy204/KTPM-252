@@ -26,7 +26,7 @@ class JwtServiceTest {
         ReflectionTestUtils.setField(jwtService, "refreshExpiration", 604800000L);
 
         testUser = User.builder()
-                .id(1L).email("test@test.com")
+                .id(1).email("test@test.com")
                 .password("encoded").role(Role.CUSTOMER).build();
     }
 

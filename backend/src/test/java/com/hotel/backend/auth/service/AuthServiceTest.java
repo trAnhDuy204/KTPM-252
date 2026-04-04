@@ -43,17 +43,17 @@ class AuthServiceTest {
     @BeforeEach
     void setUp() {
         sampleCustomer = User.builder()
-                .id(1L).fullName("Nguyen Van A").email("customer@test.com")
+                .id(1).fullName("Nguyen Van A").email("customer@test.com")
                 .password("encoded").phone("0901234567")
                 .role(Role.CUSTOMER).build();
 
         sampleAdmin = User.builder()
-                .id(2L).fullName("Admin User").email("admin@test.com")
+                .id(2).fullName("Admin User").email("admin@test.com")
                 .password("encoded").role(Role.ADMIN).build();
 
         sampleReception = User.builder()
-                .id(3L).fullName("Le Thi B").email("reception@test.com")
-                .password("encoded").role(Role.RECEPTION).hotelId(10L).build();
+                .id(3).fullName("Le Thi B").email("reception@test.com")
+                .password("encoded").role(Role.RECEPTION).hotelId(10).build();
     }
 
     // REGISTER
@@ -235,7 +235,7 @@ class AuthServiceTest {
         void createStaff_reception_success() {
             AuthDto.CreateStaffRequest req = AuthDto.CreateStaffRequest.builder()
                     .fullName("Reception").email("rec@hotel.com")
-                    .password("Password1").role(Role.RECEPTION).hotelId(5L).build();
+                    .password("Password1").role(Role.RECEPTION).hotelId(5).build();
 
             when(userRepository.existsByEmail(anyString())).thenReturn(false);
             when(passwordEncoder.encode(anyString())).thenReturn("encoded");

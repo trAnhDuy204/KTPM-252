@@ -17,13 +17,13 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "booking_id", nullable = false)
-    private Long bookingId;
+    private Integer bookingId;
 
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private Integer userId;
 
     @Column(nullable = false)
     private Integer rating;

@@ -113,15 +113,6 @@ function ReceptionStatCard({ Icon, label, value, tone }) {
 
 export function CustomerDashboard() {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const nav = [
-    { Icon: Home, label: 'Tổng quan', active: true },
-    { Icon: Clipboard, label: 'Đặt phòng' },
-    { Icon: Building2, label: 'Khách sạn' },
-    { Icon: Star, label: 'Đánh giá' },
-    { Icon: User, label: 'Hồ sơ' },
-  ];
 
   return (
     <>

@@ -4,7 +4,6 @@ import com.hotel.backend.review.dto.ReviewDto;
 import com.hotel.backend.review.entity.Review;
 import com.hotel.backend.booking.entity.Booking;
 import com.hotel.backend.booking.entity.BookingStatus;
-import com.hotel.backend.auth.entity.*;
 import com.hotel.backend.review.exception.ResourceNotFoundException;
 import com.hotel.backend.review.exception.ReviewException;
 import com.hotel.backend.booking.repository.BookingRepository;
@@ -30,7 +29,7 @@ public class ReviewService {
     //Tạo đánh giá mới
 
     @Transactional
-    public ReviewDto.Response createReview(Long userId, ReviewDto.CreateRequest request) {
+    public ReviewDto.Response createReview(Integer userId, ReviewDto.CreateRequest request) {
 
         // Booking tồn tại và thuộc về user 
         Booking booking = bookingRepository.findById(request.getBookingId())
@@ -41,18 +40,18 @@ public class ReviewService {
             throw new ReviewException("Bạn không có quyền đánh giá đặt phòng này");
         }
 
-        // 2. Booking phải có trạng thái COMPLETED
+        // Booking phải có trạng thái COMPLETED
         if (booking.getStatus() != BookingStatus.COMPLETED) {
             throw new ReviewException(
                     "Chỉ có thể đánh giá sau khi hoàn thành kỳ nghỉ (trạng thái: COMPLETED)");
         }
 
-        // 3. Chưa đánh giá booking này chưa?
+        // Chưa đánh giá booking này chưa?
         if (reviewRepository.existsByBookingIdAndUserId(request.getBookingId(), userId)) {
             throw new ReviewException("Bạn đã đánh giá đặt phòng này rồi");
         }
 
-        // 4. Lưu đánh giá
+        // Lưu đánh giá
         Review review = Review.builder()
                 .bookingId(request.getBookingId())
                 .userId(userId)
@@ -64,17 +63,16 @@ public class ReviewService {
         return toResponse(saved, userId);
     }
 
-    // ── Lấy danh sách booking đã COMPLETED của user (để chọn đánh giá) ────────
-
+    // Lấy danh sách booking đã COMPLETED của user
     @Transactional(readOnly = true)
-    public List<ReviewDto.ReviewableBooking> getReviewableBookings(Long userId) {
+    public List<ReviewDto.ReviewableBooking> getReviewableBookings(Integer userId) {
         return bookingRepository
                 .findByUserIdAndStatus(userId, BookingStatus.COMPLETED)
                 .stream()
                 .map(b -> ReviewDto.ReviewableBooking.builder()
                         .bookingId(b.getId())
-                        .hotelName("Khách sạn #" + b.getHotelId())   // sẽ join hotels sau
-                        .roomNumber("Phòng #" + b.getRoomId())
+                        .hotelName("Khách sạn #" + b.getHotel())   // sẽ join hotels sau
+                        .roomNumber("Phòng #" + b.getRoom())
                         .checkIn(b.getCheckIn().format(DATE_FMT))
                         .checkOut(b.getCheckOut().format(DATE_FMT))
                         .alreadyReviewed(reviewRepository
@@ -83,30 +81,27 @@ public class ReviewService {
                 .toList();
     }
 
-    // ── Lấy tất cả review của user hiện tại ─────────────────────────────────
-
+    // Lấy tất cả review của user hiện tại
     @Transactional(readOnly = true)
-    public List<ReviewDto.Response> getMyReviews(Long userId) {
+    public List<ReviewDto.Response> getMyReviews(Integer userId) {
         return reviewRepository.findByUserIdOrderByCreatedAtDesc(userId)
                 .stream()
                 .map(r -> toResponse(r, userId))
                 .toList();
     }
 
-    // ── Lấy review theo hotel (public) ───────────────────────────────────────
-
+    // Lấy review theo hotel
     @Transactional(readOnly = true)
-    public List<ReviewDto.Response> getReviewsByHotel(Long hotelId) {
+    public List<ReviewDto.Response> getReviewsByHotel(Integer hotelId) {
         return reviewRepository.findByHotelId(hotelId)
                 .stream()
                 .map(r -> toResponse(r, r.getUserId()))
                 .toList();
     }
 
-    // ── Điểm trung bình hotel ─────────────────────────────────────────────────
-
+    // Điểm trung bình hotel
     @Transactional(readOnly = true)
-    public ReviewDto.HotelRating getHotelRating(Long hotelId) {
+    public ReviewDto.HotelRating getHotelRating(Integer hotelId) {
         Double avg = reviewRepository.averageRatingByHotelId(hotelId);
         int total = reviewRepository.findByHotelId(hotelId).size();
         return ReviewDto.HotelRating.builder()
@@ -116,10 +111,9 @@ public class ReviewService {
                 .build();
     }
 
-    // ── Xóa đánh giá (chỉ chính chủ) ─────────────────────────────────────────
-
+    // Xóa đánh giá
     @Transactional
-    public void deleteReview(Long reviewId, Long userId) {
+    public void deleteReview(Integer reviewId, Integer userId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Không tìm thấy đánh giá #" + reviewId));
@@ -131,9 +125,8 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 
-    // ── Helper ────────────────────────────────────────────────────────────────
-
-    private ReviewDto.Response toResponse(Review r, Long userId) {
+    // Helper
+    private ReviewDto.Response toResponse(Review r, Integer userId) {
         String fullName = userRepository.findById(userId)
                 .map(u -> u.getFullName())
                 .orElse("Người dùng ẩn danh");

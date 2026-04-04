@@ -63,7 +63,8 @@ public class SecurityConfig {
                     "/api/auth/login",
                     "/api/auth/refresh", 
                     "/api/rooms/**",
-                    "/api/room-types/**"
+                    "/api/room-types/**",
+                    "/api/reviews/hotel/**"
                 ).permitAll()
                 .requestMatchers("/api/reception/**").hasRole("RECEPTION")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")

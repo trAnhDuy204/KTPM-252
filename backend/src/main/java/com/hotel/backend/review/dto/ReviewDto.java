@@ -13,7 +13,7 @@ public class ReviewDto {
     public static class CreateRequest {
 
         @NotNull(message = "Booking ID là bắt buộc")
-        private Long bookingId;
+        private Integer bookingId;
 
         @NotNull(message = "Điểm đánh giá là bắt buộc")
         @Min(value = 1, message = "Điểm tối thiểu là 1")
@@ -27,9 +27,9 @@ public class ReviewDto {
     // Response trả về client
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
     public static class Response {
-        private Long id;
-        private Long bookingId;
-        private Long userId;
+        private Integer id;
+        private Integer bookingId;
+        private Integer userId;
         private String userFullName;
         private Integer rating;
         private String comment;
@@ -39,7 +39,7 @@ public class ReviewDto {
     // Thông tin booking có thể đánh giá
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
     public static class ReviewableBooking {
-        private Long bookingId;
+        private Integer bookingId;
         private String hotelName;
         private String roomNumber;
         private String checkIn;
@@ -50,7 +50,7 @@ public class ReviewDto {
     // Điểm trung bình
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
     public static class HotelRating {
-        private Long hotelId;
+        private Integer hotelId;
         private Double averageRating;
         private Integer totalReviews;
     }

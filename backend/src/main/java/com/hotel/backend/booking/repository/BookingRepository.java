@@ -12,15 +12,17 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findByStatus(BookingStatus status);
 
+    Optional<Booking> findById(Integer bookingId);
+
     List<Booking> findByHotel_IdAndStatus(Integer hotelId, BookingStatus status);
 
     Optional<Booking> findByRoom_IdAndStatus(Integer roomId, BookingStatus status);
 
     boolean existsByRoom_IdAndStatus(Integer roomId, BookingStatus status);
 
-    List<Booking> findByUserIdOrderByCreatedAtDesc(Long userId);
+    List<Booking> findByUserIdOrderByCreatedAtDesc(Integer userId);
 
-    List<Booking> findByUserIdAndStatus(Long userId, BookingStatus status);
+    List<Booking> findByUserIdAndStatus(Integer userId, BookingStatus status);
     
-    boolean existsByIdAndUserId(Long bookingId, Long userId);
+    boolean existsByIdAndUserId(Integer bookingId, Integer userId);
 }

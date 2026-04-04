@@ -63,7 +63,7 @@ public class AuthDto {
         @NotNull(message = "Role is required")
         private Role role;
 
-        private Long hotelId; // required for RECEPTION
+        private Integer hotelId; // required for RECEPTION
     }
 
     //Auth Response
@@ -78,12 +78,12 @@ public class AuthDto {
     //User Info (embedded in responses)
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
     public static class UserInfo {
-        private Long id;
+        private Integer id;
         private String fullName;
         private String email;
         private String phone;
         private Role role;
-        private Long hotelId;
+        private Integer hotelId;
     }
 
     //Refresh Token

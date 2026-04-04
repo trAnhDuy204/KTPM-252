@@ -9,9 +9,9 @@ import com.hotel.backend.auth.entity.User;
 import java.util.Optional;
  
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
-    boolean existsByEmailAndIdNot(String email, Long id);
+    boolean existsByEmailAndIdNot(String email, Integer id);
     long countByRole(Role role);
 }

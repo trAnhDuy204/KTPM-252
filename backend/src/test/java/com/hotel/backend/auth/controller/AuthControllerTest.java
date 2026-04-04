@@ -42,7 +42,7 @@ class AuthControllerTest {
             .refreshToken("refresh-token")
             .tokenType("Bearer")
             .user(AuthDto.UserInfo.builder()
-                    .id(1L).fullName("Test User").email("test@test.com")
+                    .id(1).fullName("Test User").email("test@test.com")
                     .role(Role.CUSTOMER).build())
             .build();
 
@@ -196,11 +196,11 @@ class AuthControllerTest {
         void createStaff_201() throws Exception {
             AuthDto.CreateStaffRequest req = AuthDto.CreateStaffRequest.builder()
                     .fullName("Reception").email("rec@hotel.com")
-                    .password("Password1").role(Role.RECEPTION).hotelId(1L).build();
+                    .password("Password1").role(Role.RECEPTION).hotelId(1).build();
 
             AuthDto.UserInfo info = AuthDto.UserInfo.builder()
-                    .id(5L).fullName("Reception").email("rec@hotel.com")
-                    .role(Role.RECEPTION).hotelId(1L).build();
+                    .id(5).fullName("Reception").email("rec@hotel.com")
+                    .role(Role.RECEPTION).hotelId(1).build();
 
             when(authService.createStaff(any())).thenReturn(info);
 

@@ -19,7 +19,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;
@@ -38,7 +38,7 @@ public class User implements UserDetails {
     private Role role;
 
     @Column(name = "hotel_id")
-    private Long hotelId;
+    private Integer hotelId;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

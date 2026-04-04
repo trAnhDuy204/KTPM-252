@@ -91,8 +91,7 @@ class BookingFlowIntegrationTest {
         entityManager.flush();
     }
 
-    // ==================== FULL E2E FLOW ====================
-
+    // FULL E2E FLOW
     @Nested
     class FullBookingFlow {
 
@@ -187,7 +186,7 @@ class BookingFlowIntegrationTest {
         }
     }
 
-    // ==================== CANCEL FLOWS ====================
+    // CANCEL FLOWS
 
     @Nested
     class CancelFlows {
@@ -299,7 +298,7 @@ class BookingFlowIntegrationTest {
         }
     }
 
-    // ==================== DOUBLE BOOKING ====================
+    // DOUBLE BOOKING
 
     @Nested
     class DoubleBooking {
@@ -391,7 +390,7 @@ class BookingFlowIntegrationTest {
         }
     }
 
-    // ==================== EARLY CHECKOUT PRICE ====================
+    // EARLY CHECKOUT PRICE
 
     @Nested
     class EarlyCheckoutPrice {
@@ -425,7 +424,7 @@ class BookingFlowIntegrationTest {
         }
     }
 
-    // ==================== CONCURRENT BOOKING ====================
+    // CONCURRENT BOOKING
 
     @Nested
     class ConcurrentBooking {
@@ -489,7 +488,7 @@ class BookingFlowIntegrationTest {
         }
     }
 
-    // ==================== QUERY ENDPOINTS ====================
+    // QUERY ENDPOINTS
 
     @Nested
     class QueryEndpoints {
@@ -539,7 +538,7 @@ class BookingFlowIntegrationTest {
         }
     }
 
-    // ==================== Helper ====================
+    // Helper
 
     private Integer extractId(MvcResult result) throws Exception {
         String json = result.getResponse().getContentAsString();
