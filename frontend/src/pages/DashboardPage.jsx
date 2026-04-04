@@ -3,12 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getRooms } from '../services/roomApi';
 import { getBookings } from '../services/bookingApi';
-import { Home, Clipboard, Building2, Star, User, LogOut, Plus, X, AlertCircle, CheckCircle2, Users, TrendingUp, Lock } from 'lucide-react';
+import { Home, Clipboard, Building2, Star, Plus, X, AlertCircle, CheckCircle2, Users, TrendingUp } from 'lucide-react';
 import { BOOKING_STATUS_COLORS, BOOKING_STATUS_LABELS } from '@/constants/bookingStatus';
 import { pageTitle, pageSubtitle, panelCard, panelRaised } from '@/utils/cls';
 
 /*Shared components*/
-
 const roleMeta = {
   CUSTOMER:  { label: 'Khách hàng',    color: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' },
   RECEPTION: { label: 'Lễ tân',        color: 'text-sky-400 border-sky-500/30 bg-sky-500/10' },
@@ -32,45 +31,6 @@ function StatCard({ Icon, label, value, sub }) {
       <div className="text-xs font-medium text-zinc-500 uppercase tracking-wider">{label}</div>
       {sub && <div className="text-xs text-zinc-600 mt-1">{sub}</div>}
     </div>
-  );
-}
-
-function Sidebar({ navItems, onLogout }) {
-  const navigate = useNavigate();
-  return (
-    <aside className="w-56 min-h-screen bg-zinc-900 border-r border-zinc-800 flex flex-col fixed top-0 left-0">
-      {/* Brand */}
-      <div className="px-5 py-6 border-b border-zinc-800">
-        <div className="flex items-center gap-2.5">
-          <Building2 className="w-6 h-6 text-yellow-500" />
-          <span className="font-display text-xl font-semibold tracking-widest text-yellow-500">LUMIÈRE</span>
-        </div>
-      </div>
-
-      {/* Nav */}
-      <nav className="flex-1 p-3 space-y-0.5">
-        {navItems.map(({ Icon, label, active }) => (
-          <button key={label}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors duration-150 ${
-              active
-                ? 'bg-yellow-600/15 text-yellow-500'
-                : 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800'
-            }`}>
-            <Icon className="w-5 h-5" />
-            {label}
-          </button>
-        ))}
-      </nav>
-
-      {/* Logout */}
-      <div className="p-3 border-t border-zinc-800">
-        <button onClick={onLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors duration-150">
-          <LogOut className="w-5 h-5" />
-          Đăng xuất
-        </button>
-      </div>
-    </aside>
   );
 }
 
@@ -110,9 +70,8 @@ function ReceptionStatCard({ Icon, label, value, tone }) {
 }
 
 /*Customer Dashboard*/
-
 export function CustomerDashboard() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   return (
     <>

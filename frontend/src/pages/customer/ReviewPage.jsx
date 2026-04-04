@@ -1,15 +1,24 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { reviewApi } from '../services/reviewApi';
-import { Sidebar, EmptyState } from '../components/DashboardShared';
-import ReviewModal from '../components/ReviewModal';
-import StarRating from '../components/StarRating';
-import { useToast } from '../components/Toast';
+import { reviewApi } from '../../services/reviewApi';
+import ReviewModal from '../../components/review/ReviewModal';
+import StarRating from '../../components/review/StarRating';
+import { useToast } from '../../components/review/Toast';
+
+function EmptyState({ Icon, text, action }) {
+  return (
+    <div className="flex flex-col items-center justify-center py-14 gap-3 text-center">
+      {Icon && <Icon className="w-12 h-12 opacity-30 text-zinc-400" />}
+      <p className="text-sm text-zinc-500 leading-relaxed">{text}</p>
+      {action && (
+        <button className="mt-1 px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-zinc-950 text-xs font-medium tracking-widest uppercase transition-colors">
+          {action}
+        </button>
+      )}
+    </div>
+  );
+}
 
 export default function ReviewPage() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
   const { showToast, ToastContainer } = useToast();
 
   const [activeTab, setActiveTab]           = useState('pending');
@@ -80,12 +89,10 @@ export default function ReviewPage() {
 
   return (
     <>
-      <main className="flex-1 ml-56 p-8">
-
         {/* Header */}
         <div className="flex items-start justify-between mb-8">
           <div>
-            <h1 className="font-display text-3xl font-semibold text-zinc-100 mb-1">
+            <h1 className="font-display text-3xl font-semibold  mb-1">
               Đánh giá của tôi
             </h1>
             <p className="text-zinc-500 text-sm">
@@ -95,13 +102,13 @@ export default function ReviewPage() {
 
           {/* Summary badges */}
           <div className="flex items-center gap-3">
-            <div className="text-center px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-xl">
+            <div className="text-center px-4 py-2  border border-zinc-800 rounded-xl">
               <p className="font-display text-2xl font-semibold text-yellow-400">
                 {pendingBookings.length}
               </p>
               <p className="text-[11px] text-zinc-500 uppercase tracking-wider">Chờ đánh giá</p>
             </div>
-            <div className="text-center px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-xl">
+            <div className="text-center px-4 py-2  border border-zinc-800 rounded-xl">
               <p className="font-display text-2xl font-semibold text-emerald-400">
                 {myReviews.length}
               </p>
@@ -111,7 +118,7 @@ export default function ReviewPage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-6 bg-zinc-900 p-1 rounded-xl border border-zinc-800 w-fit">
+        <div className="flex gap-1 mb-6  p-1 rounded-xl border border-zinc-800 w-fit">
           {[
             { key: 'pending', label: `Chờ đánh giá`, count: pendingBookings.length },
             { key: 'done',    label: 'Đã đánh giá',  count: myReviews.length },
@@ -143,7 +150,7 @@ export default function ReviewPage() {
         {pageLoading ? (
           <div className="space-y-3">
             {[1, 2, 3].map(i => (
-              <div key={i} className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 animate-pulse">
+              <div key={i} className=" border border-zinc-800 rounded-xl p-5 animate-pulse">
                 <div className="h-4 bg-zinc-800 rounded w-1/3 mb-3" />
                 <div className="h-3 bg-zinc-800 rounded w-1/4" />
               </div>
@@ -154,7 +161,7 @@ export default function ReviewPage() {
             {/* Tab: Chờ đánh giá */}
             {activeTab === 'pending' && (
               pendingBookings.length === 0 ? (
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl">
+                <div className=" border border-zinc-800 rounded-xl">
                   <EmptyState
                     icon="⭐"
                     text={"Không có kỳ nghỉ nào chờ đánh giá.\nCác chuyến đi hoàn thành sẽ xuất hiện ở đây."}
@@ -176,7 +183,7 @@ export default function ReviewPage() {
             {/* Tab: Đã đánh giá */}
             {activeTab === 'done' && (
               myReviews.length === 0 ? (
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl">
+                <div className=" border border-zinc-800 rounded-xl">
                   <EmptyState icon="📝" text="Bạn chưa có đánh giá nào." />
                 </div>
               ) : (
@@ -196,7 +203,6 @@ export default function ReviewPage() {
             )}
           </>
         )}
-      </main>
 
       {/* Review Modal */}
       {selectedBooking && (
@@ -216,7 +222,7 @@ export default function ReviewPage() {
 /* BookingCard */
 function BookingCard({ booking, onReview }) {
   return (
-    <div className="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex items-center justify-between transition-colors duration-200 group">
+    <div className=" border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex items-center justify-between transition-colors duration-200 group">
       <div className="flex items-center gap-4">
         <div className="w-12 h-12 rounded-xl bg-yellow-600/10 border border-yellow-600/20 flex items-center justify-center text-xl flex-shrink-0">
           🏨
@@ -260,7 +266,7 @@ function ReviewCard({ review, bookings, onDelete }) {
   };
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+    <div className=" border border-zinc-800 rounded-xl p-5">
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-lg flex-shrink-0">

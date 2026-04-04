@@ -8,10 +8,10 @@ import AdminLayout from '@/components/layout/AdminLayout';
 import CustomerLayout from '@/components/layout/CustomerLayout';
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
+import ReviewPage from '@/pages/customer/ReviewPage';
 import { CustomerDashboard, ReceptionDashboard, AdminDashboard } from '@/pages/DashboardPage';
 import RoomManagement from '@/pages/reception/RoomManagement';
 import CheckInOut from '@/pages/reception/CheckInOut';
-import { ImageOff } from 'lucide-react';
 
 function RootRedirect() {
   const { user } = useAuth();
@@ -53,6 +53,7 @@ function AppRoutes() {
       <Route path="/register" element={<RegisterPage />} />
 
       <Route path="/dashboard" element={<CustomerRoute><CustomerDashboard /></CustomerRoute>} />
+      <Route path="/dashboard/reviews" element={<CustomerRoute><ReviewPage /></CustomerRoute>} />
 
       {/* Reception routes — all wrapped in sidebar layout */}
       <Route path="/reception" element={<ReceptionRoute><ReceptionDashboard /></ReceptionRoute>} />

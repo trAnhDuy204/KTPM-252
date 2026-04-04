@@ -16,7 +16,7 @@ const navItems = [
   { Icon: Home, label: "Tổng quan", path: "/dashboard" },
   { Icon: Clipboard, label: "Khách sạn", path: "/" },
   { Icon: Building2, label: "Nhân viên", path: "/" },
-  { Icon: Star, label: 'Đánh giá' ,path: '/' },
+  { Icon: Star, label: 'Đánh giá' ,path: '/dashboard/reviews' },
   { Icon: User, label: 'Hồ sơ', path: '/' },
 ];
 
