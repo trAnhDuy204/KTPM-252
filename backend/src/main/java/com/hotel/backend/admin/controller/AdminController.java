@@ -1,7 +1,14 @@
-package com.example.demo.controller;
+package com.hotel.backend.admin.controller;
 
-import com.example.demo.entity.*;
-import com.example.demo.repository.*;
+import com.hotel.backend.admin.entity.AdminHotel;
+import com.hotel.backend.admin.entity.AdminRoom;
+import com.hotel.backend.admin.entity.AdminRoomType;
+import com.hotel.backend.admin.entity.AdminUser;
+import com.hotel.backend.admin.repository.AdminHotelRepository;
+import com.hotel.backend.admin.repository.AdminRoomRepository;
+import com.hotel.backend.admin.repository.AdminRoomTypeRepository;
+import com.hotel.backend.admin.repository.AdminUserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,35 +21,35 @@ import java.util.Map;
 public class AdminController {
 
     @Autowired
-    private HotelRepository hotelRepo;
+    private AdminHotelRepository hotelRepo;
     @Autowired
-    private RoomTypeRepository roomTypeRepo;
+    private AdminRoomTypeRepository roomTypeRepo;
     @Autowired
-    private UserRepository userRepo;
+    private AdminUserRepository userRepo;
     @Autowired
-    private RoomRepository roomRepo; 
+    private AdminRoomRepository roomRepo; 
 
-    // --- 1. QUẢN LÝ KHÁCH SẠN ---
+    // QUẢN LÝ KHÁCH SẠN
     @GetMapping("/hotels")
-    public List<Hotel> getAllHotels() {
+    public List<AdminHotel> getAllHotels() {
         return hotelRepo.findAll();
     }
 
     @PostMapping("/hotels")
-    public Hotel addHotel(@RequestBody Hotel hotel) {
+    public AdminHotel addHotel(@RequestBody AdminHotel hotel) {
         return hotelRepo.save(hotel);
     }
 
-    // --- 2. QUẢN LÝ PHÒNG (Gộp Loại phòng & Giá) ---
+    // QUẢN LÝ PHÒNG (Gộp Loại phòng & Giá)
     // Xem danh sách phòng kèm thông tin loại phòng và giá
     @GetMapping("/rooms")
-    public List<Room> getAllRooms() {
+    public List<AdminRoom> getAllRooms() {
         return roomRepo.findAll();
     }
 
     // Thêm hoặc Sửa phòng 
     @PostMapping("/rooms")
-    public Room saveRoom(@RequestBody Room room) {
+    public AdminRoom saveRoom(@RequestBody AdminRoom room) {
         return roomRepo.save(room);
     }
 
@@ -53,7 +60,7 @@ public class AdminController {
     }
 
     @PutMapping("/rooms/{id}")
-    public Room updateRoom(@PathVariable Integer id, @RequestBody Room newRoom) {
+    public AdminRoom updateRoom(@PathVariable Integer id, @RequestBody AdminRoom newRoom) {
         return roomRepo.findById(id).map(room -> {
             room.setRoomNumber(newRoom.getRoomNumber());
             room.setStatus(newRoom.getStatus());
@@ -69,18 +76,18 @@ public class AdminController {
 
     // Lấy danh sách Loại phòng 
     @GetMapping("/room-types")
-    public List<RoomType> getAllRoomTypes() {
+    public List<AdminRoomType> getAllRoomTypes() {
         return roomTypeRepo.findAll();
     }
 
     // Thêm/Cập nhật cấu hình Loại phòng & Giá
     @PostMapping("/room-types")
-    public RoomType addRoomType(@RequestBody RoomType type) {
+    public AdminRoomType addRoomType(@RequestBody AdminRoomType type) {
         return roomTypeRepo.save(type);
     }
 
     @PutMapping("/room-types/{id}")
-    public RoomType updateRoomType(@PathVariable Integer id, @RequestBody RoomType newType) {
+    public AdminRoomType updateRoomType(@PathVariable Integer id, @RequestBody AdminRoomType newType) {
         return roomTypeRepo.findById(id).map(type -> {
             type.setName(newType.getName());
             type.setCapacity(newType.getCapacity());
@@ -100,15 +107,15 @@ public class AdminController {
         roomTypeRepo.deleteById(id);
     }
 
-    // --- 3. QUẢN LÝ TÀI KHOẢN LỄ TÂN ---
+    // QUẢN LÝ TÀI KHOẢN LỄ TÂN
     @GetMapping("/users")
-    public List<User> getAllUsers() {
+    public List<AdminUser> getAllUsers() {
         return userRepo.findAll();
     }
 
     // Tạo tài khoản mới 
     @PostMapping("/users")
-    public ResponseEntity<?> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@RequestBody AdminUser user) {
         // Nhập đủ thông tin cơ bản
         if (user.getFullName() == null || user.getEmail() == null ||
                 user.getPhone() == null || user.getPassword() == null) {
@@ -127,13 +134,13 @@ public class AdminController {
         if (user.getRole() == null)
             user.setRole("RECEPTION");
 
-        User savedUser = userRepo.save(user);
+        AdminUser savedUser = userRepo.save(user);
         return ResponseEntity.ok(savedUser);
     }
 
     // Cập nhật tài khoản 
     @PutMapping("/users/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody User userDetails) {
+    public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody AdminUser userDetails) {
         return userRepo.findById(id).map(user -> {
 
             // Check trùng Email

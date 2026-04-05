@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_URL = "http://localhost:8080/api/admin";
 
 export const adminApi = {
-    // --- QUẢN LÝ LOẠI PHÒNG (ROOM TYPES) ---
+    // QUẢN LÝ LOẠI PHÒNG
     getRoomTypes: () => axios.get(`${API_URL}/room-types`),
 
     saveRoomType(data) {
@@ -15,7 +15,7 @@ export const adminApi = {
 
     deleteRoomType: (id) => axios.delete(`${API_URL}/room-types/${id}`),
 
-    // --- QUẢN LÝ PHÒNG (ROOMS) ---
+    // QUẢN LÝ PHÒNG
     getAllRooms: () => axios.get(`${API_URL}/rooms`),
 
     saveRoom: (data) => {
@@ -29,7 +29,7 @@ export const adminApi = {
 
     searchRooms: (number) => axios.get(`${API_URL}/rooms/search?roomNumber=${number}`),
 
-    // --- QUẢN LÝ KHÁCH SẠN (HOTELS) ---
+    // QUẢN LÝ KHÁCH SẠN
     getUsers: () => axios.get(`${API_URL}/users`),
 
     saveUser: (data) => {

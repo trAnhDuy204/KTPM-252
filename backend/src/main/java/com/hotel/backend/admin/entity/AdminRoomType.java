@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.hotel.backend.admin.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "room_types")
 @Data
-public class RoomType {
+public class AdminRoomType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

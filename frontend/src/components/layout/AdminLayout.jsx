@@ -3,8 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
 import {
   Building2,
-  ClipboardList,
-  DoorOpen,
+  Warehouse,
   Users,
   Home,
   LogOut,
@@ -14,8 +13,9 @@ import {
 
 const navItems = [
   { Icon: Home, label: "Tổng quan", path: "/admin" },
-  { Icon: Building2, label: "Khách sạn", path: "/" },
-  { Icon: Users, label: "Nhân viên", path: "/" },
+  { Icon: Building2, label: "Phòng", path: "/admin/rooms" },
+  { Icon: Warehouse, label: "Loại phòng", path: "/admin/room-types" },
+  { Icon: Users, label: "Nhân viên", path: "/admin/users" },
 ];
 
 function Brand() {

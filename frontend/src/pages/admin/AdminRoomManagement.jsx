@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { adminApi } from '../api/adminApi';
-import RoomModal from './RoomModal';
+import { adminApi } from '../../services/adminApi';
+import RoomModal from '../../components/admin/RoomModal';
 
 export const getStatusVn = (status) => {
         const map = { 'AVAILABLE': 'Trống', 'OCCUPIED': 'Có khách', 'CLEANING': 'Dọn dẹp', 'MAINTENANCE': 'Bảo trì' };
         return map[status] || 'Trống';
     };
 
-const RoomManagement = () => {
+const AdminRoomManagement = () => {
     const [rooms, setRooms] = useState([]);
     const [hotels, setHotels] = useState([]); 
     const [searchTerm, setSearchTerm] = useState('');
@@ -167,4 +167,4 @@ const RoomManagement = () => {
     );
 };
 
-export default RoomManagement;
+export default AdminRoomManagement;

@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.hotel.backend.admin.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 @Entity
 @Table(name = "rooms")
 @Data
-public class Room {
+public class AdminRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -21,5 +21,5 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "room_type_id")
-    private RoomType roomType; // Kết nối để lấy thông tin Loại phòng & Giá
+    private AdminRoomType roomType; // Kết nối để lấy thông tin Loại phòng & Giá
 }

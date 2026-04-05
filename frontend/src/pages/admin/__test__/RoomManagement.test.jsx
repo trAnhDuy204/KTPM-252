@@ -1,4 +1,4 @@
-import { getStatusVn } from '../../pages/RoomManagement';
+import { getStatusVn } from '../AdminRoomManagement';
 
 describe('Test RoomManagement', () => {
     //test tìm kiếm theo số phòng

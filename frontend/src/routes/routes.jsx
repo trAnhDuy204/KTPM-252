@@ -9,6 +9,9 @@ import CustomerLayout from '@/components/layout/CustomerLayout';
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
 import ReviewPage from '@/pages/customer/ReviewPage';
+import AdminRoomManagement from '@/pages/admin/AdminRoomManagement';
+import UserManagement from '@/pages/admin/UserManagement';
+import RoomTypeManagement from '@/pages/admin/RoomTypeManagement';
 import { CustomerDashboard, ReceptionDashboard, AdminDashboard } from '@/pages/DashboardPage';
 import RoomManagement from '@/pages/reception/RoomManagement';
 import CheckInOut from '@/pages/reception/CheckInOut';
@@ -61,6 +64,9 @@ function AppRoutes() {
       <Route path="/reception/check-in-out" element={<ReceptionRoute><CheckInOut /></ReceptionRoute>} />
 
       <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+      <Route path="/admin/rooms" element={<AdminRoute><AdminRoomManagement /></AdminRoute>} />
+      <Route path="/admin/users" element={<AdminRoute><UserManagement /></AdminRoute>} />
+      <Route path="/admin/room-types" element={<AdminRoute><RoomTypeManagement /></AdminRoute>} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

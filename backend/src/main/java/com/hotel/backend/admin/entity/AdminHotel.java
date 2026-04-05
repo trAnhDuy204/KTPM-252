@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.hotel.backend.admin.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 @Entity
 @Table(name = "hotels")
 @Data
-public class Hotel {
+public class AdminHotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

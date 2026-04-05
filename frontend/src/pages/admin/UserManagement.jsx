@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { adminApi } from '../api/adminApi';
-import UserModal from './UserModal';
+import { adminApi } from '../../services/adminApi';
+import UserModal from '../../components/admin/UserModal';
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);

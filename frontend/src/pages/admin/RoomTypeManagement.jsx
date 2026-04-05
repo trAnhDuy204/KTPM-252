@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { adminApi } from '../api/adminApi';
+import { adminApi } from '../../services/adminApi';
 
 const RoomTypeManagement = () => {
 
