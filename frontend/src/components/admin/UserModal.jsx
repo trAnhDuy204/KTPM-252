@@ -62,7 +62,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
                         <div>
                             <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Họ và Tên *</label>
                             <input
-                                className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-[#842A3B] text-sm font-semibold"
+                                className="w-full p-4 bg-gray-50 border text-zinc-800 border-gray-100 rounded-2xl outline-none focus:border-[#842A3B] text-sm font-semibold"
                                 value={formData.fullName || ''}
                                 onChange={e => setFormData({ ...formData, fullName: e.target.value })}
                             />
@@ -73,7 +73,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
                             <div>
                                 <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Email *</label>
                                 <input
-                                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm"
+                                    className="w-full p-4 text-zinc-800 bg-gray-50 border border-gray-100 rounded-2xl text-sm"
                                     value={formData.email || ''}
                                     onChange={e => setFormData({ ...formData, email: e.target.value })}
                                 />
@@ -81,7 +81,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
                             <div>
                                 <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Số điện thoại *</label>
                                 <input
-                                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm"
+                                    className="w-full p-4 text-zinc-800 bg-gray-50 border border-gray-100 rounded-2xl text-sm"
                                     value={formData.phone || ''}
                                     onChange={e => {
                                         const value = e.target.value;
@@ -128,7 +128,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
                                 <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Mật khẩu </label>
                                 <input
                                     type="password"
-                                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm"
+                                    className="w-full p-4 text-zinc-800 bg-gray-50 border border-gray-100 rounded-2xl text-sm"
                                     placeholder={formData.id ? "Trống nếu giữ nguyên" : "********"}
                                     value={formData.password || ''}
                                     onChange={e => setFormData({ ...formData, password: e.target.value })}
