@@ -58,7 +58,9 @@ public class ReviewService {
                 .rating(request.getRating())
                 .comment(request.getComment())
                 .build();
-
+        if (review == null) {
+            throw new RuntimeException("Review not found");
+        }
         Review saved = reviewRepository.save(review);
         return toResponse(saved, userId);
     }
@@ -114,6 +116,9 @@ public class ReviewService {
     // Xóa đánh giá
     @Transactional
     public void deleteReview(Integer reviewId, Integer userId) {
+        if (reviewId == null) {
+            throw new RuntimeException("Review not found");
+        }
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Không tìm thấy đánh giá #" + reviewId));
@@ -130,7 +135,7 @@ public class ReviewService {
         String fullName = userRepository.findById(userId)
                 .map(u -> u.getFullName())
                 .orElse("Người dùng ẩn danh");
-
+                
         return ReviewDto.Response.builder()
                 .id(r.getId())
                 .bookingId(r.getBookingId())

@@ -2,6 +2,7 @@ package com.hotel.backend.booking.repository;
 
 import com.hotel.backend.booking.entity.Booking;
 import com.hotel.backend.booking.entity.BookingStatus;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

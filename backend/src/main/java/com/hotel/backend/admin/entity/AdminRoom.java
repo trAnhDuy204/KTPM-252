@@ -14,12 +14,12 @@ public class AdminRoom {
     @Column(name = "room_number")
     private String roomNumber;
 
-    private String status; // AVAILABLE, OCCUPIED, CLEANING...
+    private String status;
 
     @Column(name = "hotel_id")
     private Integer hotelId;
 
     @ManyToOne
     @JoinColumn(name = "room_type_id")
-    private AdminRoomType roomType; // Kết nối để lấy thông tin Loại phòng & Giá
+    private AdminRoomType roomType;
 }

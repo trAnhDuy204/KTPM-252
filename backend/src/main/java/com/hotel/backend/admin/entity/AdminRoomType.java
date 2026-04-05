@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
 
-import com.hotel.backend.hotel.entity.Hotel;
-
 @Entity
 @Table(name = "room_types")
 @Data
@@ -24,8 +22,4 @@ public class AdminRoomType {
     private BigDecimal basePrice;
     
     private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "hotel_id")
-    private Hotel hotel;
 }

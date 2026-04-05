@@ -37,8 +37,11 @@ public class AuthService {
                 .phone(request.getPhone())
                 .role(Role.CUSTOMER)
                 .build();
-
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
         userRepository.save(user);
+        
         return buildAuthResponse(user);
     }
 
@@ -101,7 +104,9 @@ public class AuthService {
                 .role(request.getRole())
                 .hotelId(request.getHotelId())
                 .build();
-
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
         User saved = userRepository.save(user);
         return mapToUserInfo(saved);
     }

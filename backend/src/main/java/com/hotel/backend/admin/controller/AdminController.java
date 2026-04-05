@@ -40,6 +40,9 @@ public class AdminController {
     @PostMapping("/hotels")
     @PreAuthorize("hasRole('ADMIN')")
     public AdminHotel addHotel(@RequestBody AdminHotel hotel) {
+        if (hotel == null) {
+            throw new RuntimeException("Hotel not found");
+        }
         return hotelRepo.save(hotel);
     }
 
@@ -55,6 +58,9 @@ public class AdminController {
     @PostMapping("/rooms")
     @PreAuthorize("hasRole('ADMIN')")
     public AdminRoom saveRoom(@RequestBody AdminRoom room) {
+        if (room == null) {
+            throw new RuntimeException("Room not found");
+        }
         return roomRepo.save(room);
     }
 
@@ -62,12 +68,18 @@ public class AdminController {
     @DeleteMapping("/rooms/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteRoom(@PathVariable Integer id) {
+        if (id == null) {
+            throw new RuntimeException("Room not found");
+        }
         roomRepo.deleteById(id);
     }
 
     @PutMapping("/rooms/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public AdminRoom updateRoom(@PathVariable Integer id, @RequestBody AdminRoom newRoom) {
+        if (id == null) {
+            throw new RuntimeException("Room not found");
+        }
         return roomRepo.findById(id).map(room -> {
             room.setRoomNumber(newRoom.getRoomNumber());
             room.setStatus(newRoom.getStatus());
@@ -92,12 +104,18 @@ public class AdminController {
     @PostMapping("/room-types")
     @PreAuthorize("hasRole('ADMIN')")
     public AdminRoomType addRoomType(@RequestBody AdminRoomType type) {
+        if (type == null) {
+            throw new RuntimeException("Room type not found");
+        }
         return roomTypeRepo.save(type);
     }
 
     @PutMapping("/room-types/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public AdminRoomType updateRoomType(@PathVariable Integer id, @RequestBody AdminRoomType newType) {
+        if (id == null) {
+            throw new RuntimeException("Room type not found");
+        }
         return roomTypeRepo.findById(id).map(type -> {
             type.setName(newType.getName());
             type.setCapacity(newType.getCapacity());
@@ -114,7 +132,9 @@ public class AdminController {
         if (isUsed) {
             throw new RuntimeException("Loại phòng đang được sử dụng, không thể xóa!");
         }
-
+        if (id == null) {
+            throw new RuntimeException("Room type not found");
+        }
         roomTypeRepo.deleteById(id);
     }
 
@@ -155,6 +175,9 @@ public class AdminController {
     @PutMapping("/users/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody AdminUser userDetails) {
+        if (id == null) {
+            throw new RuntimeException("User not found");
+        }
         return userRepo.findById(id).map(user -> {
 
             // Check trùng Email
@@ -188,6 +211,9 @@ public class AdminController {
     @DeleteMapping("/users/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(@PathVariable Integer id) {
+        if (id == null) {
+            throw new RuntimeException("User not found");
+        }
         userRepo.deleteById(id);
     }
 
