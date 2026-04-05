@@ -1,0 +1,23 @@
+export const STATUS_LABELS = {
+  AVAILABLE: "Trống",
+  RESERVED: "Đã đặt",
+  OCCUPIED: "Đang ở",
+  CLEANING: "Đang dọn",
+  MAINTENANCE: "Bảo trì",
+};
+
+export const STATUS_COLORS = {
+  AVAILABLE: "#5c8f6b",
+  RESERVED: "#c48a4a",
+  OCCUPIED: "#c56a64",
+  CLEANING: "#5c82a8",
+  MAINTENANCE: "#8d8378",
+};
+
+export const STATUS_TRANSITIONS = {
+  AVAILABLE: ["RESERVED", "OCCUPIED", "CLEANING", "MAINTENANCE"],
+  RESERVED: ["AVAILABLE", "OCCUPIED", "MAINTENANCE"],
+  OCCUPIED: ["CLEANING"],
+  CLEANING: ["AVAILABLE", "MAINTENANCE"],
+  MAINTENANCE: ["AVAILABLE"],
+};

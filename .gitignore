@@ -1,0 +1,16 @@
+# Backend
+backend/target/
+
+# Frontend
+frontend/node_modules/
+frontend/build/
+
+# Common
+.env
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Vite cache
+frontend/.vite/
