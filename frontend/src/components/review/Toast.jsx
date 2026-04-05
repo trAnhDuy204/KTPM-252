@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Check, X, OctagonAlert } from 'lucide-react';
 
 //thông báo toast
 export function useToast() {
@@ -36,20 +37,20 @@ function Toast({ id, message, type, onClose }) {
 
   const styles = {
     success: {
-      bg:   'bg-zinc-900 border-emerald-500/40',
-      icon: '✓',
+      bg:   ' border-emerald-500/40',
+      icon: <Check className="h-4 w-4" />,
       iconCls: 'bg-emerald-500/20 text-emerald-400',
       text: 'text-emerald-300',
     },
     error: {
-      bg:   'bg-zinc-900 border-red-500/40',
-      icon: '✕',
+      bg:   ' border-red-500/40',
+      icon: <X className="h-4 w-4" />,
       iconCls: 'bg-red-500/20 text-red-400',
       text: 'text-red-300',
     },
     info: {
-      bg:   'bg-zinc-900 border-sky-500/40',
-      icon: 'i',
+      bg:   ' border-sky-500/40',
+      icon: <OctagonAlert className="h-4 w-4" />,
       iconCls: 'bg-sky-500/20 text-sky-400',
       text: 'text-sky-300',
     },
@@ -76,7 +77,7 @@ function Toast({ id, message, type, onClose }) {
         onClick={onClose}
         className="text-zinc-600 hover:text-zinc-300 transition-colors flex-shrink-0 mt-0.5 text-lg leading-none"
       >
-        ×
+        <X className="h-4 w-4" />
       </button>
     </div>
   );

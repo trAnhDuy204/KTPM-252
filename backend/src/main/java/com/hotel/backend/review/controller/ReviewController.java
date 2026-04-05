@@ -33,7 +33,7 @@ public class ReviewController {
 
     //GET /api/reviews/my-bookings
     @GetMapping("/my-bookings")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('RECEPTION') or hasRole('ADMIN')")
     public ResponseEntity<List<ReviewDto.ReviewableBooking>> getReviewableBookings(
             @AuthenticationPrincipal User user) {
 
@@ -42,7 +42,7 @@ public class ReviewController {
 
     //GET /api/reviews/my-reviews
     @GetMapping("/my-reviews")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('RECEPTION') or hasRole('ADMIN')")
     public ResponseEntity<List<ReviewDto.Response>> getMyReviews(
             @AuthenticationPrincipal User user) {
 

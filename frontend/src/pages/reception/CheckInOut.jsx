@@ -35,6 +35,7 @@ function SummaryCard({ label, value, valueClass = "text-hi", accent = false }) {
 }
 
 export default function CheckInOut() {
+  const [user, setUser] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [filterStatus, setFilterStatus] = useState("");
   const [loading, setLoading] = useState(false);
@@ -58,7 +59,10 @@ export default function CheckInOut() {
     setLoading(true);
     setError("");
     try {
-      const res = await getBookings(null, filterStatus || undefined);
+      const user = JSON.parse(localStorage.getItem("user"));
+      setUser(user);
+      const hotelId = user?.hotelId;
+      const res = await getBookings(hotelId, filterStatus || undefined);
       setBookings(res.data);
     } catch (err) {
       showError(err);

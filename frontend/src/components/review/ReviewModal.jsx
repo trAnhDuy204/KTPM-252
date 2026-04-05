@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import StarRating from './StarRating';
 import { reviewApi } from '../../services/reviewApi';
+import { Clipboard, Star, X, OctagonAlert } from 'lucide-react';
 
 export default function ReviewModal({ booking, onClose, onSuccess }) {
   const [rating, setRating]   = useState(0);
@@ -54,7 +55,7 @@ export default function ReviewModal({ booking, onClose, onSuccess }) {
             onClick={onClose}
             className="text-zinc-500 hover:text-zinc-200 text-xl transition-colors w-8 h-8 flex items-center justify-center rounded-lg hover:bg-zinc-800"
           >
-            ✕
+            <X className="h-4 w-4" />
           </button>
         </div>
 
@@ -63,7 +64,7 @@ export default function ReviewModal({ booking, onClose, onSuccess }) {
 
           {/* Booking info */}
           <div className="flex items-center gap-3 px-4 py-3 bg-zinc-800/60 rounded-xl border border-zinc-700/40">
-            <span className="text-2xl">📅</span>
+            <Clipboard className="h-6 w-6 text-zinc-400" />
             <div>
               <p className="text-xs font-medium text-zinc-400">Thời gian lưu trú</p>
               <p className="text-sm text-zinc-200">
@@ -112,7 +113,7 @@ export default function ReviewModal({ booking, onClose, onSuccess }) {
           {/* Error */}
           {error && (
             <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-lg bg-red-500/10 border border-red-500/25 text-red-400 text-sm">
-              <span className="flex-shrink-0">⚠</span> {error}
+              <span className="flex-shrink-0"><OctagonAlert /></span> {error}
             </div>
           )}
 
@@ -136,7 +137,7 @@ export default function ReviewModal({ booking, onClose, onSuccess }) {
             >
               {loading
                 ? <span className="w-3.5 h-3.5 border-2 border-zinc-950/30 border-t-zinc-950 rounded-full animate-spin" />
-                : '★ Gửi đánh giá'}
+                : <><Star className="h-4 w-4" /> Gửi đánh giá</>}
             </button>
           </div>
         </form>

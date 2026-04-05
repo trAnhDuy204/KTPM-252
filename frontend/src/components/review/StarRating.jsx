@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Star } from 'lucide-react';
 const SIZE = { sm: 'text-base', md: 'text-2xl', lg: 'text-3xl' };
 
 export default function StarRating({
@@ -26,7 +26,7 @@ export default function StarRating({
             ${readOnly ? 'cursor-default' : 'cursor-pointer hover:scale-110'}
             ${star <= active ? 'text-yellow-400' : 'text-zinc-700'}`}
         >
-          ★
+            <Star />
         </button>
       ))}
 

@@ -69,6 +69,17 @@ function ReceptionStatCard({ Icon, label, value, tone }) {
   );
 }
 
+function SummaryCard({ label, value, valueClass = "text-hi", accent = false }) {
+  return (
+    <div className={`${statCard} ${accent ? "bg-accent-soft/55" : ""} text-center`}>
+      <span className={`block text-3xl font-semibold leading-tight ${valueClass}`}>
+        {value}
+      </span>
+      <span className={statLabel}>{label}</span>
+    </div>
+  );
+}
+
 /*Customer Dashboard*/
 export function CustomerDashboard() {
   const { user } = useAuth();

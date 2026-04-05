@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "@/context/AuthContext";
 import { AlertCircle, Check } from "lucide-react";
 import { getHotels, getRoomTypes } from "@/services/roomApi";
 import {
@@ -23,6 +24,7 @@ const validate = (data) => {
 };
 
 export default function CreateRoomForm({ onSubmit, onCancel }) {
+  const { user } = useAuth();
   const [hotels, setHotels] = useState([]);
   const [roomTypes, setRoomTypes] = useState([]);
   const [formData, setFormData] = useState({
@@ -34,8 +36,18 @@ export default function CreateRoomForm({ onSubmit, onCancel }) {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    getHotels().then((res) => setHotels(res.data));
-  }, []);
+    if (user?.hotelId) {
+      getHotels().then((res) => {
+        const userHotel = res.data.find(h => h.id === user.hotelId);
+        setHotels(userHotel ? [userHotel] : []);
+
+        setFormData((prev) => ({
+          ...prev,
+          hotelId: user.hotelId,
+        }));
+      });
+    }
+  }, [user]);
 
   useEffect(() => {
     if (formData.hotelId) {

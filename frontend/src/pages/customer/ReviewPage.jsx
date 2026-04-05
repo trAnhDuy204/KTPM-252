@@ -3,6 +3,7 @@ import { reviewApi } from '../../services/reviewApi';
 import ReviewModal from '../../components/review/ReviewModal';
 import StarRating from '../../components/review/StarRating';
 import { useToast } from '../../components/review/Toast';
+import { Home, Clipboard, Building2, Star, Plus, X, AlertCircle, CheckCircle2, Users, TrendingUp } from 'lucide-react';
 
 function EmptyState({ Icon, text, action }) {
   return (
@@ -64,7 +65,7 @@ export default function ReviewPage() {
     setActiveTab('done');
 
     // Toast thông báo thành công
-    showToast('Đánh giá của bạn đã được gửi thành công! 🎉', 'success');
+    showToast('Đánh giá của bạn đã được gửi thành công!' , 'success');
   };
 
   // Xóa review
@@ -163,7 +164,7 @@ export default function ReviewPage() {
               pendingBookings.length === 0 ? (
                 <div className=" border border-zinc-800 rounded-xl">
                   <EmptyState
-                    icon="⭐"
+                    icon={<Star />}
                     text={"Không có kỳ nghỉ nào chờ đánh giá.\nCác chuyến đi hoàn thành sẽ xuất hiện ở đây."}
                   />
                 </div>
@@ -184,7 +185,7 @@ export default function ReviewPage() {
             {activeTab === 'done' && (
               myReviews.length === 0 ? (
                 <div className=" border border-zinc-800 rounded-xl">
-                  <EmptyState icon="📝" text="Bạn chưa có đánh giá nào." />
+                  <EmptyState icon={<Clipboard />} text="Bạn chưa có đánh giá nào." />
                 </div>
               ) : (
                 <div className="space-y-3">
@@ -225,7 +226,7 @@ function BookingCard({ booking, onReview }) {
     <div className=" border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex items-center justify-between transition-colors duration-200 group">
       <div className="flex items-center gap-4">
         <div className="w-12 h-12 rounded-xl bg-yellow-600/10 border border-yellow-600/20 flex items-center justify-center text-xl flex-shrink-0">
-          🏨
+          <Building2 />
         </div>
         <div>
           <p className="text-sm font-medium text-zinc-200 mb-0.5">{booking.hotelName}</p>
@@ -246,7 +247,8 @@ function BookingCard({ booking, onReview }) {
                      text-zinc-950 text-xs font-medium tracking-widest uppercase
                      transition-all hover:shadow-lg hover:shadow-yellow-500/20 group-hover:scale-[1.02]"
         >
-          ★ Đánh giá
+          <Star className="h-4 w-4" />
+          Đánh giá
         </button>
       </div>
     </div>
@@ -270,10 +272,10 @@ function ReviewCard({ review, bookings, onDelete }) {
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-lg flex-shrink-0">
-            🏨
+            <Building2 className="text-emerald-400" />
           </div>
           <div>
-            <p className="text-sm font-medium text-zinc-200">
+            <p className="text-sm font-medium ">
               {booking?.hotelName ?? 'Khách sạn'}
             </p>
             <p className="text-xs text-zinc-500">
@@ -291,7 +293,7 @@ function ReviewCard({ review, bookings, onDelete }) {
             className="text-zinc-600 hover:text-red-400 text-xs transition-colors px-2 py-1 rounded hover:bg-red-500/10"
             title="Xóa đánh giá"
           >
-            🗑
+            <X className="h-4 w-4" />
           </button>
         </div>
       </div>
