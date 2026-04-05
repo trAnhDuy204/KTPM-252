@@ -5,7 +5,7 @@ import { getRooms } from '../services/roomApi';
 import { getBookings } from '../services/bookingApi';
 import { Home, Clipboard, Building2, Star, Plus, X, AlertCircle, CheckCircle2, Users, TrendingUp } from 'lucide-react';
 import { BOOKING_STATUS_COLORS, BOOKING_STATUS_LABELS } from '@/constants/bookingStatus';
-import { pageTitle, pageSubtitle, panelCard, panelRaised } from '@/utils/cls';
+import { pageTitle, pageSubtitle, panelCard, panelRaised, statCard, statLabel } from '@/utils/cls';
 
 /*Shared components*/
 const roleMeta = {
@@ -57,24 +57,18 @@ const receptionStatTones = {
 
 function ReceptionStatCard({ Icon, label, value, tone }) {
   return (
-    <div className={`${panelCard} p-5`}>
-      <Icon className={`w-5 h-5 mb-4 ${tone.icon}`} />
-      <div className={`font-display text-3xl font-semibold tracking-tight ${tone.value}`}>
-        {value}
-      </div>
-      <div className="mt-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
-        {label}
-      </div>
-    </div>
-  );
-}
+    <div className={`${statCard} ${tone?.bg || ""} text-center`}>
+      
+      {Icon && (
+        <Icon className={`w-5 h-5 mx-auto mb-2 ${tone?.icon}`} />
+      )}
 
-function SummaryCard({ label, value, valueClass = "text-hi", accent = false }) {
-  return (
-    <div className={`${statCard} ${accent ? "bg-accent-soft/55" : ""} text-center`}>
-      <span className={`block text-3xl font-semibold leading-tight ${valueClass}`}>
+      <span
+        className={`block text-3xl font-semibold leading-tight ${tone?.value || "text-hi"}`}
+      >
         {value}
       </span>
+
       <span className={statLabel}>{label}</span>
     </div>
   );
@@ -83,6 +77,7 @@ function SummaryCard({ label, value, valueClass = "text-hi", accent = false }) {
 /*Customer Dashboard*/
 export function CustomerDashboard() {
   const { user } = useAuth();
+
 
   return (
     <>

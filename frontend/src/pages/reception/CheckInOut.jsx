@@ -8,6 +8,7 @@ import {
   createBooking,
   getBookings,
 } from "@/services/bookingApi";
+import { useAuth } from "@/context/AuthContext";
 import BookingStatusFilter from "@/components/booking/BookingStatusFilter";
 import BookingTable from "@/components/booking/BookingTable";
 import CheckInForm from "@/components/booking/CheckInForm";
@@ -35,7 +36,7 @@ function SummaryCard({ label, value, valueClass = "text-hi", accent = false }) {
 }
 
 export default function CheckInOut() {
-  const [user, setUser] = useState(null);
+  const { user } = useAuth();
   const [bookings, setBookings] = useState([]);
   const [filterStatus, setFilterStatus] = useState("");
   const [loading, setLoading] = useState(false);
@@ -56,13 +57,11 @@ export default function CheckInOut() {
   };
 
   const fetchBookings = async () => {
+    if (!user?.hotelId) return;
     setLoading(true);
     setError("");
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
-      setUser(user);
-      const hotelId = user?.hotelId;
-      const res = await getBookings(hotelId, filterStatus || undefined);
+      const res = await getBookings(user.hotelId, filterStatus || undefined);
       setBookings(res.data);
     } catch (err) {
       showError(err);
@@ -73,7 +72,7 @@ export default function CheckInOut() {
 
   useEffect(() => {
     fetchBookings();
-  }, [filterStatus]);
+  }, [filterStatus, user?.hotelId]);
 
   const handleCheckIn = async (formData) => {
     try {
