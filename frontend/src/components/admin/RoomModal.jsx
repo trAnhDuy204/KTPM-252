@@ -82,6 +82,10 @@ const RoomModal = ({ isOpen, onClose, onSave, selectedRoom }) => {
         });
     };
 
+    const filteredRoomTypesByHotel = roomTypes.filter(
+        t => String(t.hotelId) === String(roomData.hotelId)
+    );
+
     //Chọn Sức chứa phòng
     const handleCapacityChange = (e) => {
         const selectedId = e.target.value;
@@ -111,7 +115,19 @@ const RoomModal = ({ isOpen, onClose, onSave, selectedRoom }) => {
                         <label className="block text-[12px] font-bold text-[#842A3B] uppercase mb-2 tracking-widest">Chọn khách sạn</label>
                         <select className="w-full border border-gray-200 p-3 rounded-2xl focus:border-[#842A3B] outline-none bg-gray-50/30 text-sm font-medium"
                             value={roomData.hotelId}
-                            onChange={e => setRoomData({ ...roomData, hotelId: e.target.value })}>
+                            onChange={e => {
+                                const hotelId = e.target.value;
+
+                                setRoomData({
+                                    ...roomData,
+                                    hotelId,
+                                    roomType: { id: '' },
+                                    customPrice: '',
+                                    description: ''
+                                });
+
+                                setSelectedTypeName('');
+                            }}>
                             <option value="">Chọn</option>
                             {hotels.map(h => <option key={h.id} value={h.id}>{h.name}</option>)}
                         </select>
@@ -143,10 +159,11 @@ const RoomModal = ({ isOpen, onClose, onSave, selectedRoom }) => {
                     <div className="col-span-1">
                         <label className="block text-[12px] font-bold text-[#842A3B] uppercase mb-2 tracking-widest">Loại phòng</label>
                         <select className="w-full border border-gray-200 p-3 rounded-2xl focus:border-[#842A3B] outline-none text-sm font-medium"
+                            disabled={!roomData.hotelId}
                             value={selectedTypeName}
                             onChange={handleTypeNameChange}>
                             <option value="">Chọn</option>
-                            {[...new Set(roomTypes.map(t => t.name))].map(name => (
+                            {[...new Set(filteredRoomTypesByHotel.map(t => t.name))].map(name => (
                                 <option key={name} value={name}>{name}</option>
                             ))}
                         </select>
@@ -157,11 +174,11 @@ const RoomModal = ({ isOpen, onClose, onSave, selectedRoom }) => {
                         <label className="block text-[12px] font-bold text-[#842A3B] uppercase mb-2 tracking-widest">Sức chứa</label>
                         <select
                             className={`w-full border border-gray-200 p-3 rounded-2xl focus:border-[#842A3B] outline-none text-sm font-medium ${!selectedTypeName ? 'bg-gray-100 cursor-not-allowed' : ''}`}
-                            disabled={!selectedTypeName}
+                            disabled={!roomData.hotelId || !selectedTypeName}
                             value={roomData.roomType?.id || ''}
                             onChange={handleCapacityChange}>
                             <option value="">Chọn</option>
-                            {roomTypes
+                            {filteredRoomTypesByHotel
                                 .filter(t => t.name === selectedTypeName)
                                 .map(type => (
                                     <option key={type.id} value={type.id}>{type.capacity} người</option>

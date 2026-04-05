@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { adminApi } from '../../services/adminApi';
+import { Search, CirclePlus } from 'lucide-react';
 
 const RoomTypeManagement = () => {
-
+    const [hotels, setHotels] = useState([]);
     const [types, setTypes] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedType, setSelectedType] = useState(null);
-    const [formData, setFormData] = useState({ name: '', capacity: '', basePrice: '', description: '' });
+    const [formData, setFormData] = useState({hotelId: '', name: '', capacity: '', basePrice: '', description: '' });
 
     const fetchTypes = async () => {
         try {
@@ -20,10 +21,22 @@ const RoomTypeManagement = () => {
 
     useEffect(() => { fetchTypes(); }, []);
 
+    useEffect(() => {
+        adminApi.getHotels().then(res => setHotels(res.data));
+    }, []);
+
     //  lọc danh sách loại phòng dựa trên tên
     const filteredTypes = types.filter(type =>
         type.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const getHotelName = (hotelId) => {
+        return hotels.find(h => h.id === hotelId)?.name || "N/A";
+    };
+
+    const getHotelCity = (hotelId) => {
+        return hotels.find(h => h.id === hotelId)?.city || "N/A";
+    };
 
     const handleDelete = async (id) => {
         if (window.confirm("Bạn có chắc chắn muốn xóa loại phòng này?")) {
@@ -39,10 +52,10 @@ const RoomTypeManagement = () => {
     const openModal = (type = null) => {
         if (type) {
             setSelectedType(type);
-            setFormData({ ...type });
+            setFormData({ ...type, hotelId: type.hotelId || '', capacity: String(type.capacity), basePrice: String(type.basePrice) });
         } else {
             setSelectedType(null);
-            setFormData({ name: '', capacity: '', basePrice: '', description: '' });
+            setFormData({ hotelId: '', name: '', capacity: '', basePrice: '', description: '' });
         }
         setIsModalOpen(true);
     };
@@ -62,7 +75,6 @@ const RoomTypeManagement = () => {
             alert("Tên loại phòng này đã tồn tại trong hệ thống!");
             return;
         }
-        // ---------------------------------------------------
 
         try {
             if (selectedType) {
@@ -96,32 +108,36 @@ const RoomTypeManagement = () => {
     };
 
     return (
-        <div className="p-6 bg-[#F8F4E1]/20 min-h-screen text-[#374151]">
+        <div className="p-6  min-h-screen ">
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-semibold text-[#842A3B] tracking-tight uppercase">Cấu Hình Loại Phòng & Giá</h1>
+                <h1 className="text-2xl font-semibold tracking-tight uppercase">Cấu Hình Loại Phòng & Giá</h1>
                 <button
                     onClick={() => openModal()}
-                    className="bg-[#842A3B] text-white px-6 py-2.5 rounded-xl hover:opacity-95 shadow-lg transition-all font-medium uppercase text-xs tracking-widest"
+                    className="  inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-zinc-950 text-xs font-medium tracking-widest uppercase transition-all hover:shadow-lg hover:shadow-yellow-500/20"
                 >
-                    + Thêm loại phòng
+                    <CirclePlus /> Thêm loại phòng
                 </button>
             </div>
 
             {/* tìm kiếm */}
-            <div className="mb-6">
-                <input
-                    type="text"
-                    placeholder="Tìm theo tên loại phòng (VD: Single, Family...)"
-                    className="border border-[#842A3B]/10 p-3 rounded-2xl w-full max-w-md focus:border-[#842A3B] outline-none shadow-sm transition-all bg-white text-sm"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
+            <div className="mb-8 flex gap-4">
+                <div className="relative w-full max-w-md">
+                    <input
+                        type="text"
+                        placeholder="Tìm theo tên loại phòng (VD: Single, Family...)"
+                        className="text-zinc-950 w-full p-4 pl-12 rounded-2xl border border-zinc-800 outline-none   shadow-sm transition-all text-sm"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <span className="absolute left-4 top-4 opacity-30 text-gray-600"><Search /></span>
+                </div>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-xl border border-[#842A3B]/10 overflow-hidden">
+            <div className="bg-white rounded-3xl shadow-xl border border-zinc-800 overflow-hidden">
                 <table className="w-full text-left">
                     <thead className="bg-[#F8F4E1] border-b border-[#842A3B]/20">
                         <tr>
+                            <th className="p-5 font-semibold text-[#842A3B] text-xs uppercase tracking-widest">Khách sạn</th>
                             <th className="p-5 font-semibold text-[#842A3B] text-xs uppercase tracking-widest">Tên loại phòng</th>
                             <th className="p-5 font-semibold text-[#842A3B] text-xs uppercase tracking-widest text-center">Sức Chứa</th>
                             <th className="p-5 font-semibold text-[#842A3B] text-xs uppercase tracking-widest text-right px-8">Giá phòng (1 đêm)</th>
@@ -133,6 +149,9 @@ const RoomTypeManagement = () => {
 
                         {filteredTypes.map(t => (
                             <tr key={t.id} className="border-b border-gray-50 hover:bg-[#F8F4E1]/40 transition-colors">
+                                <td className="p-5 text-gray-600">
+                                    {getHotelName(t.hotelId) + `#${getHotelCity(t.hotelId)}`}
+                                </td>
                                 <td className="p-5 font-bold text-[#842A3B] tracking-wide">{t.name}</td>
                                 <td className="p-5 text-center font-medium text-gray-600">{t.capacity} người</td>
                                 <td className="p-5 text-right text-[#842A3B] font-semibold text-lg px-8">
@@ -164,6 +183,25 @@ const RoomTypeManagement = () => {
                         <h2 className="text-xl font-semibold mb-8 text-[#842A3B] border-b border-gray-100 pb-6 uppercase tracking-tight ">
                             {selectedType ? 'Cập nhật loại phòng' : 'Tạo loại phòng'}
                         </h2>
+
+                        <div className="col-span-2">
+                            <label className="block text-xs font-bold text-[#842A3B] uppercase mb-2 tracking-widest">
+                                Khách sạn
+                            </label>
+
+                            <select
+                                className="w-full border border-gray-100 p-3 rounded-2xl focus:border-[#842A3B] outline-none text-[#374151]"
+                                value={formData.hotelId}
+                                onChange={e => setFormData({ ...formData, hotelId: e.target.value })}
+                            >
+                                <option value="">-- Chọn khách sạn --</option>
+                                {hotels.map(h => (
+                                    <option key={h.id} value={h.id}>
+                                        {h.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
                         <div className="grid grid-cols-2 gap-6">
                             <div className="col-span-2">

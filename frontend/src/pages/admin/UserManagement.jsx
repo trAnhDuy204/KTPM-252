@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { adminApi } from '../../services/adminApi';
 import UserModal from '../../components/admin/UserModal';
+import { Search, CirclePlus } from 'lucide-react';
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
@@ -95,20 +96,20 @@ const UserManagement = () => {
         return isStaff && matchesSearch;
     });
     return (
-        <div className="p-8 bg-[#F8F4E1]/20 min-h-screen text-[#374151]">
+        <div className="p-8  min-h-screen ">
             {/* Header Section */}
             <div className="flex justify-between items-center mb-10">
                 <div>
-                    <h1 className="text-2xl font-bold text-[#842A3B] uppercase tracking-tight">
+                    <h1 className="text-2xl font-bold  uppercase tracking-tight">
                         Quản lý nhân viên
                     </h1>
                 </div>
 
                 <button
                     onClick={() => openModal()}
-                    className="bg-[#842A3B] text-white px-6 py-3 rounded-2xl shadow-lg hover:bg-[#6e2230] transition-all font-bold uppercase text-xs tracking-widest flex items-center gap-2"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-zinc-950 text-xs font-medium tracking-widest uppercase transition-all hover:shadow-lg hover:shadow-yellow-500/20"
                 >
-                    <span className="text-lg">+</span> Tạo tài khoản
+                    <span className="text-lg"><CirclePlus /></span> Tạo tài khoản
                 </button>
             </div>
 
@@ -117,11 +118,11 @@ const UserManagement = () => {
                     <input
                         type="text"
                         placeholder="Tìm kiếm theo tên hoặc email..."
-                        className="w-full p-4 pl-12 rounded-2xl border border-gray-200 outline-none focus:border-[#842A3B] bg-white shadow-sm transition-all text-sm"
+                        className=" text-zinc-950 w-full p-4 pl-12 rounded-2xl border border-zinc-800 outline-none   shadow-sm transition-all text-sm"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <span className="absolute left-4 top-4 opacity-30">🔍</span>
+                    <span className="absolute left-4 top-4 opacity-30 text-gray-600"><Search /></span>
                 </div>
             </div>
 
@@ -154,7 +155,7 @@ const UserManagement = () => {
                                 <td className="p-6">
                                     <div className="flex items-center gap-2">
                                         <span className="text-sm font-medium text-gray-600">
-                                            {hotels.find(h => h.id === Number(u.hotelId))?.name || "Toàn Hệ Thống"}
+                                            {hotels.find(h => h.id === Number(u.hotelId))?.name + `#${hotels.find(h => h.id === Number(u.hotelId))?.city}` || "Chưa gán khách sạn"}
                                         </span>
                                     </div>
                                 </td>

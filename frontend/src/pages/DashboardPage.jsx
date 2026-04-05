@@ -248,7 +248,6 @@ export function ReceptionDashboard() {
 
 export function AdminDashboard() {
   const { user, logout, createStaff, loading } = useAuth();
-  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ fullName: '', email: '', password: '', phone: '', role: 'RECEPTION', hotelId: '' });
   const [formError, setFormError] = useState('');

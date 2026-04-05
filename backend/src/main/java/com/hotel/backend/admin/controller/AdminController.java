@@ -12,6 +12,7 @@ import com.hotel.backend.admin.repository.AdminUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
 import java.util.Map;
 
@@ -31,11 +32,13 @@ public class AdminController {
 
     // QUẢN LÝ KHÁCH SẠN
     @GetMapping("/hotels")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<AdminHotel> getAllHotels() {
         return hotelRepo.findAll();
     }
 
     @PostMapping("/hotels")
+    @PreAuthorize("hasRole('ADMIN')")
     public AdminHotel addHotel(@RequestBody AdminHotel hotel) {
         return hotelRepo.save(hotel);
     }
@@ -43,23 +46,27 @@ public class AdminController {
     // QUẢN LÝ PHÒNG (Gộp Loại phòng & Giá)
     // Xem danh sách phòng kèm thông tin loại phòng và giá
     @GetMapping("/rooms")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<AdminRoom> getAllRooms() {
         return roomRepo.findAll();
     }
 
     // Thêm hoặc Sửa phòng 
     @PostMapping("/rooms")
+    @PreAuthorize("hasRole('ADMIN')")
     public AdminRoom saveRoom(@RequestBody AdminRoom room) {
         return roomRepo.save(room);
     }
 
     // Xóa phòng cụ thể (ID phòng)
     @DeleteMapping("/rooms/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteRoom(@PathVariable Integer id) {
         roomRepo.deleteById(id);
     }
 
     @PutMapping("/rooms/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public AdminRoom updateRoom(@PathVariable Integer id, @RequestBody AdminRoom newRoom) {
         return roomRepo.findById(id).map(room -> {
             room.setRoomNumber(newRoom.getRoomNumber());
@@ -76,17 +83,20 @@ public class AdminController {
 
     // Lấy danh sách Loại phòng 
     @GetMapping("/room-types")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<AdminRoomType> getAllRoomTypes() {
         return roomTypeRepo.findAll();
     }
 
     // Thêm/Cập nhật cấu hình Loại phòng & Giá
     @PostMapping("/room-types")
+    @PreAuthorize("hasRole('ADMIN')")
     public AdminRoomType addRoomType(@RequestBody AdminRoomType type) {
         return roomTypeRepo.save(type);
     }
 
     @PutMapping("/room-types/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public AdminRoomType updateRoomType(@PathVariable Integer id, @RequestBody AdminRoomType newType) {
         return roomTypeRepo.findById(id).map(type -> {
             type.setName(newType.getName());
@@ -98,6 +108,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/room-types/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteRoomType(@PathVariable Integer id) {
         boolean isUsed = roomRepo.existsByRoomType_Id(id);
         if (isUsed) {
@@ -109,12 +120,14 @@ public class AdminController {
 
     // QUẢN LÝ TÀI KHOẢN LỄ TÂN
     @GetMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<AdminUser> getAllUsers() {
         return userRepo.findAll();
     }
 
     // Tạo tài khoản mới 
     @PostMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createUser(@RequestBody AdminUser user) {
         // Nhập đủ thông tin cơ bản
         if (user.getFullName() == null || user.getEmail() == null ||
@@ -140,6 +153,7 @@ public class AdminController {
 
     // Cập nhật tài khoản 
     @PutMapping("/users/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody AdminUser userDetails) {
         return userRepo.findById(id).map(user -> {
 
@@ -172,6 +186,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/users/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(@PathVariable Integer id) {
         userRepo.deleteById(id);
     }
