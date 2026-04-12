@@ -58,30 +58,30 @@ const UserManagement = () => {
     };
 
     const handleSave = async () => {
-    // 1. Kiểm tra nếu chưa chọn khách sạn
-    if (!formData.hotelId) {
-        alert("Vui lòng chọn khách sạn làm việc!");
-        return;
-    }
+        // 1. Kiểm tra nếu chưa chọn khách sạn
+        if (!formData.hotelId) {
+            alert("Vui lòng chọn khách sạn làm việc!");
+            return;
+        }
 
-    try {
-        const dataToSave = {
-            ...formData,
-            // Đảm bảo hotelId là kiểu số để khớp với Backend
-            hotelId: Number(formData.hotelId) 
-        };
+        try {
+            const dataToSave = {
+                ...formData,
+                // Đảm bảo hotelId là kiểu số để khớp với Backend
+                hotelId: Number(formData.hotelId)
+            };
 
-        await adminApi.saveUser(dataToSave);
+            await adminApi.saveUser(dataToSave);
 
-        alert(selectedUser ? "Cập nhật thành công!" : "Tạo nhân viên thành công.");
-        setIsModalOpen(false);
-        setSearchTerm('');
-        fetchData();
-    } catch (err) {
-        const errorMessage = err.response?.data?.message || "Thông tin đã tồn tại!";
-        alert("Lỗi: " + errorMessage);
-    }
-};
+            alert(selectedUser ? "Cập nhật thành công!" : "Tạo nhân viên thành công.");
+            setIsModalOpen(false);
+            setSearchTerm('');
+            fetchData();
+        } catch (err) {
+            const errorMessage = err.response?.data?.message || "Thông tin đã tồn tại!";
+            alert("Lỗi: " + errorMessage);
+        }
+    };
 
     const filteredUsers = users.filter(u => {
         const roleLower = u.role?.toLowerCase();
@@ -154,8 +154,7 @@ const UserManagement = () => {
                                 <td className="p-6">
                                     <div className="flex items-center gap-2">
                                         <span className="text-sm font-medium text-gray-600">
-                                            {hotels.find(h => h.id === Number(u.hotelId))?.name || "Toàn Hệ Thống"}
-                                        </span>
+                                            {hotels.find(h => h.id === Number(u.hotelId))?.name || <span className="text-red-500 italic font-bold">⚠️ Vui lòng cập nhật</span>}                                        </span>
                                     </div>
                                 </td>
                                 <td className="p-6">

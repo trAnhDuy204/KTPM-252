@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.*;
 import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
+    @Autowired
+    private HotelRepository hotelRepository;
 
     @Autowired
     private HotelRepository hotelRepo;
@@ -20,7 +23,7 @@ public class AdminController {
     @Autowired
     private UserRepository userRepo;
     @Autowired
-    private RoomRepository roomRepo; 
+    private RoomRepository roomRepo;
 
     // --- 1. QUẢN LÝ KHÁCH SẠN ---
     @GetMapping("/hotels")
@@ -40,7 +43,7 @@ public class AdminController {
         return roomRepo.findAll();
     }
 
-    // Thêm hoặc Sửa phòng 
+    // Thêm hoặc Sửa phòng
     @PostMapping("/rooms")
     public Room saveRoom(@RequestBody Room room) {
         return roomRepo.save(room);
@@ -67,7 +70,7 @@ public class AdminController {
         }).orElseThrow(() -> new RuntimeException("Không tìm thấy phòng id: " + id));
     }
 
-    // Lấy danh sách Loại phòng 
+    // Lấy danh sách Loại phòng
     @GetMapping("/room-types")
     public List<RoomType> getAllRoomTypes() {
         return roomTypeRepo.findAll();
@@ -106,7 +109,7 @@ public class AdminController {
         return userRepo.findAll();
     }
 
-    // Tạo tài khoản mới 
+    // Tạo tài khoản mới
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         // Nhập đủ thông tin cơ bản
@@ -131,7 +134,7 @@ public class AdminController {
         return ResponseEntity.ok(savedUser);
     }
 
-    // Cập nhật tài khoản 
+    // Cập nhật tài khoản
     @PutMapping("/users/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody User userDetails) {
         return userRepo.findById(id).map(user -> {
@@ -141,7 +144,7 @@ public class AdminController {
                 return ResponseEntity.badRequest().body(Map.of("message", "Email mới đã bị trùng với nhân viên khác!"));
             }
 
-            //Check trùng SĐT 
+            // Check trùng SĐT
             if (userDetails.getPhone() != null && !userDetails.getPhone().equals(user.getPhone())
                     && userRepo.existsByPhone(userDetails.getPhone())) {
                 return ResponseEntity.badRequest().body(Map.of("message", "Số điện thoại mới đã bị trùng!"));
@@ -167,6 +170,45 @@ public class AdminController {
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable Integer id) {
         userRepo.deleteById(id);
+    }
+
+    // 1. Lấy danh sách khách sạn (Nếu Lan Anh chưa có)
+
+    // 2. Tạo mới khách sạn (Đã thêm /hotels)
+
+    // 3. Cập nhật khách sạn (Đã thêm /hotels)
+    @PutMapping("/hotels/{id}")
+    public ResponseEntity<?> updateHotel(@PathVariable Integer id, @RequestBody Hotel hotelDetails) {
+        Hotel hotel = hotelRepository.findById(id).orElseThrow();
+        hotel.setName(hotelDetails.getName());
+        hotel.setCity(hotelDetails.getCity());
+        hotel.setAddress(hotelDetails.getAddress());
+        hotel.setDescription(hotelDetails.getDescription());
+        return ResponseEntity.ok(hotelRepository.save(hotel));
+    }
+
+    // 4. Xóa khách sạn (Đã thêm /hotels)
+    @DeleteMapping("/hotels/{id}")
+    public ResponseEntity<?> deleteHotel(@PathVariable Integer id) {
+        // 1. Ràng buộc của Lan Anh: Kiểm tra xem có nhân viên không?
+        boolean hasEmployees = userRepo.existsByHotelId(id);
+        if (hasEmployees) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", "Khách sạn đang có nhân viên làm việc, không thể xóa!"));
+        }
+
+        try {
+            // 2. Tiến hành xóa khách sạn
+            // (Lưu ý: Nếu bị lỗi khóa ngoại ở bảng phòng, nó sẽ văng xuống khối catch bên
+            // dưới)
+            hotelRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+
+        } catch (DataIntegrityViolationException e) {
+            // 3. Bắt lỗi an toàn nếu DB chặn vì còn vướng phòng
+            return ResponseEntity.badRequest().body(Map.of("message",
+                    "Khách sạn này đang có phòng hoạt động. Vui lòng xóa hết phòng trước khi xóa khách sạn!"));
+        }
     }
 
 }

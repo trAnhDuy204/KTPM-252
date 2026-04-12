@@ -8,9 +8,9 @@ export const adminApi = {
 
     saveRoomType(data) {
         if (data.id) {
-            return axios.put(`${API_URL}/room-types/${data.id}`, data); 
+            return axios.put(`${API_URL}/room-types/${data.id}`, data);
         }
-        return axios.post(`${API_URL}/room-types`, data); 
+        return axios.post(`${API_URL}/room-types`, data);
     },
 
     deleteRoomType: (id) => axios.delete(`${API_URL}/room-types/${id}`),
@@ -42,6 +42,16 @@ export const adminApi = {
     deleteUser: (id) => axios.delete(`${API_URL}/users/${id}`),
 
     // HOTELS
-    getHotels: () => axios.get(`${API_URL}/hotels`)
-
+    getHotels: () => axios.get(`${API_URL}/hotels`),
+    
+    deleteHotel: (id) => axios.delete(`${API_URL}/hotels/${id}`),
+    
+    saveHotel: (data) => {
+        // Nếu có id -> Gọi PUT để Cập nhật
+        if (data.id) {
+            return axios.put(`${API_URL}/hotels/${data.id}`, data);
+        }
+        // Nếu không có id -> Gọi POST để Tạo mới
+        return axios.post(`${API_URL}/hotels`, data);
+    }
 };

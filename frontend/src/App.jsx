@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 import RoomManagement from './pages/RoomManagement';
 import RoomTypeManagement from './pages/RoomTypeManagement';
 import UserManagement from './pages/UserManagement'; 
+import HotelManagement from './pages/HotelManagement';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -39,8 +40,15 @@ const Sidebar = () => {
         </div>
 
         <Link 
+          to="/hotels" 
+          className={`flex items-center gap-3 p-4 font-black uppercase text-xs tracking-widest rounded-2xl transition-all ${isActive('/hotels')}`}
+        >
+          Quản lý khách sạn
+        </Link>
+
+        <Link 
           to="/staff" 
-          className={`flex items-center gap-3 p-4 font-black uppercase text-xs tracking-widest rounded-2xl transition-all ${isActive('/staff') || "text-white hover:bg-white/10"}`}
+          className={`flex items-center gap-3 p-4 font-black uppercase text-xs tracking-widest rounded-2xl transition-all ${isActive('/staff')}`}
         >
           Quản lý nhân viên
         </Link>
@@ -64,6 +72,7 @@ function App() {
             <Routes>
               <Route path="/" element={<RoomManagement />} />
               <Route path="/room-types" element={<RoomTypeManagement />} />
+              <Route path="/hotels" element={<HotelManagement />} />
               <Route path="/staff" element={<UserManagement />} />
             </Routes>
           </div>

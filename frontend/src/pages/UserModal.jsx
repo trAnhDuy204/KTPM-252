@@ -1,47 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
-    const [hotelSearch, setHotelSearch] = useState('');
-    const [filteredHotels, setFilteredHotels] = useState([]);
-    const [showSuggestions, setShowSuggestions] = useState(false);
 
-    const selectedHotels = formData.hotels || [];
-
-    useEffect(() => {
-        if (hotelSearch && showSuggestions) {
-            const result = hotels.filter(h =>
-                h.name.toLowerCase().includes(hotelSearch.toLowerCase()) &&
-                !selectedHotels.find(selected => selected.id === h.id)
-            );
-            setFilteredHotels(result);
-        } else {
-            setFilteredHotels([]);
-        }
-    }, [hotelSearch, hotels, showSuggestions, selectedHotels]);
-
-    //thêm khách sạn
-    const addHotel = (h) => {
-        const newHotels = [...selectedHotels, { id: h.id, name: h.name }];
-        setFormData({ ...formData, hotels: newHotels });
-        setHotelSearch('');
-        setShowSuggestions(false);
+    // 1. Define the utility function correctly
+    const formatCityName = (city) => {
+        if (!city) return '';
+        return city.trim().toLowerCase().replace(/(^|\s)\S/g, letter => letter.toUpperCase());
     };
 
-    //  xóa khách sạn 
-    const removeHotel = (id) => {
-        const newHotels = selectedHotels.filter(h => h.id !== id);
-        setFormData({ ...formData, hotels: newHotels });
-    };
-
-    //  Kiểm tra nhập đủ thông tin chưa rồi mới cho lưu
+    // 2. The validation function
+    // 1. Sửa hàm handleValidateAndSave trong file UserModal.jsx:
     const handleValidateAndSave = () => {
-        // Thay selectedHotels.length === 0 bằng !formData.hotelId
         if (!formData.fullName || !formData.email || !formData.phone || !formData.hotelId) {
             alert("Vui lòng nhập đầy đủ thông tin!");
             return;
         }
 
-        // Tạo mật khẩu cho nhân viên mới
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            alert("Email không đúng định dạng!");
+            return;
+        }
+
+        if (formData.phone.length !== 10) {
+            alert("Số điện thoại phải có đúng 10 số!");
+            return;
+        }
+
         if (!formData.id && !formData.password) {
             alert("Vui lòng đặt mật khẩu cho nhân viên mới!");
             return;
@@ -89,7 +74,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
                                             setFormData({ ...formData, phone: value });
                                         }
                                     }}
-                                    maxLength={11}
+                                    maxLength={10}
                                 />
                             </div>
                         </div>
@@ -103,9 +88,10 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
                                 onChange={e => setFormData({ ...formData, hotelId: e.target.value })}
                             >
                                 <option value="">-- Chọn một khách sạn --</option>
+                                {/* 3. Apply the formatting function here */}
                                 {hotels.map(h => (
                                     <option key={h.id} value={h.id}>
-                                        {h.name} ({h.city})
+                                        {h.name} ({formatCityName(h.city)})
                                     </option>
                                 ))}
                             </select>
@@ -116,7 +102,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
                             <div>
                                 <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Vai trò</label>
                                 <select
-                                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm text-[#842A3B]"
+                                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm text-[#842A3B] font-bold"
                                     value={formData.role || 'RECEPTION'}
                                     onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                                 >
@@ -125,7 +111,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Mật khẩu </label>
+                                <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Mật khẩu {formData.id ? '' : '*'}</label>
                                 <input
                                     type="password"
                                     className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm"
