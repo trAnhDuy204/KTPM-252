@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { authApi } from '../service/authApi';
+import { authApi } from '../services/authApi';
 import { clearAuthStorage, getStoredUser } from '@/utils/authStorage';
 
 const AuthContext = createContext(null);

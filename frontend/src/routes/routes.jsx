@@ -4,19 +4,18 @@ import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import ReceptionLayout from '@/components/layout/ReceptionLayout';
+import AdminLayout from '@/components/layout/AdminLayout';
+import CustomerLayout from '@/components/layout/CustomerLayout';
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
+import ReviewPage from '@/pages/customer/ReviewPage';
+import AdminRoomManagement from '@/pages/admin/AdminRoomManagement';
+import UserManagement from '@/pages/admin/UserManagement';
+import RoomTypeManagement from '@/pages/admin/RoomTypeManagement';
 import { CustomerDashboard, ReceptionDashboard, AdminDashboard } from '@/pages/DashboardPage';
 import RoomManagement from '@/pages/reception/RoomManagement';
 import CheckInOut from '@/pages/reception/CheckInOut';
-
-function RootRedirect() {
-  const { user } = useAuth();
-  if (!user) return <Navigate to="/login" replace />;
-  if (user.role === 'ADMIN') return <Navigate to="/admin" replace />;
-  if (user.role === 'RECEPTION') return <Navigate to="/reception" replace />;
-  return <Navigate to="/dashboard" replace />;
-}
+import HomePage from '@/pages/HomePage';
 
 function ReceptionRoute({ children }) {
   return (
@@ -26,29 +25,41 @@ function ReceptionRoute({ children }) {
   );
 }
 
+function AdminRoute({ children }) {
+  return (
+    <ProtectedRoute allowedRoles={['ADMIN']}>
+      <AdminLayout>{children}</AdminLayout>
+    </ProtectedRoute>
+  );
+}
+
+function CustomerRoute({ children }) {
+  return (
+    <ProtectedRoute allowedRoles={['CUSTOMER']}>
+      <CustomerLayout>{children}</CustomerLayout>
+    </ProtectedRoute>
+  );
+}
+
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<RootRedirect />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
-      <Route path="/dashboard" element={
-        <ProtectedRoute allowedRoles={['CUSTOMER']}>
-          <CustomerDashboard />
-        </ProtectedRoute>
-      } />
+      <Route path="/dashboard" element={<CustomerRoute><CustomerDashboard /></CustomerRoute>} />
+      <Route path="/dashboard/reviews" element={<CustomerRoute><ReviewPage /></CustomerRoute>} />
 
       {/* Reception routes — all wrapped in sidebar layout */}
       <Route path="/reception" element={<ReceptionRoute><ReceptionDashboard /></ReceptionRoute>} />
       <Route path="/reception/rooms" element={<ReceptionRoute><RoomManagement /></ReceptionRoute>} />
       <Route path="/reception/check-in-out" element={<ReceptionRoute><CheckInOut /></ReceptionRoute>} />
 
-      <Route path="/admin" element={
-        <ProtectedRoute allowedRoles={['ADMIN']}>
-          <AdminDashboard />
-        </ProtectedRoute>
-      } />
+      <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+      <Route path="/admin/rooms" element={<AdminRoute><AdminRoomManagement /></AdminRoute>} />
+      <Route path="/admin/users" element={<AdminRoute><UserManagement /></AdminRoute>} />
+      <Route path="/admin/room-types" element={<AdminRoute><RoomTypeManagement /></AdminRoute>} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

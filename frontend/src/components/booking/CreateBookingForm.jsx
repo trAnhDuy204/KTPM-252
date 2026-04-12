@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { AlertCircle, Check } from "lucide-react";
 import { getRooms } from "@/services/roomApi";
+import { useAuth } from "@/context/AuthContext";
 import {
   btnAccent,
   btnSecondary,
@@ -28,6 +29,7 @@ const validate = (data) => {
 };
 
 export default function CreateBookingForm({ onSubmit, onCancel }) {
+  const { user } = useAuth();
   const [availableRooms, setAvailableRooms] = useState([]);
   const [formData, setFormData] = useState({
     roomId: "",
@@ -40,10 +42,12 @@ export default function CreateBookingForm({ onSubmit, onCancel }) {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    getRooms(null, "AVAILABLE")
-      .then((res) => setAvailableRooms(res.data))
-      .catch(() => setAvailableRooms([]));
-  }, []);
+    if (user?.hotelId) {
+      getRooms(user.hotelId, "AVAILABLE")
+        .then((res) => setAvailableRooms(res.data))
+        .catch(() => setAvailableRooms([]));
+    }
+  }, [user?.hotelId]);
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));

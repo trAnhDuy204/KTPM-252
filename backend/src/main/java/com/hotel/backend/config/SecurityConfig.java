@@ -1,9 +1,10 @@
 package com.hotel.backend.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hotel.backend.dto.AuthDto;
+import com.hotel.backend.auth.dto.AuthDto;
+import com.hotel.backend.auth.service.CustomUserDetailsService;
 import com.hotel.backend.security.JwtAuthFilter;
-import com.hotel.backend.service.CustomUserDetailsService;
+
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,14 +56,15 @@ public class SecurityConfig {
                     writeErrorResponse(response, HttpStatus.UNAUTHORIZED, "Authentication required"))
                 .accessDeniedHandler((request, response, accessDeniedException) ->
                     writeErrorResponse(response, HttpStatus.FORBIDDEN, "Access denied"))
-            )
+            ) 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/api/auth/register",
                     "/api/auth/login",
-                    "/api/auth/refresh",
+                    "/api/auth/refresh", 
                     "/api/rooms/**",
-                    "/api/room-types/**"
+                    "/api/room-types/**",
+                    "/api/reviews/hotel/**"
                 ).permitAll()
                 .requestMatchers("/api/reception/**").hasRole("RECEPTION")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")

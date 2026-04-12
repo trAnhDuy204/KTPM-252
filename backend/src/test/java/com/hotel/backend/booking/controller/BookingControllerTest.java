@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hotel.backend.auth.service.CustomUserDetailsService;
 import com.hotel.backend.booking.dto.BookingResponse;
 import com.hotel.backend.booking.dto.CheckInRequest;
 import com.hotel.backend.booking.dto.CreateBookingRequest;
@@ -18,9 +19,8 @@ import com.hotel.backend.booking.service.BookingService;
 import com.hotel.backend.common.BusinessRuleException;
 import com.hotel.backend.common.ResourceNotFoundException;
 import com.hotel.backend.config.SecurityConfig;
-import com.hotel.backend.security.JwtAuthFilter;
 import com.hotel.backend.security.JwtService;
-import com.hotel.backend.service.CustomUserDetailsService;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -67,8 +67,7 @@ class BookingControllerTest {
         );
     }
 
-    // ==================== POST / (create booking) ====================
-
+    // POST / (create booking)
     @Nested
     class CreateBookingEndpoint {
 
@@ -109,8 +108,7 @@ class BookingControllerTest {
         }
     }
 
-    // ==================== POST /{id}/confirm ====================
-
+    // POST /{id}/confirm
     @Nested
     class ConfirmBookingEndpoint {
 
@@ -144,7 +142,7 @@ class BookingControllerTest {
         }
     }
 
-    // ==================== POST /check-in ====================
+    // POST /check-in
 
     @Nested
     class CheckInEndpoint {
@@ -188,7 +186,7 @@ class BookingControllerTest {
         }
     }
 
-    // ==================== POST /{id}/check-out ====================
+    // POST /{id}/check-out
 
     @Nested
     class CheckOutEndpoint {
@@ -223,7 +221,7 @@ class BookingControllerTest {
         }
     }
 
-    // ==================== POST /{id}/cancel ====================
+    // POST /{id}/cancel
 
     @Nested
     class CancelEndpoint {
@@ -248,7 +246,7 @@ class BookingControllerTest {
         }
     }
 
-    // ==================== GET /bookings ====================
+    // GET /bookings
 
     @Nested
     class GetBookingsEndpoint {
@@ -285,7 +283,7 @@ class BookingControllerTest {
         }
     }
 
-    // ==================== Authorization ====================
+    // Authorization
 
     @Nested
     class Authorization {

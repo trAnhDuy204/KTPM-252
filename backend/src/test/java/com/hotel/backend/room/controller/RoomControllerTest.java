@@ -13,11 +13,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hotel.backend.auth.service.CustomUserDetailsService;
 import com.hotel.backend.common.BusinessRuleException;
 import com.hotel.backend.common.ResourceNotFoundException;
 import com.hotel.backend.config.SecurityConfig;
 import com.hotel.backend.security.JwtService;
-import com.hotel.backend.service.CustomUserDetailsService;
 import com.hotel.backend.room.dto.CreateRoomRequest;
 import com.hotel.backend.room.dto.RoomResponse;
 import com.hotel.backend.room.dto.UpdateRoomStatusRequest;

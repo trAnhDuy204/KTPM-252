@@ -6,6 +6,7 @@ import {
   X,
 } from "lucide-react";
 import { createRoom, deleteRoom, getRooms, updateRoomStatus } from "@/services/roomApi";
+import { useAuth } from "@/context/AuthContext";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import CreateRoomForm from "@/components/room/CreateRoomForm";
 import RoomCard from "@/components/room/RoomCard";
@@ -21,6 +22,7 @@ import {
 const DEFAULT_FILTERS = { status: "", type: "", floor: "", search: "" };
 
 export default function RoomManagement() {
+  const { user } = useAuth();
   const [rooms, setRooms] = useState([]);
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [loading, setLoading] = useState(false);
@@ -43,7 +45,7 @@ export default function RoomManagement() {
     setLoading(true);
     setError("");
     try {
-      const res = await getRooms(1, filters.status || undefined);
+      const res = await getRooms(user?.hotelId, filters.status || undefined);
       setRooms(res.data);
     } catch (err) {
       showError(err);

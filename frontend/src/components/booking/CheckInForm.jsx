@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { AlertCircle, Check } from "lucide-react";
 import { getRooms } from "@/services/roomApi";
+import { useAuth } from "@/context/AuthContext";
 import {
   btnSecondary,
   btnSuccess,
@@ -24,6 +25,7 @@ const validate = (data) => {
 };
 
 export default function CheckInForm({ onSubmit, onCancel }) {
+  const { user } = useAuth();
   const [availableRooms, setAvailableRooms] = useState([]);
   const [formData, setFormData] = useState({
     roomId: "",
@@ -36,10 +38,11 @@ export default function CheckInForm({ onSubmit, onCancel }) {
 
   useEffect(() => {
     const fetchRooms = async () => {
+      if (!user?.hotelId) return;
       try {
         const [res, resReserved] = await Promise.all([
-          getRooms(null, "AVAILABLE"),
-          getRooms(null, "RESERVED"),
+          getRooms(user?.hotelId, "AVAILABLE"),
+          getRooms(user?.hotelId, "RESERVED"),
         ]);
         setAvailableRooms([...res.data, ...resReserved.data]);
       } catch {
@@ -47,7 +50,7 @@ export default function CheckInForm({ onSubmit, onCancel }) {
       }
     };
     fetchRooms();
-  }, []);
+  }, [user?.hotelId]);
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
