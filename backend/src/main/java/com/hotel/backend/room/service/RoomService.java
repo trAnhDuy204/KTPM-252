@@ -47,7 +47,7 @@ public class RoomService {
     public RoomResponse createRoom(CreateRoomRequest request) {
         String roomNumber = request.roomNumber().trim();
         if (roomRepository.existsByHotel_IdAndRoomNumber(request.hotelId(), roomNumber)) {
-            throw new BusinessRuleException("Số phòng đã tồn tại trong khách sạn");
+            throw new BusinessRuleException("Room number already exists in this hotel");
         }
 
         Hotel hotel = entityManager.getReference(Hotel.class, request.hotelId());
@@ -93,7 +93,7 @@ public class RoomService {
         Set<RoomStatus> allowedStatuses = ALLOWED_TRANSITIONS.getOrDefault(currentStatus, Set.of());
         if (!allowedStatuses.contains(targetStatus)) {
             throw new BusinessRuleException(
-                    "Không thể chuyển trạng thái phòng từ " + currentStatus + " sang " + targetStatus
+                    "Invalid room status transition from " + currentStatus + " to " + targetStatus
             );
         }
 
@@ -105,13 +105,13 @@ public class RoomService {
     public void deleteRoom(Integer roomId) {
         Room room = findRoom(roomId);
         if (room.getStatus() == RoomStatus.OCCUPIED) {
-            throw new BusinessRuleException("Không thể xóa phòng đang có khách ở");
+            throw new BusinessRuleException("Cannot delete a room that is currently occupied");
         }
         roomRepository.delete(room);
     }
 
     private Room findRoom(Integer roomId) {
         return roomRepository.findById(roomId)
-                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy phòng với id: " + roomId));
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + roomId));
     }
 }

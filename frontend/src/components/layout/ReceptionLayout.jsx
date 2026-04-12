@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import {
   Building2,
   ClipboardList,
@@ -113,6 +115,8 @@ export default function ReceptionLayout({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
   const handleLogout = () => {
     logout();
     navigate("/login");
@@ -136,7 +140,7 @@ export default function ReceptionLayout({ children }) {
           </div>
 
           <button
-            onClick={handleLogout}
+            onClick={() => setShowLogoutConfirm(true)}
             className="mt-3 inline-flex w-full items-center gap-2 rounded-xl border border-danger/15 bg-danger-soft/20 px-4 py-3 text-sm font-medium text-danger transition-all duration-200 hover:border-danger/35 hover:bg-danger-soft/40"
           >
             <LogOut className="h-5 w-5" />
@@ -151,7 +155,7 @@ export default function ReceptionLayout({ children }) {
           <div className="flex items-center gap-2">
             <ThemeButton theme={theme} toggleTheme={toggleTheme} compact />
             <button
-              onClick={handleLogout}
+              onClick={() => setShowLogoutConfirm(true)}
               aria-label="Đăng xuất"
               className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-danger/15 bg-danger-soft/20 text-danger transition-all duration-200 hover:border-danger/35 hover:bg-danger-soft/40"
             >
@@ -170,6 +174,16 @@ export default function ReceptionLayout({ children }) {
       </main>
 
       <MobileNav pathname={location.pathname} onNavigate={navigate} />
+
+      <ConfirmDialog
+        open={showLogoutConfirm}
+        title="Đăng xuất"
+        message="Bạn có chắc muốn đăng xuất?"
+        variant="danger"
+        confirmLabel="Đăng xuất"
+        onConfirm={handleLogout}
+        onCancel={() => setShowLogoutConfirm(false)}
+      />
     </div>
   );
 }
