@@ -19,7 +19,9 @@ const navItems = [
   { Icon: User, label: 'Hồ sơ', path: '/' },
 ];
 
-function Brand() {
+const ROLE_LABELS = { ADMIN: "Admin", RECEPTION: "Reception", CUSTOMER: "Customer" };
+
+function Brand({ role }) {
   return (
     <div className="flex items-center gap-3">
       <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-soft/80 text-accent">
@@ -30,7 +32,7 @@ function Brand() {
           LUMIÈRE
         </p>
         <p className="text-[11px] uppercase tracking-[0.22em] text-ghost">
-          Admin
+          {ROLE_LABELS[role] ?? role}
         </p>
       </div>
     </div>
@@ -124,7 +126,7 @@ export default function CustomerLayout({ children }) {
     <div className="min-h-screen bg-surface text-hi">
       <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col border-r border-edge bg-card/95 backdrop-blur lg:flex">
         <div className="border-b border-edge px-5 py-5">
-          <Brand />
+          <Brand role={user?.role} />
         </div>
 
         <DesktopNav pathname={location.pathname} onNavigate={navigate} />
@@ -149,7 +151,7 @@ export default function CustomerLayout({ children }) {
 
       <header className="sticky top-0 z-20 border-b border-edge bg-card/95 backdrop-blur lg:hidden">
         <div className="flex items-center justify-between px-4 py-3">
-          <Brand />
+          <Brand role={user?.role} />
           <div className="flex items-center gap-2">
             <ThemeButton theme={theme} toggleTheme={toggleTheme} compact />
             <button

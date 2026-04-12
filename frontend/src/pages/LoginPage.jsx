@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useForm } from '../hooks/useForm';
-import { Building2, AlertCircle } from 'lucide-react';
+import { Building2, AlertCircle, ArrowLeft } from 'lucide-react';
 
 const validate = (v) => ({
   email: !v.email ? 'Email là bắt buộc'
@@ -68,6 +68,11 @@ export default function LoginPage() {
             <Building2 className="w-10 h-10 text-yellow-500 mx-auto" />
             <h1 className="font-display text-3xl font-semibold tracking-widest text-yellow-500 mt-2">LUMIÈRE</h1>
           </div>
+
+          <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-yellow-500 transition-colors mb-6">
+            <ArrowLeft className="w-4 h-4" />
+            Trang chủ
+          </Link>
 
           <div className="mb-8">
             <h2 className="font-display text-4xl font-semibold text-zinc-100 mb-2">Đăng nhập</h2>
