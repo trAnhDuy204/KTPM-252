@@ -38,7 +38,8 @@ public class Room {
     private RoomStatus status = RoomStatus.AVAILABLE;
 
     @Version
-    private Integer version;
+    @Column(columnDefinition = "integer default 0")
+    private Integer version = 0;
 
     public Integer getId() {
         return id;

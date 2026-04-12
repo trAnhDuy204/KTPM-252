@@ -80,10 +80,9 @@ public class BookingService {
         booking.setStatus(BookingStatus.COMPLETED);
         booking.setCheckOut(actualCheckOut);
 
-        // Recalculate price based on actual stay duration
         long actualNights = ChronoUnit.DAYS.between(booking.getCheckIn(), actualCheckOut);
         if (actualNights < 1) {
-            actualNights = 1; // Minimum 1 night charge
+            actualNights = 1;
         }
         BigDecimal pricePerNight = booking.getRoom().getRoomType().getBasePrice();
         booking.setTotalPrice(pricePerNight.multiply(BigDecimal.valueOf(actualNights)));
@@ -181,7 +180,7 @@ public class BookingService {
         Booking booking = findBooking(bookingId);
 
         if (booking.getStatus() != BookingStatus.PENDING) {
-            throw new BusinessRuleException("Only PENDING bookings can be confirmed. Current status: " + booking.getStatus());
+            throw new BusinessRuleException("Only PENDING bookings can be confirmed");
         }
 
         booking.setStatus(BookingStatus.CONFIRMED);

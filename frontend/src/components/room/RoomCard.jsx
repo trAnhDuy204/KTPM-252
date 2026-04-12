@@ -22,7 +22,6 @@ export default function RoomCard({ room, onStatusChange, onDelete }) {
               {STATUS_LABELS[room.status]}
             </span>
           </div>
-          <p className="mt-2 text-xs font-mono text-ghost">#{room.id}</p>
         </div>
       </div>
 
@@ -46,17 +45,25 @@ export default function RoomCard({ room, onStatusChange, onDelete }) {
       </div>
 
       {transitions.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
+        <select
+          value={room.status}
+          onChange={(e) => onStatusChange(room.id, e.target.value)}
+          className="rounded-lg border px-3 py-2 text-xs font-bold outline-none transition-colors hover:border-edge-md focus:ring-2"
+          style={{
+            borderColor: STATUS_COLORS[room.status],
+            color: STATUS_COLORS[room.status],
+            backgroundColor: "var(--color-raised)",
+          }}
+        >
+          <option value={room.status} disabled>
+            {STATUS_LABELS[room.status]}
+          </option>
           {transitions.map((nextStatus) => (
-            <button
-              key={nextStatus}
-              onClick={() => onStatusChange(room.id, nextStatus)}
-              className="rounded-lg border border-edge bg-raised px-3 py-2 text-xs font-semibold text-dim transition-all duration-200 hover:border-edge-md hover:bg-raised-2 hover:text-hi"
-            >
+            <option key={nextStatus} value={nextStatus}>
               {STATUS_LABELS[nextStatus]}
-            </button>
+            </option>
           ))}
-        </div>
+        </select>
       )}
 
       {room.status !== "OCCUPIED" && onDelete && (

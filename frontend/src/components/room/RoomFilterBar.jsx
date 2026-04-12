@@ -5,9 +5,10 @@ import {
   inputBase,
   panelRaised,
 } from "@/utils/cls";
+import { STATUS_LABELS, STATUS_COLORS } from "@/constants/roomStatus";
 
 const selectClass = (active) =>
-  `${inputBase} min-w-[140px] appearance-none py-2 text-xs ${
+  `${inputBase} w-full appearance-none py-2 text-xs ${
     active ? "border-accent" : ""
   }`;
 
@@ -31,8 +32,8 @@ export default function RoomFilterBar({ filters, onChange, rooms }) {
     filters.status || filters.type || filters.floor || filters.search;
 
   return (
-    <div className={`${panelRaised} flex flex-wrap items-center gap-3 p-3`}>
-      <div className="relative min-w-[220px] flex-1">
+    <div className={`${panelRaised} flex items-center gap-3 p-3`}>
+      <div className="relative flex-[4]">
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
         <input
           type="text"
@@ -43,7 +44,27 @@ export default function RoomFilterBar({ filters, onChange, rooms }) {
         />
       </div>
 
-      {roomTypes.length > 0 && (
+      <div className="flex-[2]">
+        <select
+          className={selectClass(!!filters.status)}
+          value={filters.status}
+          onChange={(e) => onChange("status", e.target.value)}
+          style={
+            filters.status
+              ? { borderColor: STATUS_COLORS[filters.status], color: STATUS_COLORS[filters.status] }
+              : undefined
+          }
+        >
+          <option value="">Trạng thái</option>
+          {Object.entries(STATUS_LABELS).map(([key, label]) => (
+            <option key={key} value={key}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex-[2]">
         <select
           className={selectClass(!!filters.type)}
           value={filters.type}
@@ -56,9 +77,9 @@ export default function RoomFilterBar({ filters, onChange, rooms }) {
             </option>
           ))}
         </select>
-      )}
+      </div>
 
-      {floors.length > 0 && (
+      <div className="flex-[2]">
         <select
           className={selectClass(!!filters.floor)}
           value={filters.floor}
@@ -71,12 +92,12 @@ export default function RoomFilterBar({ filters, onChange, rooms }) {
             </option>
           ))}
         </select>
-      )}
+      </div>
 
       {hasActiveFilter && (
         <button
           onClick={() => onChange("reset")}
-          className={`${btnSecondary} px-4 py-2 text-xs`}
+          className={`${btnSecondary} shrink-0 px-4 py-2 text-xs`}
         >
           <X className="h-3.5 w-3.5" />
           Xóa lọc

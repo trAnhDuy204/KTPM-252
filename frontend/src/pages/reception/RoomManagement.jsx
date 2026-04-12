@@ -11,7 +11,6 @@ import ConfirmDialog from "@/components/ConfirmDialog";
 import CreateRoomForm from "@/components/room/CreateRoomForm";
 import RoomCard from "@/components/room/RoomCard";
 import RoomFilterBar from "@/components/room/RoomFilterBar";
-import RoomStatusFilter from "@/components/room/RoomStatusFilter";
 import RoomStatusSummary from "@/components/room/RoomStatusSummary";
 import {
   btnAccent,
@@ -153,10 +152,6 @@ export default function RoomManagement() {
         )}
 
         <RoomStatusSummary rooms={rooms} />
-        <RoomStatusFilter
-          value={filters.status}
-          onChange={(value) => handleFilterChange("status", value)}
-        />
         <RoomFilterBar filters={filters} onChange={handleFilterChange} rooms={rooms} />
 
         <div
