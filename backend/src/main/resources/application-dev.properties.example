@@ -1,0 +1,6 @@
+# Copy file nay thanh application-dev.properties roi dien thong tin
+
+spring.datasource.username=postgres
+spring.datasource.password=abc123
+
+app.jwt.secret=defaultSecretKeyForDev0123456789012345678901234567890
