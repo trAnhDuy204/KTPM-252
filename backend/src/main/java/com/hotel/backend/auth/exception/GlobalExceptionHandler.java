@@ -9,12 +9,10 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-<<<<<<< HEAD:backend/src/main/java/com/hotel/backend/exception/GlobalExceptionHandler.java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-=======
+
 import com.hotel.backend.auth.dto.AuthDto;
->>>>>>> origin/dev:backend/src/main/java/com/hotel/backend/auth/exception/GlobalExceptionHandler.java
 
 import java.util.HashMap;
 import java.util.Map;
