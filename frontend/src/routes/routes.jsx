@@ -15,14 +15,7 @@ import RoomTypeManagement from '@/pages/admin/RoomTypeManagement';
 import { CustomerDashboard, ReceptionDashboard, AdminDashboard } from '@/pages/DashboardPage';
 import RoomManagement from '@/pages/reception/RoomManagement';
 import CheckInOut from '@/pages/reception/CheckInOut';
-
-function RootRedirect() {
-  const { user } = useAuth();
-  if (!user) return <Navigate to="/login" replace />;
-  if (user.role === 'ADMIN') return <Navigate to="/admin" replace />;
-  if (user.role === 'RECEPTION') return <Navigate to="/reception" replace />;
-  return <Navigate to="/dashboard" replace />;
-}
+import HomePage from '@/pages/HomePage';
 
 function ReceptionRoute({ children }) {
   return (
@@ -51,7 +44,7 @@ function CustomerRoute({ children }) {
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<RootRedirect />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
