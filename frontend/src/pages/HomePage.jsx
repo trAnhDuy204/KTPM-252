@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Building2, LockKeyhole, Star, ShieldCheck, Bell, Gem, UserRound, Headset, Settings, LogIn} from 'lucide-react';
 
 function useInView(threshold = 0.15) {
   const ref = useRef(null);
@@ -19,32 +20,32 @@ function useInView(threshold = 0.15) {
 
 const FEATURES = [
   {
-    icon: '🏨',
+    icon: <Building2/>,
     title: 'Đặt phòng tức thì',
     desc: 'Tìm kiếm và đặt phòng trong vài giây. Xác nhận ngay lập tức, không chờ đợi.',
   },
   {
-    icon: '🔐',
+    icon: <LockKeyhole />,
     title: 'Bảo mật tuyệt đối',
     desc: 'Xác thực JWT, phân quyền 3 cấp độ. Dữ liệu của bạn luôn được bảo vệ.',
   },
   {
-    icon: '⭐',
+    icon: <Star />,
     title: 'Đánh giá chân thực',
     desc: 'Hệ thống đánh giá sau check-out. Chỉ khách đã lưu trú mới được nhận xét.',
   },
   {
-    icon: '📊',
+    icon: <ShieldCheck />,
     title: 'Quản lý toàn diện',
     desc: 'Dashboard riêng cho Admin, Lễ tân và Khách hàng. Mọi thứ trong tầm tay.',
   },
   {
-    icon: '🔔',
+    icon: <Bell />,
     title: 'Thông báo realtime',
     desc: 'Cập nhật trạng thái đặt phòng, xác nhận check-in/out ngay lập tức.',
   },
   {
-    icon: '💎',
+    icon: <Gem />,
     title: 'Trải nghiệm cao cấp',
     desc: 'Giao diện sang trọng, tối giản. Thiết kế dành riêng cho ngành khách sạn.',
   },
@@ -83,7 +84,7 @@ const TESTIMONIALS = [
 
 const ROLES = [
   {
-    icon: '👤',
+    icon: <UserRound />,
     role: 'CUSTOMER',
     title: 'Khách hàng',
     color: 'border-emerald-500/30 bg-emerald-500/5 hover:border-emerald-500/60',
@@ -91,7 +92,7 @@ const ROLES = [
     features: ['Tìm kiếm & đặt phòng', 'Xem lịch sử chuyến đi', 'Viết đánh giá', 'Quản lý hồ sơ cá nhân'],
   },
   {
-    icon: '🛎',
+    icon: <Headset />,
     role: 'RECEPTION',
     title: 'Lễ tân',
     color: 'border-sky-500/30 bg-sky-500/5 hover:border-sky-500/60',
@@ -99,7 +100,7 @@ const ROLES = [
     features: ['Quản lý check-in/out', 'Theo dõi trạng thái phòng', 'Xử lý đặt phòng', 'Quản lý dịch vụ'],
   },
   {
-    icon: '⚙️',
+    icon: <Settings />,
     role: 'ADMIN',
     title: 'Quản trị viên',
     color: 'border-yellow-500/30 bg-yellow-500/5 hover:border-yellow-500/60',
@@ -291,9 +292,10 @@ export default function HomePage() {
             </button>
             <button
               onClick={() => navigate('/login')}
-              className="w-full sm:w-auto px-8 py-4 rounded-xl border border-zinc-700 text-zinc-300 text-sm hover:border-yellow-600/50 hover:text-yellow-400 transition-all duration-200"
+              className="w-full sm:w-auto px-8 py-4 rounded-xl border border-zinc-700 text-zinc-300 text-sm 
+                        hover:border-yellow-600/50 hover:text-yellow-400 transition-all duration-200 flex items-center gap-2"
             >
-              Đăng nhập →
+              Đăng nhập <LogIn />
             </button>
           </div>
 
