@@ -1,5 +1,3 @@
-# Copy file nay thanh application-dev.properties roi dien thong tin
-
 spring.datasource.username=postgres
 spring.datasource.password=abc123
 
