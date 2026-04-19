@@ -218,7 +218,7 @@ class RoomControllerTest {
         }
     }
 
-    // ==================== GET /api/reception/rooms/{roomId} ====================
+    //==================== GET /api/reception/rooms/{roomId} ====================
 
     @Nested
     class GetRoom {
@@ -249,7 +249,7 @@ class RoomControllerTest {
         }
     }
 
-    // ==================== PATCH /api/reception/rooms/{roomId}/status ====================
+    //==================== PATCH /api/reception/rooms/{roomId}/status ====================
 
     @Nested
     class UpdateRoomStatus {
@@ -311,7 +311,7 @@ class RoomControllerTest {
         }
     }
 
-    // ==================== Authorization ====================
+    //==================== Authorization ====================
 
     @Nested
     class Authorization {
