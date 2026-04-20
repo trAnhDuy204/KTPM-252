@@ -10,7 +10,8 @@ public record RoomResponse(
         String roomTypeName,
         Integer roomTypeCapacity,
         String roomNumber,
-        RoomStatus status
+        RoomStatus status,
+        String basePrice //<-- Lấy baseprice của roomtype database để gộp chung vs data của room r gửi json về react.
 ) {
     public static RoomResponse from(Room room) {
         return new RoomResponse(
@@ -20,7 +21,8 @@ public record RoomResponse(
                 room.getRoomType().getName(),
                 room.getRoomType().getCapacity(),
                 room.getRoomNumber(),
-                room.getStatus()
+                room.getStatus(),
+                room.getRoomType().getBasePrice().toPlainString()//phương thức lấy baseprice.
         );
     }
 }
