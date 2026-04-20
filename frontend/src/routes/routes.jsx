@@ -17,6 +17,8 @@ import RoomManagement from '@/pages/reception/RoomManagement';
 import CheckInOut from '@/pages/reception/CheckInOut';
 import HomePage from '@/pages/HomePage';
 
+import HotelRoomsDisplay from '@/pages/customer/HotelRoomApp';
+
 function ReceptionRoute({ children }) {
   return (
     <ProtectedRoute allowedRoles={['RECEPTION']}>
@@ -50,6 +52,7 @@ function AppRoutes() {
 
       <Route path="/dashboard" element={<CustomerRoute><CustomerDashboard /></CustomerRoute>} />
       <Route path="/dashboard/reviews" element={<CustomerRoute><ReviewPage /></CustomerRoute>} />
+      <Route path="/dashboard/hotels" element={<CustomerRoute><HotelRoomsDisplay /> </CustomerRoute>} />
 
       {/* Reception routes — all wrapped in sidebar layout */}
       <Route path="/reception" element={<ReceptionRoute><ReceptionDashboard /></ReceptionRoute>} />

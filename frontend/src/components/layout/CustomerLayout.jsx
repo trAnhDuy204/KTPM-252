@@ -14,7 +14,7 @@ import {
 
 const navItems = [
   { Icon: Home, label: "Tổng quan", path: "/dashboard" },
-  { Icon: Clipboard, label: "Khách sạn", path: "/" },
+  { Icon: Clipboard, label: "Khách sạn", path: "/dashboard/hotels" },
   { Icon: Star, label: 'Đánh giá' ,path: '/dashboard/reviews' },
   { Icon: User, label: 'Hồ sơ', path: '/' },
 ];
