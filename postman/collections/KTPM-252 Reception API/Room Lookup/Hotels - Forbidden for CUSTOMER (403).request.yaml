@@ -1,0 +1,11 @@
+$kind: http-request
+description: Test without token (or with CUSTOMER token) - should return 403
+url: "{{baseUrl}}/api/reception/hotels"
+method: GET
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: pm.test('Status 403', () => pm.response.to.have.status(403));
+    language: text/javascript
+order: 6000

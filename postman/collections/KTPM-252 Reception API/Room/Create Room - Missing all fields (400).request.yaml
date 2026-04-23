@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/rooms"
+method: POST
+body:
+  type: json
+  content: "{}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 400', () => pm.response.to.have.status(400));
+      pm.test('Validation failed', () => pm.expect(pm.response.json().message).to.eql('Validation failed'));
+      pm.test('Has hotelId error', () => pm.expect(pm.response.json().validationErrors.hotelId).to.exist);
+      pm.test('Has roomTypeId error', () => pm.expect(pm.response.json().validationErrors.roomTypeId).to.exist);
+      pm.test('Has roomNumber error', () => pm.expect(pm.response.json().validationErrors.roomNumber).to.exist);
+    language: text/javascript
+order: 5000

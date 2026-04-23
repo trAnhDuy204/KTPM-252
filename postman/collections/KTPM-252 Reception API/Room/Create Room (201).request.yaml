@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/rooms"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "hotelId": 1,
+        "roomTypeId": 2,
+        "roomNumber": "101",
+        "status": "AVAILABLE"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 201', () => pm.response.to.have.status(201));
+      pm.test('Has room id', () => pm.expect(pm.response.json().id).to.be.a('number'));
+      pm.test('Status is AVAILABLE', () => pm.expect(pm.response.json().status).to.eql('AVAILABLE'));
+    language: text/javascript
+order: 1000

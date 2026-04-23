@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/bookings/1/check-out"
+method: POST
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 200', () => pm.response.to.have.status(200));
+      pm.test('Status is COMPLETED', () => pm.expect(pm.response.json().status).to.eql('COMPLETED'));
+    language: text/javascript
+order: 10000

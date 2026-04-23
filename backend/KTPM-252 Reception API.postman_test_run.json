@@ -1,0 +1,153 @@
+{
+	"id": "69e1f795b8c7ea8e3339341f",
+	"name": "KTPM-252 Reception API",
+	"timestamp": "2026-04-17T09:04:37.107Z",
+	"collection_id": "48eaEf337aB332ad5962ff59",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 60,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-04-17T09:04:21.347Z",
+	"totalFail": 23,
+	"results": [],
+	"count": 1,
+	"totalTime": 0,
+	"collection": {
+		"requests": [
+			{
+				"id": "dd0cAEd2a5714Ed87fFF4fF4"
+			},
+			{
+				"id": "d83256aCcB83E668b8697CCB"
+			},
+			{
+				"id": "6EF1eb06E1b720f4EEFCff15"
+			},
+			{
+				"id": "c2DBfbD5b4c41b5FB5bF40fF"
+			},
+			{
+				"id": "AfA1A29d31cc8AfFA6af1F0d"
+			},
+			{
+				"id": "C294F7b95Fa33EaD6F6A160e"
+			},
+			{
+				"id": "0c68aB27BF162b5B0BDAb673"
+			},
+			{
+				"id": "C7Cdd96EBF68AcbA22DCA5AC"
+			},
+			{
+				"id": "C10125c0e121eFE7D1805bEf"
+			},
+			{
+				"id": "7cdCcbBB89eBaDd3CF4E2e8e"
+			},
+			{
+				"id": "Ca0162bfD469432D6a0b41A6"
+			},
+			{
+				"id": "1b888c74ECdDca010D4E7bfD"
+			},
+			{
+				"id": "b289AcC31Bc8bb4f2F1CDA68"
+			},
+			{
+				"id": "bEB18b9cAB15BFB1CBFC397C"
+			},
+			{
+				"id": "0fcD9628CA19712cC8eF5f2E"
+			},
+			{
+				"id": "93bB2E06cD4bdEE2dbA4744F"
+			},
+			{
+				"id": "19dD6d4eDCCa7a6cBaA6fa1b"
+			},
+			{
+				"id": "B9Cfb1aFd00364d17aB0B6e3"
+			},
+			{
+				"id": "3a3Dfba6B7be7f48DEa67D1C"
+			},
+			{
+				"id": "3d6cfBbd3c7Fdd6Bd7952cf1"
+			},
+			{
+				"id": "1B23baF6BbB0c7ACA5B9FF67"
+			},
+			{
+				"id": "be3aEddBe7ffAF860fF8e4Aa"
+			},
+			{
+				"id": "bb3c0ECfCd4Fd30C7f5ae6F1"
+			},
+			{
+				"id": "2E5FF8dC5c0c82dEDaDf441d"
+			},
+			{
+				"id": "C80EDed914Cfa44774b2f0FC"
+			},
+			{
+				"id": "e16F30CAa846CfC7b0fbcE9C"
+			},
+			{
+				"id": "6b7fFbECcDf3CeF8bffC2B22"
+			},
+			{
+				"id": "1e76BB051F8d4F5927CAcCBd"
+			},
+			{
+				"id": "eA2a07c8052B2Bc784CFBb1D"
+			},
+			{
+				"id": "569Ffa5d26bcEa32912da5CD"
+			},
+			{
+				"id": "68fAb63E409FcbF592835EEA"
+			},
+			{
+				"id": "DAeC127fBeDC0c41e586F6C4"
+			},
+			{
+				"id": "d9D7b0f95FAaAbA54C865651"
+			},
+			{
+				"id": "a0aC1b46E8f45C8aba5D8e3f"
+			},
+			{
+				"id": "e2C8B689bB0a06d5b7B4facF"
+			},
+			{
+				"id": "de391479DBd9Ef6AeE27f0eA"
+			},
+			{
+				"id": "bd7EF17D7488672d0526BeE5"
+			},
+			{
+				"id": "dD84d864898b5663C12D02DE"
+			},
+			{
+				"id": "4acFc44afB833Df5CEcd0660"
+			},
+			{
+				"id": "3DDF45ffee5bceADfa9ECFEE"
+			},
+			{
+				"id": "281bC9cAD0Fa7ce7fA0aec38"
+			},
+			{
+				"id": "fd349D4Ea4BCB697d8Ebbaa0"
+			},
+			{
+				"id": "105e4c200BE0eEb35325ff7C"
+			},
+			{
+				"id": "3C790AB599d1a5B8bC82Eb39"
+			}
+		]
+	}
+}

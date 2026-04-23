@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/bookings/check-in"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "roomId": 10,
+        "checkOutDate": "2026-03-18",
+        "guestName": "Nguyen Van A",
+        "guestPhone": "0901234567"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 201', () => pm.response.to.have.status(201));
+      pm.test('Status is CHECKED_IN', () => pm.expect(pm.response.json().status).to.eql('CHECKED_IN'));
+      pm.test('Guest name', () => pm.expect(pm.response.json().guestName).to.eql('Nguyen Van A'));
+      pm.test('Room number', () => pm.expect(pm.response.json().roomNumber).to.be.a('string'));
+    language: text/javascript
+order: 7000

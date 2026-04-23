@@ -1,0 +1,11 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/bookings"
+method: POST
+body:
+  type: json
+  content: "{}"
+scripts:
+  - type: afterResponse
+    code: pm.test('Status 400', () => pm.response.to.have.status(400));
+    language: text/javascript
+order: 3000

@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/rooms?status=CLEANING"
+method: GET
+queryParams:
+  status: CLEANING
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 200', () => pm.response.to.have.status(200));
+      pm.test('All rooms match status', () => {
+          pm.response.json().forEach(r => pm.expect(r.status).to.eql('CLEANING'));
+      });
+    language: text/javascript
+order: 9000

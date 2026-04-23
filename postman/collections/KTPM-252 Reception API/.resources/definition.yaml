@@ -1,0 +1,31 @@
+$kind: collection
+description: API tests for reception branch - Room, Room Lookup, Booking
+variables:
+  baseUrl: http://localhost:8080
+  accessToken: ""
+scripts:
+  - type: http:beforeRequest
+    code: |-
+      // Auto-login if no token
+      if (!pm.collectionVariables.get('accessToken')) {
+          pm.sendRequest({
+              url: pm.collectionVariables.get('baseUrl') + '/api/auth/login',
+              method: 'POST',
+              header: { 'Content-Type': 'application/json' },
+              body: {
+                  mode: 'raw',
+                  raw: JSON.stringify({ email: 'rec@hotel.com', password: 'Password1' })
+              }
+          }, function (err, res) {
+              if (!err && res.code === 200) {
+                  pm.collectionVariables.set('accessToken', res.json().accessToken);
+              }
+          });
+      }
+    language: text/javascript
+auth:
+  - id: a80d0d7e-8b3d-44fa-9444-2eb041a02fba
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{accessToken}}"

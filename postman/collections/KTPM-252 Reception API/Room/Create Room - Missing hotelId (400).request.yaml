@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/rooms"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "roomTypeId": 2,
+        "roomNumber": "101"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 400', () => pm.response.to.have.status(400));
+      pm.test('Validation error', () => pm.expect(pm.response.json().validationErrors.hotelId).to.eql('hotelId is required'));
+    language: text/javascript
+order: 2000

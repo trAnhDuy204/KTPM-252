@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/bookings"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "roomId": 10,
+        "checkInDate": "2026-04-01",
+        "checkOutDate": "2026-04-03",
+        "guestName": "Nguyen Van B"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 201', () => pm.response.to.have.status(201));
+      pm.test('Status is PENDING', () => pm.expect(pm.response.json().status).to.eql('PENDING'));
+    language: text/javascript
+order: 1000

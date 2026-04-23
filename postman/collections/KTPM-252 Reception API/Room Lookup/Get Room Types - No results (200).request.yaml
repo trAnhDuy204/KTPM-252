@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/room-types?hotelId=99"
+method: GET
+queryParams:
+  hotelId: "99"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 200', () => pm.response.to.have.status(200));
+      pm.test('Empty array', () => pm.expect(pm.response.json()).to.be.an('array'));
+    language: text/javascript
+order: 5000

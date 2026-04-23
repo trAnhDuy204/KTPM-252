@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/rooms?hotelId=1"
+method: GET
+queryParams:
+  hotelId: "1"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 200', () => pm.response.to.have.status(200));
+      pm.test('All rooms match hotelId', () => {
+          pm.response.json().forEach(r => pm.expect(r.hotelId).to.eql(1));
+      });
+    language: text/javascript
+order: 8000

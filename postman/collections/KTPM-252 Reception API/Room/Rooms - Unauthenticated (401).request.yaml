@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/rooms"
+method: GET
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 401', () => pm.response.to.have.status(401));
+      pm.test('Error message', () => pm.expect(pm.response.json().message).to.eql('Authentication required'));
+    language: text/javascript
+order: 18000

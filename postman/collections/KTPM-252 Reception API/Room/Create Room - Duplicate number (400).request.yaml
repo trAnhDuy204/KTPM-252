@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/rooms"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "hotelId": 1,
+        "roomTypeId": 2,
+        "roomNumber": "101"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 400', () => pm.response.to.have.status(400));
+      pm.test('Error message', () => pm.expect(pm.response.json().message).to.eql('Room number already exists in this hotel'));
+    language: text/javascript
+order: 6000

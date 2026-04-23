@@ -1,0 +1,11 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/rooms?hotelId=1&status=AVAILABLE"
+method: GET
+queryParams:
+  hotelId: "1"
+  status: AVAILABLE
+scripts:
+  - type: afterResponse
+    code: pm.test('Status 200', () => pm.response.to.have.status(200));
+    language: text/javascript
+order: 10000

@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/rooms/10/status"
+method: PATCH
+body:
+  type: json
+  content: |-
+    {
+        "status": "RESERVED"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 400', () => pm.response.to.have.status(400));
+      pm.test('Error message', () => pm.expect(pm.response.json().message).to.include('Invalid room status transition'));
+    language: text/javascript
+order: 16000

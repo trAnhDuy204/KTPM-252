@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/bookings/check-in"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "roomId": 10,
+        "checkOutDate": "2026-03-18",
+        "guestName": "Guest"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 400', () => pm.response.to.have.status(400));
+      pm.test('Error message', () => pm.expect(pm.response.json().message).to.eql('Room is not available for check-in'));
+    language: text/javascript
+order: 8000

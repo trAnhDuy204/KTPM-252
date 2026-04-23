@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/bookings/1/check-out"
+method: POST
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status 400', () => pm.response.to.have.status(400));
+      pm.test('Error message', () => pm.expect(pm.response.json().message).to.eql('Booking is not checked in'));
+    language: text/javascript
+order: 11000

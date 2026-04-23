@@ -1,0 +1,8 @@
+$kind: http-request
+url: "{{baseUrl}}/api/reception/bookings/99/confirm"
+method: POST
+scripts:
+  - type: afterResponse
+    code: pm.test('Status 404', () => pm.response.to.have.status(404));
+    language: text/javascript
+order: 6000
