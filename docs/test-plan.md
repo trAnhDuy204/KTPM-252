@@ -1,4 +1,4 @@
-# Kế hoạch Kiểm thử IEEE 829 – Hệ thống Quản lý Khách sạn
+# Kế hoạch Kiểm thử – Hệ thống Quản lý Khách sạn
 
 ## 1. Mã định danh Test Plan
 
