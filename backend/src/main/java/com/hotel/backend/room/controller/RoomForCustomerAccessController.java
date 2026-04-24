@@ -48,10 +48,18 @@ public class RoomForCustomerAccessController {
 
     // ================= ROOMS =================
     @GetMapping("/rooms")
-    public List<RoomResponse> getRooms(@RequestParam Integer hotelId) {
-        return roomRepository.findByHotel_Id(hotelId).stream()
+    public List<RoomResponse> getRooms(@RequestParam (required = false) Integer hotelId) 
+    {
+        if(hotelId!=null)
+        {
+                return roomRepository.findByHotel_Id(hotelId).stream()
                 .map(RoomResponse::from)
                 .toList();
+        }
+        return roomRepository.findAll()
+            .stream()
+            .map(RoomResponse::from)
+            .toList();
     }
 
     // ================= DTOs =================
