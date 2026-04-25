@@ -15,4 +15,5 @@ public interface AdminUserRepository extends JpaRepository<AdminUser, Integer> {
 
     boolean existsByEmail(String email);
     boolean existsByPhone(String phone);
+    boolean existsByHotelId(Integer hotelId);
 }

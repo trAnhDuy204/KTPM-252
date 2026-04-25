@@ -43,7 +43,6 @@ export const authApi = {
   register: (data) => api.post('/register', data),
   login: (data) => api.post('/login', data),
   refresh: (refreshToken) => api.post('/refresh', { refreshToken }),
-  createStaff: (data) => api.post('/admin/staff', data),
 };
 
 export default api;

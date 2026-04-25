@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { adminApi } from '../../services/adminApi';
 import RoomModal from '../../components/admin/RoomModal';
+import { panelCard } from "@/utils/cls";
 import { Search, CirclePlus } from 'lucide-react';
 
 export const getStatusVn = (status) => {
-        const map = { 'AVAILABLE': 'Trống', 'OCCUPIED': 'Có khách', 'CLEANING': 'Dọn dẹp', 'MAINTENANCE': 'Bảo trì' };
-        return map[status] || 'Trống';
-    };
+    const map = { 'AVAILABLE': 'Trống', 'OCCUPIED': 'Có khách', 'CLEANING': 'Dọn dẹp', 'MAINTENANCE': 'Bảo trì' };
+    return map[status] || 'Trống';
+};
 
 const AdminRoomManagement = () => {
     const [rooms, setRooms] = useState([]);
-    const [hotels, setHotels] = useState([]); 
+    const [hotels, setHotels] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedHotelName, setSelectedHotelName] = useState(''); // Lọc theo chi nhánh
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRoom, setSelectedRoom] = useState(null);
 
-   const fetchData = async () => {
-    const [roomRes, hotelRes] = await Promise.all([
-        adminApi.getAllRooms(),
-        adminApi.getHotels()
-    ]);
+    const fetchData = async () => {
+        const [roomRes, hotelRes] = await Promise.all([
+            adminApi.getAllRooms(),
+            adminApi.getHotels()
+        ]);
 
-    setRooms(roomRes.data || []);
-    setHotels(hotelRes.data || []);
-};
+        setRooms(roomRes.data || []);
+        setHotels(hotelRes.data || []);
+    };
 
     useEffect(() => { fetchData(); }, []);
 
@@ -66,7 +67,7 @@ const AdminRoomManagement = () => {
         }
     };
 
-    
+
 
     // Tìm phòng
     const filteredRooms = rooms.filter(r => {
@@ -100,7 +101,7 @@ const AdminRoomManagement = () => {
                     />
                     <span className="absolute left-4 top-4 opacity-30 text-gray-600"><Search /></span>
                 </div>
-                
+
 
                 <select
                     className="border border-zinc-800 p-3 rounded-2xl w-full max-w-md outline-none shadow-sm transition-all text-sm text-gray-600"
@@ -113,54 +114,100 @@ const AdminRoomManagement = () => {
                 </select>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-zinc-800 overflow-hidden">
-                <table className="w-full text-left border-collapse">
-                    <thead className="bg-[#F8F4E1]/50 border-b border-gray-100">
-                        <tr>
-                            <th className="p-5 font-bold text-[#842A3B] text-xs uppercase tracking-widest">Số phòng</th>
-                            <th className="p-5 font-bold text-[#842A3B] text-xs uppercase tracking-widest">Phân loại</th>
-                            <th className="p-5 font-bold text-[#842A3B] text-xs uppercase tracking-widest">Khách sạn</th>
-                            <th className="p-5 font-bold text-[#842A3B] text-xs uppercase tracking-widest text-center">Sức chứa</th>
-                            <th className="p-5 font-bold text-[#842A3B] text-xs uppercase tracking-widest text-center">Giá phòng (1 đêm)</th>
-                            <th className="p-5 font-bold text-[#842A3B] text-xs uppercase tracking-widest text-center">Trạng thái</th>
-                            <th className="p-5 font-bold text-[#842A3B] text-xs uppercase tracking-widest text-center">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-50">
-                        {filteredRooms.map(room => (
-                            <tr key={room.id} className="hover:bg-gray-50/50 transition-colors">
-                                <td className="p-4 font-bold text-[#842A3B] uppercase tracking-wide">{room.roomNumber}</td>
+            <div className={`${panelCard} overflow-hidden`}>
+                <div className="overflow-x-auto">
+                    <table className="w-full min-w-[900px] text-sm">
 
-                                <td className="p-4 text-gray-600 font-medium text-sm">{room.roomType?.name}</td>
-
-                                <td className="p-4 text-gray-600 font-medium text-sm">
-                                    {hotels.find(h => String(h.id) === String(room.hotelId))?.name + `#${hotels.find(h => String(h.id) === String(room.hotelId))?.city}`}
-                                </td>
-
-                                <td className="p-4 text-gray-500 text-center ">{room.roomType?.capacity} người</td>
-
-                                <td className="p-4 text-[#842A3B] font-semibold text-center px-8 text-base">
-                                    {Number(room.roomType?.basePrice || 0).toLocaleString('vi-VN')}đ
-                                </td>
-                                <td className="p-4 text-center">
-                                    <span className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest border ${room.status === 'AVAILABLE'
-                                        ? 'bg-green-50 text-green-700 border-green-100'
-                                        : 'bg-[#842A3B]/5 text-[#842A3B] border-[#842A3B]/10'
-                                        }`}>
-                                        {getStatusVn(room.status)}
-                                    </span>
-                                </td>
-                                <td className="p-4 text-center">
-                                    <div className="flex justify-center items-center gap-3">
-                                        <button onClick={() => openModal(room)} className="text-[#842A3B] font-semibold text-xs hover:underline uppercase">Sửa</button>
-                                        <span className="text-gray-200">|</span>
-                                        <button onClick={() => handleDelete(room.id)} className="text-[#842A3B] font-semibold text-xs hover:text-red-600 uppercase">Xóa</button>
-                                    </div>
-                                </td>
+                        {/* HEADER */}
+                        <thead>
+                            <tr className="bg-raised/85 text-xs uppercase tracking-[0.18em] text-muted">
+                                <th className="px-4 py-3 text-left font-semibold">Số phòng</th>
+                                <th className="px-4 py-3 text-left font-semibold">Phân loại</th>
+                                <th className="px-4 py-3 text-left font-semibold">Khách sạn</th>
+                                <th className="px-4 py-3 text-center font-semibold">Sức chứa</th>
+                                <th className="px-4 py-3 text-center font-semibold">Giá (1 đêm)</th>
+                                <th className="px-4 py-3 text-center font-semibold">Trạng thái</th>
+                                <th className="px-4 py-3 text-center font-semibold">Thao tác</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        {/* BODY */}
+                        <tbody className="divide-y divide-edge">
+                            {filteredRooms.map((room) => {
+                                const hotel = hotels.find(
+                                    (h) => String(h.id) === String(room.hotelId)
+                                );
+
+                                return (
+                                    <tr
+                                        key={room.id}
+                                        className="bg-card transition-colors hover:bg-raised/45"
+                                    >
+                                        {/* Số phòng */}
+                                        <td className="px-4 py-3 font-semibold text-hi">
+                                            {room.roomNumber}
+                                        </td>
+
+                                        {/* Phân loại */}
+                                        <td className="px-4 py-3 text-dim">
+                                            {room.roomType?.name}
+                                        </td>
+
+                                        {/* Khách sạn */}
+                                        <td className="px-4 py-3 text-dim">
+                                            {hotel?.name}#{hotel?.city}
+                                        </td>
+
+                                        {/* Sức chứa */}
+                                        <td className="px-4 py-3 text-center text-dim">
+                                            {room.roomType?.capacity} người
+                                        </td>
+
+                                        {/* Giá */}
+                                        <td className="px-4 py-3 text-center font-semibold text-accent">
+                                            {Number(room.roomType?.basePrice || 0).toLocaleString("vi-VN")}đ
+                                        </td>
+
+                                        {/* Trạng thái */}
+                                        <td className="px-4 py-3 text-center">
+                                            <span
+                                                className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white ${room.status === "AVAILABLE"
+                                                        ? "bg-success"
+                                                        : "bg-danger"
+                                                    }`}
+                                            >
+                                                {getStatusVn(room.status)}
+                                            </span>
+                                        </td>
+
+                                        {/* Thao tác */}
+                                        <td className="px-4 py-3">
+                                            <div className="flex items-center justify-center gap-1.5">
+
+                                                {/* Sửa */}
+                                                <button
+                                                    onClick={() => openModal(room)}
+                                                    className="rounded-lg border border-info/20 bg-info-soft/70 px-2.5 py-1.5 text-[11px] font-semibold text-info transition-all duration-200 hover:border-info hover:bg-info hover:text-white"
+                                                >
+                                                    Sửa
+                                                </button>
+
+                                                {/* Xóa */}
+                                                <button
+                                                    onClick={() => handleDelete(room.id)}
+                                                    className="rounded-lg border border-danger/20 bg-transparent px-2.5 py-1.5 text-[11px] font-medium text-danger transition-all duration-200 hover:bg-danger-soft/35 hover:border-danger/35"
+                                                >
+                                                    Xóa
+                                                </button>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <RoomModal

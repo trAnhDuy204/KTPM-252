@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { adminApi } from '../../services/adminApi';
 import UserModal from '../../components/admin/UserModal';
 import { Search, CirclePlus } from 'lucide-react';
+import { panelCard } from "@/utils/cls";
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
@@ -59,30 +60,30 @@ const UserManagement = () => {
     };
 
     const handleSave = async () => {
-    // 1. Kiểm tra nếu chưa chọn khách sạn
-    if (!formData.hotelId) {
-        alert("Vui lòng chọn khách sạn làm việc!");
-        return;
-    }
+        // 1. Kiểm tra nếu chưa chọn khách sạn
+        if (!formData.hotelId) {
+            alert("Vui lòng chọn khách sạn làm việc!");
+            return;
+        }
 
-    try {
-        const dataToSave = {
-            ...formData,
-            // Đảm bảo hotelId là kiểu số để khớp với Backend
-            hotelId: Number(formData.hotelId) 
-        };
+        try {
+            const dataToSave = {
+                ...formData,
+                // Đảm bảo hotelId là kiểu số để khớp với Backend
+                hotelId: Number(formData.hotelId)
+            };
 
-        await adminApi.saveUser(dataToSave);
+            await adminApi.saveUser(dataToSave);
 
-        alert(selectedUser ? "Cập nhật thành công!" : "Tạo nhân viên thành công.");
-        setIsModalOpen(false);
-        setSearchTerm('');
-        fetchData();
-    } catch (err) {
-        const errorMessage = err.response?.data?.message || "Thông tin đã tồn tại!";
-        alert("Lỗi: " + errorMessage);
-    }
-};
+            alert(selectedUser ? "Cập nhật thành công!" : "Tạo nhân viên thành công.");
+            setIsModalOpen(false);
+            setSearchTerm('');
+            fetchData();
+        } catch (err) {
+            const errorMessage = err.response?.data?.message || "Thông tin đã tồn tại!";
+            alert("Lỗi: " + errorMessage);
+        }
+    };
 
     const filteredUsers = users.filter(u => {
         const roleLower = u.role?.toLowerCase();
@@ -126,65 +127,102 @@ const UserManagement = () => {
                 </div>
             </div>
 
-            <div className="bg-white rounded-[2.5rem] shadow-xl border border-[#842A3B]/10 overflow-hidden">
-                <table className="w-full text-left border-collapse">
-                    <thead>
-                        <tr className="bg-[#F8F4E1]/50 border-b border-[#842A3B]/10">
-                            <th className="p-6 text-xs font-bold text-[#842A3B] uppercase tracking-widest">Nhân viên</th>
-                            <th className="p-6 text-xs font-bold text-[#842A3B] uppercase tracking-widest">Vai trò</th>
-                            <th className="p-6 text-xs font-bold text-[#842A3B] uppercase tracking-widest">Khách sạn</th>
-                            <th className="p-6 text-xs font-bold text-[#842A3B] uppercase tracking-widest">Liên hệ</th>
-                            <th className="p-6 text-xs font-bold text-[#842A3B] uppercase tracking-widest text-center">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-50">
-                        {filteredUsers.map(u => (
-                            <tr key={u.id} className="hover:bg-gray-50/50 transition-colors group">
-                                <td className="p-6">
-                                    <div className="font-bold text-[#842A3B] group-hover:underline cursor-pointer">{u.fullName}</div>
-                                    <div className="text-[10px] text-gray-400 font-mono italic">ID: #{u.id}</div>
-                                </td>
-                                <td className="p-6">
-                                    <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase border ${u.role === 'ADMIN'
-                                        ? 'bg-purple-50 text-purple-700 border-purple-100'
-                                        : 'bg-blue-50 text-blue-700 border-blue-100'
-                                        }`}>
-                                        {u.role}
-                                    </span>
-                                </td>
-                                <td className="p-6">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-sm font-medium text-gray-600">
-                                            {hotels.find(h => h.id === Number(u.hotelId))?.name + `#${hotels.find(h => h.id === Number(u.hotelId))?.city}` || "Chưa gán khách sạn"}
-                                        </span>
-                                    </div>
-                                </td>
-                                <td className="p-6">
-                                    <div className="text-sm text-gray-600">{u.email}</div>
-                                    <div className="text-xs text-gray-400 italic">{u.phone || "Chưa cập nhật SĐT"}</div>
-                                </td>
-                                <td className="p-6 text-center">
-                                    <div className="flex justify-center gap-4">
-                                        <button
-                                            onClick={() => openModal(u)}
-                                            className="text-[#842A3B] text-xs font-bold hover:underline uppercase tracking-tighter"
-                                        >
-                                            Sửa
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(u.id)}
-                                            className="text-red-400 text-xs font-bold hover:text-red-600 uppercase tracking-tighter"
-                                        >
-                                            Xóa
-                                        </button>
-                                    </div>
-                                </td>
+            <div className={`${panelCard} overflow-hidden`}>
+                <div className="overflow-x-auto">
+                    <table className="w-full min-w-[900px] text-sm">
+
+                        {/* HEADER */}
+                        <thead>
+                            <tr className="bg-raised/85 text-xs uppercase tracking-[0.18em] text-muted">
+                                <th className="px-4 py-3 text-left font-semibold">Nhân viên</th>
+                                <th className="px-4 py-3 text-left font-semibold">Vai trò</th>
+                                <th className="px-4 py-3 text-left font-semibold">Khách sạn</th>
+                                <th className="px-4 py-3 text-left font-semibold">Liên hệ</th>
+                                <th className="px-4 py-3 text-center font-semibold">Thao tác</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        {/* BODY */}
+                        <tbody className="divide-y divide-edge">
+                            {filteredUsers.map((u) => {
+                                const hotel = hotels.find(
+                                    (h) => h.id === Number(u.hotelId)
+                                );
+
+                                return (
+                                    <tr
+                                        key={u.id}
+                                        className="bg-card transition-colors hover:bg-raised/45"
+                                    >
+                                        {/* Nhân viên */}
+                                        <td className="px-4 py-3">
+                                            <div className="font-semibold text-hi">
+                                                {u.fullName}
+                                            </div>
+                                            <div className="text-xs font-mono text-muted">
+                                                #{u.id}
+                                            </div>
+                                        </td>
+
+                                        {/* Vai trò */}
+                                        <td className="px-4 py-3">
+                                            <span
+                                                className={`inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white ${u.role === "ADMIN"
+                                                        ? "bg-info"
+                                                        : "bg-accent"
+                                                    }`}
+                                            >
+                                                {u.role}
+                                            </span>
+                                        </td>
+
+                                        {/* Khách sạn */}
+                                        <td className="px-4 py-3 text-dim">
+                                            {hotel
+                                                ? `${hotel.name}#${hotel.city}`
+                                                : "Chưa gán khách sạn"}
+                                        </td>
+
+                                        {/* Liên hệ */}
+                                        <td className="px-4 py-3">
+                                            <div className="text-dim">{u.email}</div>
+                                            <div className="text-xs text-muted">
+                                                {u.phone || "Chưa cập nhật SĐT"}
+                                            </div>
+                                        </td>
+
+                                        {/* Thao tác */}
+                                        <td className="px-4 py-3">
+                                            <div className="flex items-center justify-center gap-1.5">
+
+                                                {/* Sửa */}
+                                                <button
+                                                    onClick={() => openModal(u)}
+                                                    className="rounded-lg border border-info/20 bg-info-soft/70 px-2.5 py-1.5 text-[11px] font-semibold text-info transition-all duration-200 hover:border-info hover:bg-info hover:text-white"
+                                                >
+                                                    Sửa
+                                                </button>
+
+                                                {/* Xóa */}
+                                                <button
+                                                    onClick={() => handleDelete(u.id)}
+                                                    className="rounded-lg border border-danger/20 bg-transparent px-2.5 py-1.5 text-[11px] font-medium text-danger transition-all duration-200 hover:bg-danger-soft/35 hover:border-danger/35"
+                                                >
+                                                    Xóa
+                                                </button>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* EMPTY */}
                 {filteredUsers.length === 0 && (
-                    <div className="p-20 text-center text-gray-400 italic">
+                    <div className="p-10 text-center text-muted italic">
                         Không tìm thấy nhân sự nào phù hợp với từ khóa...
                     </div>
                 )}

@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,14 +36,5 @@ public class AuthController {
     public ResponseEntity<AuthDto.AuthResponse> refresh(
             @Valid @RequestBody AuthDto.RefreshRequest request) {
         return ResponseEntity.ok(authService.refreshToken(request));
-    }
-
-    /*POST /api/admin/staff*/
-    @PostMapping("/admin/staff")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<AuthDto.UserInfo> createStaff(
-            @Valid @RequestBody AuthDto.CreateStaffRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(authService.createStaff(request));
     }
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { adminApi } from '../../services/adminApi';
 import { Search, CirclePlus } from 'lucide-react';
+import { panelCard } from "@/utils/cls";
 
 const RoomTypeManagement = () => {
     const [hotels, setHotels] = useState([]);
@@ -8,7 +9,7 @@ const RoomTypeManagement = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedType, setSelectedType] = useState(null);
-    const [formData, setFormData] = useState({hotelId: '', name: '', capacity: '', basePrice: '', description: '' });
+    const [formData, setFormData] = useState({ hotelId: '', name: '', capacity: '', basePrice: '', description: '' });
 
     const fetchTypes = async () => {
         try {
@@ -133,109 +134,206 @@ const RoomTypeManagement = () => {
                 </div>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-xl border border-zinc-800 overflow-hidden">
-                <table className="w-full text-left">
-                    <thead className="bg-[#F8F4E1] border-b border-[#842A3B]/20">
-                        <tr>
-                            <th className="p-5 font-semibold text-[#842A3B] text-xs uppercase tracking-widest">Khách sạn</th>
-                            <th className="p-5 font-semibold text-[#842A3B] text-xs uppercase tracking-widest">Tên loại phòng</th>
-                            <th className="p-5 font-semibold text-[#842A3B] text-xs uppercase tracking-widest text-center">Sức Chứa</th>
-                            <th className="p-5 font-semibold text-[#842A3B] text-xs uppercase tracking-widest text-right px-8">Giá phòng (1 đêm)</th>
-                            <th className="p-5 font-semibold text-[#842A3B] text-xs uppercase tracking-widest text-left">Mô tả</th>
-                            <th className="p-5 font-semibold text-[#842A3B] text-xs uppercase tracking-widest text-center">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div className={`${panelCard} overflow-hidden`}>
+                <div className="overflow-x-auto">
+                    <table className="w-full min-w-[900px] text-sm">
 
-                        {filteredTypes.map(t => (
-                            <tr key={t.id} className="border-b border-gray-50 hover:bg-[#F8F4E1]/40 transition-colors">
-                                <td className="p-5 text-gray-600">
-                                    {getHotelName(t.hotelId) + `#${getHotelCity(t.hotelId)}`}
-                                </td>
-                                <td className="p-5 font-bold text-[#842A3B] tracking-wide">{t.name}</td>
-                                <td className="p-5 text-center font-medium text-gray-600">{t.capacity} người</td>
-                                <td className="p-5 text-right text-[#842A3B] font-semibold text-lg px-8">
-                                    {Number(t.basePrice).toLocaleString('vi-VN')}đ
-                                </td>
-                                <td className="p-3 text-left text-gray-600 max-w-xs whitespace-pre-line text-xs">
-                                    {t.description || "Chưa có mô tả"}
-                                </td>
-                                <td className="p-5 text-center">
-                                    <div className="flex justify-center items-center gap-4">
-                                        <button onClick={() => openModal(t)} className="text-[#842A3B] font-semibold hover:underline uppercase text-xs">Sửa</button>
-                                        <span className="text-gray-200">|</span>
-                                        <button onClick={() => handleDelete(t.id)} className="text-[#842A3B] font-semibold hover:underline uppercase text-xs transition-colors">Xóa</button>
-                                    </div>
-                                </td>
+                        {/* HEADER */}
+                        <thead>
+                            <tr className="bg-raised/85 text-xs uppercase tracking-[0.18em] text-muted">
+                                <th className="px-4 py-3 text-left font-semibold">Khách sạn</th>
+                                <th className="px-4 py-3 text-left font-semibold">Tên loại phòng</th>
+                                <th className="px-4 py-3 text-center font-semibold">Sức chứa</th>
+                                <th className="px-4 py-3 text-right font-semibold">Giá (1 đêm)</th>
+                                <th className="px-4 py-3 text-left font-semibold">Mô tả</th>
+                                <th className="px-4 py-3 text-center font-semibold">Thao tác</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
 
+                        {/* BODY */}
+                        <tbody className="divide-y divide-edge">
+                            {filteredTypes.map((t) => (
+                                <tr
+                                    key={t.id}
+                                    className="bg-card transition-colors hover:bg-raised/45"
+                                >
+                                    {/* Khách sạn */}
+                                    <td className="px-4 py-3 text-dim">
+                                        {getHotelName(t.hotelId)}#{getHotelCity(t.hotelId)}
+                                    </td>
+
+                                    {/* Tên loại phòng */}
+                                    <td className="px-4 py-3 font-semibold text-hi">
+                                        {t.name}
+                                    </td>
+
+                                    {/* Sức chứa */}
+                                    <td className="px-4 py-3 text-center text-dim">
+                                        {t.capacity} người
+                                    </td>
+
+                                    {/* Giá */}
+                                    <td className="px-4 py-3 text-right font-semibold text-accent">
+                                        {Number(t.basePrice).toLocaleString("vi-VN")}đ
+                                    </td>
+
+                                    {/* Mô tả */}
+                                    <td className="px-4 py-3 text-dim max-w-xs whitespace-pre-line break-words text-xs">
+                                        {t.description || "Chưa có mô tả"}
+                                    </td>
+
+                                    {/* Thao tác */}
+                                    <td className="px-4 py-3">
+                                        <div className="flex items-center justify-center gap-1.5">
+
+                                            {/* Sửa */}
+                                            <button
+                                                onClick={() => openModal(t)}
+                                                className="rounded-lg border border-info/20 bg-info-soft/70 px-2.5 py-1.5 text-[11px] font-semibold text-info transition-all duration-200 hover:border-info hover:bg-info hover:text-white"
+                                            >
+                                                Sửa
+                                            </button>
+
+                                            {/* Xóa */}
+                                            <button
+                                                onClick={() => handleDelete(t.id)}
+                                                className="rounded-lg border border-danger/20 bg-transparent px-2.5 py-1.5 text-[11px] font-medium text-danger transition-all duration-200 hover:bg-danger-soft/35 hover:border-danger/35"
+                                            >
+                                                Xóa
+                                            </button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* EMPTY */}
                 {filteredTypes.length === 0 && (
-                    <div className="p-10 text-center text-gray-400 italic">Không tìm thấy loại phòng nào phù hợp...</div>
+                    <div className="p-10 text-center text-muted italic">
+                        Không tìm thấy loại phòng nào phù hợp...
+                    </div>
                 )}
             </div>
 
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-[60] backdrop-blur-md">
-                    <div className="bg-white rounded-[2.5rem] p-10 w-full max-w-lg shadow-2xl border-t-[12px] border-[#842A3B] text-[#374151]">
-                        <h2 className="text-xl font-semibold mb-8 text-[#842A3B] border-b border-gray-100 pb-6 uppercase tracking-tight ">
-                            {selectedType ? 'Cập nhật loại phòng' : 'Tạo loại phòng'}
-                        </h2>
+                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
 
-                        <div className="col-span-2">
-                            <label className="block text-xs font-bold text-[#842A3B] uppercase mb-2 tracking-widest">
-                                Khách sạn
-                            </label>
+                    <div className="w-full max-w-lg rounded-2xl bg-card shadow-xl border border-edge overflow-hidden">
 
-                            <select
-                                className="w-full border border-gray-100 p-3 rounded-2xl focus:border-[#842A3B] outline-none text-[#374151]"
-                                value={formData.hotelId}
-                                onChange={e => setFormData({ ...formData, hotelId: e.target.value })}
+                        {/* HEADER */}
+                        <div className="px-6 py-4 border-b border-edge bg-raised/60">
+                            <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-hi">
+                                {selectedType ? "Cập nhật loại phòng" : "Tạo loại phòng"}
+                            </h2>
+                        </div>
+
+                        {/* BODY */}
+                        <div className="p-6 space-y-5">
+
+                            {/* Khách sạn */}
+                            <div>
+                                <label className="label">Khách sạn</label>
+                                <select
+                                    className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+                                    value={formData.hotelId}
+                                    onChange={(e) =>
+                                        setFormData({ ...formData, hotelId: e.target.value })
+                                    }
+                                >
+                                    <option value="">-- Chọn khách sạn --</option>
+                                    {hotels.map((h) => (
+                                        <option key={h.id} value={h.id}>
+                                            {h.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+
+                                {/* Tên phân loại */}
+                                <div className="col-span-2">
+                                    <label className="label">Tên phân loại</label>
+                                    <input
+                                        type="text"
+                                        placeholder="VD: Master, Single..."
+                                        className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+                                        value={formData.name}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, name: e.target.value })
+                                        }
+                                    />
+                                </div>
+
+                                {/* Sức chứa */}
+                                <div>
+                                    <label className="label">Sức chứa</label>
+                                    <input
+                                        type="number"
+                                        placeholder="Số người"
+                                        className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+                                        value={formData.capacity}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, capacity: e.target.value })
+                                        }
+                                    />
+                                </div>
+
+                                {/* Giá */}
+                                <div>
+                                    <label className="label">Giá (1 đêm)</label>
+                                    <input
+                                        type="number"
+                                        placeholder="VNĐ"
+                                        className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+                                        value={formData.basePrice}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, basePrice: e.target.value })
+                                        }
+                                    />
+                                </div>
+
+                                {/* Mô tả */}
+                                <div className="col-span-2 bg-raised/40 border border-edge rounded-lg p-3">
+                                    <label className="text-[10px] uppercase tracking-[0.18em] text-muted mb-1 block">
+                                        Mô tả
+                                    </label>
+                                    <textarea
+                                        rows="3"
+                                        placeholder="Nhập các tiện ích, đặc điểm phòng..."
+                                        className="w-full bg-transparent outline-none text-sm text-dim resize-none"
+                                        value={formData.description}
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, description: e.target.value })
+                                        }
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {/* FOOTER */}
+                        <div className="flex justify-end gap-2 px-6 py-4 border-t border-edge bg-raised/40">
+
+                            {/* Hủy */}
+                            <button
+                                onClick={() => setIsModalOpen(false)}
+                                className="rounded-lg border border-danger/20 px-3 py-1.5 text-[11px] font-medium text-danger transition hover:bg-danger-soft/35"
                             >
-                                <option value="">-- Chọn khách sạn --</option>
-                                {hotels.map(h => (
-                                    <option key={h.id} value={h.id}>
-                                        {h.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                                Hủy
+                            </button>
 
-                        <div className="grid grid-cols-2 gap-6">
-                            <div className="col-span-2">
-                                <label className="block text-xs font-bold text-[#842A3B] uppercase mb-2 tracking-widest">Tên phân loại</label>
-                                <input type="text" placeholder="VD: Master, Single..."
-                                    className="w-full border border-gray-100 p-3 rounded-2xl focus:border-[#842A3B] outline-none text-[#374151]"
-                                    value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
-                            </div>
+                            {/* Lưu */}
+                            <button
+                                onClick={handleSave}
+                                className="rounded-lg border border-info/20 bg-info-soft/70 px-3 py-1.5 text-[11px] font-semibold text-info transition hover:border-info hover:bg-info hover:text-white"
+                            >
+                                Lưu
+                            </button>
 
-                            <div className="col-span-1">
-                                <label className="block text-xs font-bold text-[#842A3B] uppercase mb-2 tracking-widest">Sức chứa</label>
-                                <input type="number" placeholder="Số người"
-                                    className="w-full border border-gray-100 p-3 rounded-2xl focus:border-[#842A3B] outline-none text-[#374151]"
-                                    value={formData.capacity} onChange={e => setFormData({ ...formData, capacity: e.target.value })} />
-                            </div>
-
-                            <div className="col-span-1">
-                                <label className="block text-xs font-bold text-[#842A3B] uppercase mb-2 tracking-widest">Giá phòng (1 đêm)</label>
-                                <input type="number" placeholder="VNĐ"
-                                    className="w-full border border-gray-100 p-3 rounded-2xl focus:border-[#842A3B] outline-none text-[#374151]"
-                                    value={formData.basePrice} onChange={e => setFormData({ ...formData, basePrice: e.target.value })} />
-                            </div>
-
-                            <div className="col-span-2 bg-[#F8F4E1]/50 p-5 rounded-xl border border-[#842A3B]/10">
-                                <label className="block text-[12px] font-bold text-[#842A3B] uppercase mb-2 tracking-widest opacity-70">Mô tả phòng</label>
-                                <textarea className="w-full bg-transparent border-none outline-none text-sm text-[#374151] font-medium leading-relaxed resize-none" rows="3"
-                                    placeholder="Nhập các tiện ích, đặc điểm phòng..."
-                                    value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
-                            </div>
-                        </div>
-
-                        <div className="flex justify-end gap-4 mt-10">
-                            <button onClick={() => setIsModalOpen(false)} className="px-6 py-2 text-gray-400 font-semibold uppercase text-xs tracking-widest hover:text-[#842A3B]">Hủy bỏ</button>
-                            <button onClick={handleSave} className="px-8 py-2.5 bg-[#842A3B] text-white font-semibold rounded-2xl shadow-xl uppercase text-xs tracking-widest hover:opacity-90 transition-all">Lưu</button>
                         </div>
                     </div>
                 </div>

@@ -247,29 +247,7 @@ export function ReceptionDashboard() {
 /*Admin Dashboard*/
 
 export function AdminDashboard() {
-  const { user, logout, createStaff, loading } = useAuth();
-  const [showModal, setShowModal] = useState(false);
-  const [form, setForm] = useState({ fullName: '', email: '', password: '', phone: '', role: 'RECEPTION', hotelId: '' });
-  const [formError, setFormError] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
-
-  const set = (k, v) => setForm(p => ({ ...p, [k]: v }));
-
-  const handleCreate = async (e) => {
-    e.preventDefault();
-    setFormError(''); setSuccessMsg('');
-    try {
-      const payload = { ...form, hotelId: form.hotelId ? Number(form.hotelId) : null };
-      await createStaff(payload);
-      setSuccessMsg(`Tạo tài khoản ${form.role} thành công!`);
-      setForm({ fullName: '', email: '', password: '', phone: '', role: 'RECEPTION', hotelId: '' });
-      setTimeout(() => { setShowModal(false); setSuccessMsg(''); }, 1500);
-    } catch (err) {
-      setFormError(err.message);
-    }
-  };
-
-  const inputCls = 'w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3.5 py-2.5 text-zinc-100 text-sm font-light outline-none placeholder:text-zinc-600 focus:border-yellow-600/70 focus:ring-2 focus:ring-yellow-500/10 transition-all';
+  const { user } = useAuth();
 
   return (
     <>
@@ -281,11 +259,6 @@ export function AdminDashboard() {
           </div>
           <div className="flex items-center gap-3">
             <RoleBadge role={user?.role} />
-            <button onClick={() => setShowModal(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-zinc-950 text-xs font-medium tracking-widest uppercase transition-all hover:shadow-lg hover:shadow-yellow-500/20">
-              <Plus className="w-4 h-4" />
-              Thêm nhân viên
-            </button>
           </div>
         </div>
 
@@ -301,97 +274,6 @@ export function AdminDashboard() {
           <h3 className="text-sm font-medium mb-4">Quản lý nhân viên</h3>
           <EmptyState Icon={Users} text={"Chưa có nhân viên nào.\nNhấn " + "Thêm nhân viên để tạo tài khoản."} />
         </div>
-
-      {/*Modal tạo nhân viên*/}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(6px)' }}>
-          <div className="bg-zinc-900 border border-zinc-700/60 rounded-2xl w-full max-w-md shadow-2xl"
-            style={{ animation: 'fadein 0.2s ease' }}>
-
-            {/* Modal header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-800">
-              <h2 className="font-display text-2xl font-semibold text-zinc-100">Tạo tài khoản nhân viên</h2>
-              <button onClick={() => setShowModal(false)}
-                className="text-zinc-500 hover:text-zinc-200 transition-colors leading-none">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="px-6 py-5">
-              {formError && (
-                <div className="mb-4 flex items-center gap-2 px-3.5 py-2.5 rounded-lg bg-red-500/10 border border-red-500/25 text-red-400 text-sm">
-                  <AlertCircle className="w-4 h-4 flex-shrink-0" />{formError}
-                </div>
-              )}
-              {successMsg && (
-                <div className="mb-4 flex items-center gap-2 px-3.5 py-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-sm">
-                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" />{successMsg}
-                </div>
-              )}
-
-              <form onSubmit={handleCreate} className="space-y-4">
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-[11px] font-medium tracking-widest uppercase text-zinc-500 mb-1.5">Họ tên</label>
-                    <input required placeholder="Nguyễn Văn B" value={form.fullName}
-                      onChange={e => set('fullName', e.target.value)} className={inputCls} />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] font-medium tracking-widest uppercase text-zinc-500 mb-1.5">Điện thoại</label>
-                    <input placeholder="0901234567" value={form.phone}
-                      onChange={e => set('phone', e.target.value)} className={inputCls} />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-medium tracking-widest uppercase text-zinc-500 mb-1.5">Email</label>
-                  <input required type="email" placeholder="staff@hotel.com" value={form.email}
-                    onChange={e => set('email', e.target.value)} className={inputCls} />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-medium tracking-widest uppercase text-zinc-500 mb-1.5">Mật khẩu</label>
-                  <input required type="password" placeholder="Tối thiểu 8 ký tự" value={form.password}
-                    onChange={e => set('password', e.target.value)} className={inputCls} />
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-[11px] font-medium tracking-widest uppercase text-zinc-500 mb-1.5">Vai trò</label>
-                    <select value={form.role} onChange={e => set('role', e.target.value)}
-                      className={inputCls + ' appearance-none cursor-pointer'}>
-                      <option value="RECEPTION">Lễ tân</option>
-                      <option value="ADMIN">Admin</option>
-                    </select>
-                  </div>
-                  {form.role === 'RECEPTION' && (
-                    <div>
-                      <label className="block text-[11px] font-medium tracking-widest uppercase text-zinc-500 mb-1.5">ID Khách sạn</label>
-                      <input required type="number" placeholder="1" value={form.hotelId}
-                        onChange={e => set('hotelId', e.target.value)} className={inputCls} />
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex justify-end gap-3 pt-2">
-                  <button type="button" onClick={() => setShowModal(false)}
-                    className="px-5 py-2.5 rounded-lg border border-zinc-700 text-zinc-400 text-sm hover:border-zinc-500 hover:text-zinc-200 transition-colors">
-                    Hủy
-                  </button>
-                  <button type="submit" disabled={loading}
-                    className="px-5 py-2.5 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-zinc-950 text-sm font-medium tracking-widest uppercase transition-all disabled:opacity-50 flex items-center gap-2">
-                    {loading
-                      ? <div className="w-4 h-4 border-2 border-zinc-950/30 border-t-zinc-950 rounded-full animate-spin" />
-                      : <Plus className="w-4 h-4" />}
-                    Tạo tài khoản
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
