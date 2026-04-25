@@ -42,6 +42,16 @@ export const adminApi = {
     deleteUser: (id) => api.delete(`${API_URL}/users/${id}`),
 
     // HOTELS
-    getHotels: () => api.get(`${API_URL}/hotels`)
+    getHotels: () => api.get(`${API_URL}/hotels`),
 
+    deleteHotel: (id) => axios.delete(`${API_URL}/hotels/${id}`),
+
+    saveHotel: (data) => {
+        // Nếu có id -> Gọi PUT để Cập nhật
+        if (data.id) {
+            return axios.put(`${API_URL}/hotels/${data.id}`, data);
+        }
+        // Nếu không có id -> Gọi POST để Tạo mới
+        return axios.post(`${API_URL}/hotels`, data);
+    }
 };

@@ -9,6 +9,7 @@ import CustomerLayout from '@/components/layout/CustomerLayout';
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
 import ReviewPage from '@/pages/customer/ReviewPage';
+import HotelManagement from '@/pages/admin/HotelManagement';
 import AdminRoomManagement from '@/pages/admin/AdminRoomManagement';
 import UserManagement from '@/pages/admin/UserManagement';
 import RoomTypeManagement from '@/pages/admin/RoomTypeManagement';
@@ -56,7 +57,6 @@ function AppRoutes() {
       <Route path="/dashboard/reviews" element={<CustomerRoute><ReviewPage /></CustomerRoute>} />
       <Route path="/dashboard/hotels" element={<CustomerRoute><HotelRoomsDisplay /> </CustomerRoute>} />
 
-      {/* Reception routes — all wrapped in sidebar layout */}
       <Route path="/reception" element={<ReceptionRoute><ReceptionDashboard /></ReceptionRoute>} />
       <Route path="/reception/rooms" element={<ReceptionRoute><RoomManagement /></ReceptionRoute>} />
       <Route path="/reception/check-in-out" element={<ReceptionRoute><CheckInOut /></ReceptionRoute>} />
@@ -65,7 +65,8 @@ function AppRoutes() {
       <Route path="/admin/rooms" element={<AdminRoute><AdminRoomManagement /></AdminRoute>} />
       <Route path="/admin/users" element={<AdminRoute><UserManagement /></AdminRoute>} />
       <Route path="/admin/room-types" element={<AdminRoute><RoomTypeManagement /></AdminRoute>} />
-
+      <Route path="/admin/hotels" element={<AdminRoute><HotelManagement /></AdminRoute>} />
+      
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

@@ -1,156 +1,175 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
-    const [hotelSearch, setHotelSearch] = useState('');
-    const [filteredHotels, setFilteredHotels] = useState([]);
-    const [showSuggestions, setShowSuggestions] = useState(false);
+  const [hotelSearch, setHotelSearch] = useState("");
+  const [filteredHotels, setFilteredHotels] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
-    const selectedHotels = formData.hotels || [];
+  const selectedHotels = formData.hotels || [];
 
-    useEffect(() => {
-        if (hotelSearch && showSuggestions) {
-            const result = hotels.filter(h =>
-                h.name.toLowerCase().includes(hotelSearch.toLowerCase()) &&
-                !selectedHotels.find(selected => selected.id === h.id)
-            );
-            setFilteredHotels(result);
-        } else {
-            setFilteredHotels([]);
-        }
-    }, [hotelSearch, hotels, showSuggestions, selectedHotels]);
+  useEffect(() => {
+    if (hotelSearch && showSuggestions) {
+      const result = hotels.filter(
+        (h) =>
+          h.name.toLowerCase().includes(hotelSearch.toLowerCase()) &&
+          !selectedHotels.find((selected) => selected.id === h.id)
+      );
+      setFilteredHotels(result);
+    } else {
+      setFilteredHotels([]);
+    }
+  }, [hotelSearch, hotels, showSuggestions, selectedHotels]);
 
-    //thêm khách sạn
-    const addHotel = (h) => {
-        const newHotels = [...selectedHotels, { id: h.id, name: h.name }];
-        setFormData({ ...formData, hotels: newHotels });
-        setHotelSearch('');
-        setShowSuggestions(false);
-    };
+  const handleValidateAndSave = () => {
+    if (
+      !formData.fullName ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.hotelId
+    ) {
+      alert("Vui lòng nhập đầy đủ thông tin!");
+      return;
+    }
 
-    //  xóa khách sạn 
-    const removeHotel = (id) => {
-        const newHotels = selectedHotels.filter(h => h.id !== id);
-        setFormData({ ...formData, hotels: newHotels });
-    };
+    if (!formData.id && !formData.password) {
+      alert("Vui lòng đặt mật khẩu cho nhân viên mới!");
+      return;
+    }
 
-    //  Kiểm tra nhập đủ thông tin chưa rồi mới cho lưu
-    const handleValidateAndSave = () => {
-        // Thay selectedHotels.length === 0 bằng !formData.hotelId
-        if (!formData.fullName || !formData.email || !formData.phone || !formData.hotelId) {
-            alert("Vui lòng nhập đầy đủ thông tin!");
-            return;
-        }
+    onSave();
+  };
 
-        // Tạo mật khẩu cho nhân viên mới
-        if (!formData.id && !formData.password) {
-            alert("Vui lòng đặt mật khẩu cho nhân viên mới!");
-            return;
-        }
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
 
-        onSave();
-    };
-    return (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-[100] p-4">
-            <div className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg overflow-hidden border-t-[10px] border-[#842A3B]">
-                <div className="p-10">
-                    <h2 className="text-xl font-bold text-[#842A3B] uppercase mb-8 border-b pb-4">
-                        {formData.id ? 'Cập nhật tài khoản' : 'Tạo tài khoản'}
-                    </h2>
+      <div className="w-full max-w-lg rounded-2xl bg-card shadow-xl border border-edge overflow-hidden">
 
-                    <div className="space-y-5">
-                        {/* Họ và Tên */}
-                        <div>
-                            <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Họ và Tên *</label>
-                            <input
-                                className="w-full p-4 bg-gray-50 border text-zinc-800 border-gray-100 rounded-2xl outline-none focus:border-[#842A3B] text-sm font-semibold"
-                                value={formData.fullName || ''}
-                                onChange={e => setFormData({ ...formData, fullName: e.target.value })}
-                            />
-                        </div>
-
-                        {/* Email & SĐT */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Email *</label>
-                                <input
-                                    className="w-full p-4 text-zinc-800 bg-gray-50 border border-gray-100 rounded-2xl text-sm"
-                                    value={formData.email || ''}
-                                    onChange={e => setFormData({ ...formData, email: e.target.value })}
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Số điện thoại *</label>
-                                <input
-                                    className="w-full p-4 text-zinc-800 bg-gray-50 border border-gray-100 rounded-2xl text-sm"
-                                    value={formData.phone || ''}
-                                    onChange={e => {
-                                        const value = e.target.value;
-                                        if (/^[0-9]*$/.test(value)) {
-                                            setFormData({ ...formData, phone: value });
-                                        }
-                                    }}
-                                    maxLength={11}
-                                />
-                            </div>
-                        </div>
-
-                        {/* CHỌN KHÁCH SẠN LÀM VIỆC */}
-                        <div>
-                            <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Thuộc khách sạn *</label>
-                            <select
-                                className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:border-[#842A3B] text-sm font-semibold text-[#374151]"
-                                value={formData.hotelId || ''}
-                                onChange={e => setFormData({ ...formData, hotelId: e.target.value })}
-                            >
-                                <option value="">-- Chọn một khách sạn --</option>
-                                {hotels.map(h => (
-                                    <option key={h.id} value={h.id}>
-                                        {h.name} ({h.city})
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        {/* Vai trò & Mật khẩu */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Vai trò</label>
-                                <select
-                                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl text-sm text-[#842A3B]"
-                                    value={formData.role || 'RECEPTION'}
-                                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                                >
-                                    <option value="RECEPTION">Reception</option>
-                                    <option value="ADMIN">Admin</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-[12px] font-black text-[#842A3B] uppercase tracking-widest mb-2">Mật khẩu </label>
-                                <input
-                                    type="password"
-                                    className="w-full p-4 text-zinc-800 bg-gray-50 border border-gray-100 rounded-2xl text-sm"
-                                    placeholder={formData.id ? "Trống nếu giữ nguyên" : "********"}
-                                    value={formData.password || ''}
-                                    onChange={e => setFormData({ ...formData, password: e.target.value })}
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="flex gap-4 mt-8">
-                        <button type="button" onClick={onClose} className="flex-1 p-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Hủy bỏ</button>
-                        <button
-                            type="button"
-                            onClick={handleValidateAndSave}
-                            className="flex-1 p-4 bg-[#842A3B] text-white rounded-2xl text-xs font-bold shadow-lg hover:bg-[#6e2230] transition-all uppercase tracking-widest"
-                        >
-                            Lưu thông tin
-                        </button>
-                    </div>
-                </div>
-            </div>
+        {/* HEADER */}
+        <div className="px-6 py-4 border-b border-edge bg-raised/60">
+          <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-hi">
+            {formData.id ? "Cập nhật tài khoản" : "Tạo tài khoản"}
+          </h2>
         </div>
-    );
+
+        {/* BODY */}
+        <div className="p-6 space-y-5">
+
+          {/* Họ tên */}
+          <div>
+            <label className="label">Họ và tên *</label>
+            <input
+              className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+              value={formData.fullName || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, fullName: e.target.value })
+              }
+            />
+          </div>
+
+          {/* Email + SĐT */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="label">Email *</label>
+              <input
+                className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+                value={formData.email || ""}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+              />
+            </div>
+
+            <div>
+              <label className="label">SĐT *</label>
+              <input
+                className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+                value={formData.phone || ""}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^[0-9]*$/.test(value)) {
+                    setFormData({ ...formData, phone: value });
+                  }
+                }}
+                maxLength={11}
+              />
+            </div>
+          </div>
+
+          {/* Khách sạn */}
+          <div>
+            <label className="label">Thuộc khách sạn *</label>
+            <select
+              className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+              value={formData.hotelId || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, hotelId: e.target.value })
+              }
+            >
+              <option value="">-- Chọn khách sạn --</option>
+              {hotels.map((h) => (
+                <option key={h.id} value={h.id}>
+                  {h.name} ({h.city})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Role + Password */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="label">Vai trò</label>
+              <select
+                className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+                value={formData.role || "RECEPTION"}
+                onChange={(e) =>
+                  setFormData({ ...formData, role: e.target.value })
+                }
+              >
+                <option value="RECEPTION">Reception</option>
+                <option value="ADMIN">Admin</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="label">Mật khẩu</label>
+              <input
+                type="password"
+                className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+                placeholder={
+                  formData.id ? "Trống nếu giữ nguyên" : "********"
+                }
+                value={formData.password || ""}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* FOOTER */}
+        <div className="flex justify-end gap-2 px-6 py-4 border-t border-edge bg-raised/40">
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg border border-danger/20 px-3 py-1.5 text-[11px] font-medium text-danger transition hover:bg-danger-soft/35"
+          >
+            Hủy
+          </button>
+
+          <button
+            type="button"
+            onClick={handleValidateAndSave}
+            className="rounded-lg border border-info/20 bg-info-soft/70 px-3 py-1.5 text-[11px] font-semibold text-info transition hover:border-info hover:bg-info hover:text-white"
+          >
+            Lưu
+          </button>
+
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default UserModal;

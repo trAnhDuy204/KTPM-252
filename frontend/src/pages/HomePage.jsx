@@ -143,7 +143,7 @@ export default function HomePage() {
 
           {/* Brand */}
           <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <span className="text-yellow-500 text-2xl leading-none">⬡</span>
+            <span className="text-yellow-500 text-2xl leading-none"><Building2/></span>
             <span className="font-display text-2xl font-semibold tracking-[0.15em] text-yellow-500">LUMIÈRE</span>
           </div>
 
@@ -325,7 +325,7 @@ export default function HomePage() {
       <footer className="border-t border-zinc-800/60 py-10 px-4">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-yellow-500 text-xl">⬡</span>
+            <span className="text-yellow-500 text-xl"><Building2/></span>
             <span className="font-display text-lg font-semibold tracking-widest text-yellow-500">LUMIÈRE</span>
           </div>
           <p className="text-xs text-zinc-600">© 2025 Lumière Hotel Management System. All rights reserved.</p>
@@ -577,7 +577,6 @@ function FinalCTA({ navigate, user }) {
           <div className="absolute inset-0 border border-yellow-600/20 rounded-3xl pointer-events-none" />
 
           <div className="relative z-10 text-center px-8 py-16 sm:py-20">
-            <div className="text-5xl mb-6 animate-float">⬡</div>
             <h2 className="font-display text-4xl sm:text-5xl font-semibold text-zinc-100 mb-4">
               Sẵn sàng bắt đầu?
             </h2>

@@ -25,8 +25,9 @@ export default function BookingTable({ bookings, onCheckOut, onCancel, onConfirm
             {bookings.map((booking) => {
               const isPending = booking.status === "PENDING";
               const isCheckedIn = booking.status === "CHECKED_IN";
+              const isComfirmed = booking.status === "CONFIRMED";
               const canCancel =
-                isPending || booking.status === "CONFIRMED" || isCheckedIn;
+                isPending || isComfirmed ;
 
               return (
                 <tr
