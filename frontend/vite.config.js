@@ -9,10 +9,22 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+  host: true,
+  port: 5173,
+  strictPort: true,
+  allowedHosts: [
+    ".ngrok-free.app",
+    ".ngrok-free.dev",
+    "localhost"
+  ]
+  },
   test: {
     environment: 'jsdom',
     globals: true,
     setupFiles: './src/test/setup.js',
     css: true,
   },
+  
+
 })
