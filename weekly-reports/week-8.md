@@ -20,7 +20,7 @@
 | Backend API | Đang làm | 90% |
 | Frontend UI | Đang làm | 90% |
 | Unit Test | Đang làm | 88% |
-**Tổng tiến độ: _84,8_%**
+**Tổng tiến độ: _93,6_%**
 ---
 ## 3. Kế hoạch tuần tới
 | Thành viên | Công việc dự kiến |
