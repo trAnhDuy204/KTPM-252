@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { Bed } from "lucide-react";
 /* Reuse simple EmptyState */
 function EmptyState({ text }) {
   return (
@@ -10,21 +10,42 @@ function EmptyState({ text }) {
 }
 
 function handleBook(room) {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  if (!user.fullName || !user.phone) {
+    alert("Không lấy được thông tin người dùng");
+    return;
+  }
+    const token = localStorage.getItem("accessToken");
+  if (!token) {
+    alert("Vui lòng đăng nhập để đặt phòng");
+    return;
+  }
+  
+
+  const today = new Date();
+  const checkIn = new Date();
+  checkIn.setDate(today.getDate() + 1);
+
+  const checkOut = new Date();
+  checkOut.setDate(today.getDate() + 3);
+
   const requestBody = {
-    userId: 1,
+    userId: user.id,
     hotelId: room.hotelId,
     roomId: room.id,
-    checkIn: "2026-04-25",
-    checkOut: "2026-04-27",
-    guestName: "Test User",
-    guestPhone: "0123456789"
+    checkIn: checkIn.toLocaleDateString("sv-SE"),
+    checkOut: checkOut.toLocaleDateString("sv-SE"),
+    guestName: user.fullName,
+    guestPhone: user.phone
   };
 
   fetch("http://localhost:8080/api/public/bookings", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
     },
+    credentials: "include",
     body: JSON.stringify(requestBody)
   })
     .then(async (res) => {
@@ -37,7 +58,7 @@ function handleBook(room) {
     .then((data) => {
       console.log("Booking success:", data);
 
-      // 👇 CALL PAYMENT HERE
+      // CALL PAYMENT HERE
       handlePay(data.id);
 
     })
@@ -62,15 +83,15 @@ function handlePay(bookingId) {
 function RoomCard({ room }) {
   return (
     <div className="border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex items-center justify-between transition-colors duration-200 group">
-      
+
       {/* Left */}
       <div className="flex items-center gap-4">
         <div className="w-12 h-12 rounded-xl bg-yellow-600/10 border border-yellow-600/20 flex items-center justify-center">
-          🛏️
+          <Bed />
         </div>
 
         <div>
-          <p className="text-sm font-medium text-zinc-200">
+          <p className="text-sm font-medium ">
             Room {room.roomNumber}
           </p>
           <p className="text-xs text-zinc-500">
@@ -85,7 +106,7 @@ function RoomCard({ room }) {
       {/* Right */}
       <div className="flex items-center gap-3">
         <span className="text-[11px] px-2.5 py-1 rounded-full border border-emerald-500/25 bg-emerald-500/10 text-emerald-400">
-          ${room.basePrice}
+          {room.basePrice}VNĐ
         </span>
 
         <button
@@ -141,8 +162,8 @@ function HotelRoomsDisplay() {
     roomType === "all"
       ? rooms
       : rooms.filter(
-          r => r.roomTypeName?.toLowerCase() === roomType.toLowerCase()
-        );
+        r => r.roomTypeName?.toLowerCase() === roomType.toLowerCase()
+      );
 
   const grouped = rooms.reduce((acc, room) => {
     const hotel = room.hotelName;
@@ -159,7 +180,7 @@ function HotelRoomsDisplay() {
         <select
           value={roomType}
           onChange={e => setRoomType(e.target.value)}
-          className="border border-zinc-700 rounded-lg px-3 py-2 bg-zinc-900 text-sm"
+          className="border text-gray-950 border-zinc-700 rounded-lg px-3 py-2 text-sm"
         >
           <option value="all">All</option>
           <option value="single">Single</option>
@@ -169,14 +190,14 @@ function HotelRoomsDisplay() {
 
         <button
           onClick={() => AscDesc("asc")}
-          className="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-sm"
+          className="px-4 py-2 rounded-lg border border-zinc-700  text-sm"
         >
           Giá tăng
         </button>
 
         <button
           onClick={() => AscDesc("desc")}
-          className="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-sm"
+          className="px-4 py-2 rounded-lg border border-zinc-700  text-sm"
         >
           Giá giảm
         </button>
@@ -221,7 +242,7 @@ function HotelRoomsDisplay() {
       )}
     </div>
   );
-  
+
 }
 
 

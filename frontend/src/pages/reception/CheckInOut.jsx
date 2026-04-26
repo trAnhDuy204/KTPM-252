@@ -4,6 +4,7 @@ import {
   cancelBooking,
   checkIn,
   checkOut,
+  checkInByBookingId,
   confirmBooking,
   createBooking,
   getBookings,
@@ -82,6 +83,23 @@ export default function CheckInOut() {
     } catch (err) {
       showError(err);
     }
+  };
+
+  const handleCheckInByBookingId = (bookingId) => {
+    setDialog({
+      title: "Check-in",
+      message: "Xác nhận nhận phòng cho booking này?",
+      variant: "warning",
+      onConfirm: async () => {
+        setDialog(null);
+        try {
+          await checkInByBookingId(bookingId);
+          fetchBookings();
+        } catch (err) {
+          showError(err);
+        }
+      },
+    });
   };
 
   const handleCheckOut = (bookingId) => {
@@ -247,6 +265,7 @@ export default function CheckInOut() {
         ) : (
           <BookingTable
             bookings={bookings}
+            onCheckIn={handleCheckInByBookingId}
             onCheckOut={handleCheckOut}
             onCancel={handleCancel}
             onConfirm={handleConfirm}

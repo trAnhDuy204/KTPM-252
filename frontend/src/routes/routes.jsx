@@ -17,7 +17,6 @@ import { CustomerDashboard, ReceptionDashboard, AdminDashboard } from '@/pages/D
 import RoomManagement from '@/pages/reception/RoomManagement';
 import CheckInOut from '@/pages/reception/CheckInOut';
 import HomePage from '@/pages/HomePage';
-
 import HotelRoomsDisplay from '@/pages/customer/HotelRoomApp';
 import PaymentResult from '@/pages/customer/PaymentResult';
 

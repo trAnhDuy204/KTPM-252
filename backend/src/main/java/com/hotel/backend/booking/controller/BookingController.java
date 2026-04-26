@@ -35,6 +35,12 @@ public class BookingController {
         return bookingService.confirmBooking(bookingId);
     }
 
+    @PostMapping("/{bookingId}/check-in")
+    @PreAuthorize("hasRole('RECEPTION') or hasRole('ADMIN')")
+    public BookingResponse checkInByBookingId(@PathVariable Integer bookingId) {
+        return bookingService.checkInByBookingId(bookingId);
+    }
+
     @PostMapping("/check-in")
     @PreAuthorize("hasRole('RECEPTION') or hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
@@ -58,8 +64,7 @@ public class BookingController {
     @PreAuthorize("hasRole('RECEPTION') or hasRole('ADMIN')")
     public List<BookingResponse> getBookings(
             @RequestParam(required = false) Integer hotelId,
-            @RequestParam(required = false) BookingStatus status
-    ) {
+            @RequestParam(required = false) BookingStatus status) {
         return bookingService.getBookings(hotelId, status);
     }
 

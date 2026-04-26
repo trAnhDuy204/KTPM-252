@@ -31,7 +31,7 @@ const HotelModal = ({ formData, setFormData, onSave, onClose }) => {
               Tên khách sạn *
             </label>
             <input
-              className="w-full text-black rounded-lg border border-edge bg-white px-3 py-2 text-sm text-hi outline-none transition focus:border-info"
+              className="w-full text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info"
               value={formData.name || ""}
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
@@ -45,7 +45,7 @@ const HotelModal = ({ formData, setFormData, onSave, onClose }) => {
               Thành phố *
             </label>
             <input
-              className="w-full text-black rounded-lg border border-edge bg-white px-3 py-2 text-sm text-hi outline-none transition focus:border-info"
+              className="w-full text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info"
               value={formData.city || ""}
               onChange={(e) =>
                 setFormData({ ...formData, city: e.target.value })
@@ -59,7 +59,7 @@ const HotelModal = ({ formData, setFormData, onSave, onClose }) => {
               Địa chỉ *
             </label>
             <input
-              className="w-full text-black rounded-lg border border-edge bg-white px-3 py-2 text-sm text-hi outline-none transition focus:border-info"
+              className="w-full text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info"
               value={formData.address || ""}
               onChange={(e) =>
                 setFormData({ ...formData, address: e.target.value })
@@ -73,7 +73,7 @@ const HotelModal = ({ formData, setFormData, onSave, onClose }) => {
               Mô tả
             </label>
             <textarea
-              className="w-full text-black rounded-lg border border-edge bg-white px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none h-24"
+              className="w-full text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none h-24"
               value={formData.description || ""}
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })

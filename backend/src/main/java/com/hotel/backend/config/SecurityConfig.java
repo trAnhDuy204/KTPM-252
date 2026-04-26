@@ -59,13 +59,12 @@ public class SecurityConfig {
             ) 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/api/auth/register",
-                    "/api/auth/login",
-                    "/api/auth/refresh", 
+                    "/api/auth/**",
                     "/api/rooms/**",
                     "/api/public/**",
                     "/api/room-types/**",
-                    "/api/reviews/hotel/**"
+                    "/api/reviews/hotel/**",
+                    "/payment-result/**"
                 ).permitAll()
                 .requestMatchers("/api/reception/**").hasRole("RECEPTION")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")

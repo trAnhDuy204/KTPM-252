@@ -20,15 +20,19 @@ public class VnpayService {
     private final String vnp_TmnCode = "M51QNFEJ";
     private final String vnp_HashSecret = "399XZ6P6QCIFLQWK5QS8PRRRLZF71LEG";
     private final String vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    private final String returnUrl = "https://scavenger-tumbling-wincing.ngrok-free.dev/payment-result";
-
+    private final String returnUrl = "http://localhost:8080/api/public/payment/vnpay-return";
+    //dữ liệu test:
+    // 9704198526191432198
+    // NGUYEN VAN A
+    // 07/15
+    // OTP: 123456
     public String createPaymentUrl(Integer bookingId, long amount) throws Exception {
 
         Map<String, String> params = new HashMap<>();
         params.put("vnp_Version", "2.1.0");
         params.put("vnp_Command", "pay");
         params.put("vnp_TmnCode", vnp_TmnCode);
-        params.put("vnp_Amount", String.valueOf(amount));
+        params.put("vnp_Amount", String.valueOf(amount * 100));
         params.put("vnp_CurrCode", "VND");
 
         params.put("vnp_TxnRef", bookingId.toString());

@@ -2,6 +2,9 @@ import api from "./api";
 
 export const checkIn = (data) => api.post("/reception/bookings/check-in", data);
 
+export const checkInByBookingId = (bookingId) =>
+  api.post(`/reception/bookings/${bookingId}/check-in`);
+
 export const checkOut = (bookingId) =>
   api.post(`/reception/bookings/${bookingId}/check-out`);
 

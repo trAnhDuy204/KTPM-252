@@ -1,7 +1,7 @@
 import { BOOKING_STATUS_COLORS, BOOKING_STATUS_LABELS } from "@/constants/bookingStatus";
 import { panelCard } from "@/utils/cls";
 
-export default function BookingTable({ bookings, onCheckOut, onCancel, onConfirm }) {
+export default function BookingTable({ bookings, onCheckIn, onCheckOut, onCancel, onConfirm }) {
   if (bookings.length === 0) return null;
 
   return (
@@ -25,9 +25,9 @@ export default function BookingTable({ bookings, onCheckOut, onCancel, onConfirm
             {bookings.map((booking) => {
               const isPending = booking.status === "PENDING";
               const isCheckedIn = booking.status === "CHECKED_IN";
-              const isComfirmed = booking.status === "CONFIRMED";
+              const isConfirmed = booking.status === "CONFIRMED";
               const canCancel =
-                isPending || isComfirmed ;
+                isPending || isConfirmed;
 
               return (
                 <tr
@@ -65,6 +65,14 @@ export default function BookingTable({ bookings, onCheckOut, onCancel, onConfirm
                           onClick={() => onConfirm(booking.id)}
                         >
                           Xác nhận
+                        </button>
+                      )}
+                      {isConfirmed && (
+                        <button
+                          className="rounded-lg border border-warning/20 bg-warning-soft/70 px-2.5 py-1.5 text-[11px] font-semibold text-warning transition-all duration-200 hover:border-warning hover:bg-warning hover:text-white"
+                          onClick={() => onCheckIn(booking.id)}
+                        >
+                          Check-in
                         </button>
                       )}
                       {isCheckedIn && (

@@ -13,6 +13,7 @@ export default defineConfig({
   host: true,
   port: 5173,
   strictPort: true,
+  historyApiFallback: true,
   allowedHosts: [
     ".ngrok-free.app",
     ".ngrok-free.dev",

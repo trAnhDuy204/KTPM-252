@@ -1,12 +1,9 @@
 package com.hotel.backend.room.controller;
 
-import com.hotel.backend.hotel.entity.Hotel;
-import com.hotel.backend.hotel.repository.HotelRepository;
+
 import com.hotel.backend.room.dto.RoomResponse;
-import com.hotel.backend.room.entity.RoomType;
 import com.hotel.backend.room.repository.RoomTypeRepository;
 import com.hotel.backend.room.repository.RoomRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +30,7 @@ public class RoomForCustomerAccessController {
         this.roomTypeRepository = roomTypeRepository;
     }
 
-    // ================= ROOM TYPES =================
+    //ROOM TYPES
     @GetMapping("/room-types")
     public List<RoomTypeOption> getRoomTypes(@RequestParam Integer hotelId) {
         return roomTypeRepository.findByHotel_Id(hotelId).stream()
@@ -46,7 +43,7 @@ public class RoomForCustomerAccessController {
                 .toList();
     }
 
-    // ================= ROOMS =================
+    //ROOMS
     @GetMapping("/rooms")
     public List<RoomResponse> getRooms(@RequestParam (required = false) Integer hotelId) 
     {
@@ -62,7 +59,7 @@ public class RoomForCustomerAccessController {
             .toList();
     }
 
-    // ================= DTOs =================
+    // DTOs
     record RoomTypeOption(
             Integer id,
             String name,

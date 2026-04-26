@@ -120,7 +120,7 @@ const RoomModal = ({ isOpen, onClose, onSave, selectedRoom }) => {
           <div className="col-span-2">
             <label className="label">Khách sạn</label>
             <select
-              className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+              className="input text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
               value={roomData.hotelId}
               onChange={(e) => {
                 const hotelId = e.target.value;
@@ -147,7 +147,7 @@ const RoomModal = ({ isOpen, onClose, onSave, selectedRoom }) => {
           <div>
             <label className="label">Số phòng</label>
             <input
-              className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+              className="input text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
               value={roomData.roomNumber}
               onChange={(e) =>
                 setRoomData({
@@ -162,7 +162,7 @@ const RoomModal = ({ isOpen, onClose, onSave, selectedRoom }) => {
           <div>
             <label className="label">Trạng thái</label>
             <select
-              className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+              className="input text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
               value={roomData.status}
               onChange={(e) =>
                 setRoomData({ ...roomData, status: e.target.value })
@@ -179,7 +179,7 @@ const RoomModal = ({ isOpen, onClose, onSave, selectedRoom }) => {
           <div>
             <label className="label">Loại phòng</label>
             <select
-              className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+              className="input text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
               disabled={!roomData.hotelId}
               value={selectedTypeName}
               onChange={handleTypeNameChange}
@@ -199,7 +199,7 @@ const RoomModal = ({ isOpen, onClose, onSave, selectedRoom }) => {
           <div>
             <label className="label">Sức chứa</label>
             <select
-              className="input text-black rounded-lg border border-edge bg-white text-sm text-hi outline-none transition focus:border-info resize-none"
+              className="input text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
               disabled={!roomData.hotelId || !selectedTypeName}
               value={roomData.roomType?.id || ""}
               onChange={handleCapacityChange}

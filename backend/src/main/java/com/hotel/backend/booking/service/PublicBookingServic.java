@@ -17,16 +17,23 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import com.hotel.backend.auth.entity.User;
+import com.hotel.backend.auth.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Service
-public class BookingService {
+public class PublicBookingServic {
 
     private final BookingRepository bookingRepository;
     private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
 
-    public BookingService(BookingRepository bookingRepository, RoomRepository roomRepository) {
+    public PublicBookingServic(BookingRepository bookingRepository, RoomRepository roomRepository,
+            UserRepository userRepository) {
         this.bookingRepository = bookingRepository;
         this.roomRepository = roomRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional
@@ -66,30 +73,6 @@ public class BookingService {
 
         Booking saved = bookingRepository.save(booking);
         return BookingResponse.from(saved);
-    }
-
-    @Transactional
-    public BookingResponse checkInByBookingId(Integer bookingId) {
-
-        Booking booking = findBooking(bookingId);
-
-        if (booking.getStatus() != BookingStatus.CONFIRMED) {
-            throw new BusinessRuleException("Only CONFIRMED booking can check-in");
-        }
-
-        Room room = booking.getRoom();
-
-        if (room.getStatus() != RoomStatus.AVAILABLE && room.getStatus() != RoomStatus.RESERVED) {
-            throw new BusinessRuleException("Room not available");
-        }
-
-        booking.setStatus(BookingStatus.CHECKED_IN);
-        booking.setCheckIn(LocalDate.now());
-
-        room.setStatus(RoomStatus.OCCUPIED);
-        roomRepository.save(room);
-
-        return BookingResponse.from(bookingRepository.save(booking));
     }
 
     @Transactional
@@ -162,7 +145,20 @@ public class BookingService {
     }
 
     @Transactional
-    public BookingResponse createBooking(CreateBookingRequest request) {
+    public BookingResponse createBookingForCustomer(CreateBookingRequest request) {
+
+        // Lấy user từ JWT
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        String email = userDetails.getUsername();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Lấy room
         Room room = roomRepository.findById(request.roomId())
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + request.roomId()));
 
@@ -171,31 +167,40 @@ public class BookingService {
         }
 
         LocalDate today = LocalDate.now();
+
         if (request.checkIn().isBefore(today)) {
             throw new BusinessRuleException("Check-in date cannot be in the past");
         }
+
         if (!request.checkOut().isAfter(request.checkIn())) {
             throw new BusinessRuleException("Check-out date must be after check-in date");
         }
 
         long nights = ChronoUnit.DAYS.between(request.checkIn(), request.checkOut());
+
         BigDecimal pricePerNight = room.getRoomType().getBasePrice();
         BigDecimal totalPrice = pricePerNight.multiply(BigDecimal.valueOf(nights));
 
+        // Tạo booking
         Booking booking = new Booking();
+        booking.setUserId(user.getId());
         booking.setHotel(room.getHotel());
         booking.setRoom(room);
         booking.setCheckIn(request.checkIn());
         booking.setCheckOut(request.checkOut());
         booking.setTotalPrice(totalPrice);
         booking.setStatus(BookingStatus.PENDING);
-        booking.setGuestName(request.guestName());
-        booking.setGuestPhone(request.guestPhone());
 
+        // auto lấy từ user
+        booking.setGuestName(user.getFullName());
+        booking.setGuestPhone(user.getPhone());
+
+        // update room
         room.setStatus(RoomStatus.RESERVED);
         roomRepository.save(room);
 
         Booking saved = bookingRepository.save(booking);
+
         return BookingResponse.from(saved);
     }
 
