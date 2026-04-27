@@ -58,7 +58,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
           <div>
             <label className="label">Họ và tên *</label>
             <input
-              className="input text-gray-950 rounded-lg border border-edge  px-2 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
+              className="input text-zinc-950 rounded-lg border border-edge  px-2 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
               value={formData.fullName || ""}
               onChange={(e) =>
                 setFormData({ ...formData, fullName: e.target.value })
@@ -71,7 +71,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
             <div>
               <label className="label">Email *</label>
               <input
-                className="input text-gray-950 rounded-lg border border-edge  px-2 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
+                className="input text-zinc-950 rounded-lg border border-edge  px-2 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
                 value={formData.email || ""}
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
@@ -82,7 +82,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
             <div>
               <label className="label">SĐT *</label>
               <input
-                className="input text-gray-950 rounded-lg border border-edge  px-2 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
+                className="input text-zinc-950 rounded-lg border border-edge  px-2 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
                 value={formData.phone || ""}
                 onChange={(e) => {
                   const value = e.target.value;
@@ -99,7 +99,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
           <div>
             <label className="label">Thuộc khách sạn *</label>
             <select
-              className="input text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
+              className="input text-zinc-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
               value={formData.hotelId || ""}
               onChange={(e) =>
                 setFormData({ ...formData, hotelId: e.target.value })
@@ -119,7 +119,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
             <div>
               <label className="label">Vai trò</label>
               <select
-                className="input text-gray-950 rounded-lg border border-edge  px-11 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
+                className="input text-zinc-950 rounded-lg border border-edge  px-11 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
                 value={formData.role || "RECEPTION"}
                 onChange={(e) =>
                   setFormData({ ...formData, role: e.target.value })
@@ -134,7 +134,7 @@ const UserModal = ({ formData, setFormData, onSave, onClose, hotels }) => {
               <label className="label">Mật khẩu</label>
               <input
                 type="password"
-                className="input text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
+                className="input text-zinc-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
                 placeholder={
                   formData.id ? "Trống nếu giữ nguyên" : "********"
                 }

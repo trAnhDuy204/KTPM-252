@@ -237,7 +237,7 @@ const RoomTypeManagement = () => {
                             <div>
                                 <label className="label">Khách sạn</label>
                                 <select
-                                    className="input text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
+                                    className="input text-zinc-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
                                     value={formData.hotelId}
                                     onChange={(e) =>
                                         setFormData({ ...formData, hotelId: e.target.value })
@@ -260,7 +260,7 @@ const RoomTypeManagement = () => {
                                     <input
                                         type="text"
                                         placeholder="VD: Master, Single..."
-                                        className="input text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
+                                        className="input text-zinc-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
                                         value={formData.name}
                                         onChange={(e) =>
                                             setFormData({ ...formData, name: e.target.value })
@@ -274,7 +274,7 @@ const RoomTypeManagement = () => {
                                     <input
                                         type="number"
                                         placeholder="Số người"
-                                        className="input text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
+                                        className="input text-zinc-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
                                         value={formData.capacity}
                                         onChange={(e) =>
                                             setFormData({ ...formData, capacity: e.target.value })
@@ -288,7 +288,7 @@ const RoomTypeManagement = () => {
                                     <input
                                         type="number"
                                         placeholder="VNĐ"
-                                        className="input text-gray-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
+                                        className="input text-zinc-950 rounded-lg border border-edge  px-3 py-2 text-sm text-hi outline-none transition focus:border-info resize-none"
                                         value={formData.basePrice}
                                         onChange={(e) =>
                                             setFormData({ ...formData, basePrice: e.target.value })

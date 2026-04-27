@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CirclePlus } from 'lucide-react';
+import { CirclePlus, Search } from 'lucide-react';
 import { panelCard } from "@/utils/cls";
 import { adminApi } from '@/services/adminApi';
 import HotelModal from '@/components/admin/HotelModal';
@@ -86,7 +86,7 @@ const HotelManagement = () => {
     return (
         <>
             <div className="flex justify-between items-center mb-10">
-                <h1 className="text-2xl font-bold text-[#842A3B] uppercase tracking-tight">
+                <h1 className="text-2xl font-bold uppercase tracking-tight">
                     Quản lý khách sạn
                 </h1>
                 <button
@@ -104,16 +104,16 @@ const HotelManagement = () => {
                     <input
                         type="text"
                         placeholder="Tìm kiếm theo tên..."
-                        className="w-full p-4 pl-12 rounded-2xl border border-gray-200 outline-none focus:border-[#842A3B] bg-white shadow-sm transition-all text-sm"
+                        className="w-full text-zinc-950 p-4 pl-12 rounded-2xl border border-gray-200 outline-none focus:border-[#842A3B]  shadow-sm transition-all text-sm"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <span className="absolute left-4 top-4 opacity-30">🔍</span>
+                    <Search className="absolute left-4 top-4 opacity-30 text-gray-500" />
                 </div>
 
                 {/* THÊM 3: Bộ lọc Dropdown Thành phố */}
                 <select
-                    className="p-4 rounded-2xl border border-gray-200 outline-none focus:border-[#842A3B] bg-white shadow-sm transition-all text-sm min-w-[200px] text-[#842A3B] font-bold tracking-widest cursor-pointer"
+                    className="p-4 rounded-2xl text-zinc-950 border border-gray-200 outline-none focus:border-[#842A3B] shadow-sm transition-all text-sm min-w-[200px] font-bold tracking-widest cursor-pointer"
                     value={selectedCity}
                     onChange={(e) => setSelectedCity(e.target.value)}
                 >

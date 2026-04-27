@@ -9,11 +9,12 @@ import {
   LogOut,
   Moon,
   Sun,
+  Hotel,
 } from "lucide-react";
 
 const navItems = [
   { Icon: Home, label: "Tổng quan", path: "/admin" },
-  { Icon: Building2, label: "Khách sạn", path: "/admin/hotels" },
+  { Icon: Hotel, label: "Khách sạn", path: "/admin/hotels" },
   { Icon: Building2, label: "Phòng", path: "/admin/rooms" },
   { Icon: Warehouse, label: "Loại phòng", path: "/admin/room-types" },
   { Icon: Users, label: "Nhân viên", path: "/admin/users" },

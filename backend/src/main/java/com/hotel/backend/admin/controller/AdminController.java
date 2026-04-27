@@ -8,8 +8,10 @@ import com.hotel.backend.admin.repository.AdminHotelRepository;
 import com.hotel.backend.admin.repository.AdminRoomRepository;
 import com.hotel.backend.admin.repository.AdminRoomTypeRepository;
 import com.hotel.backend.admin.repository.AdminUserRepository;
+import com.hotel.backend.admin.service.AdminBookingService;
 import com.hotel.backend.hotel.entity.Hotel;
 import com.hotel.backend.hotel.repository.HotelRepository;
+import com.hotel.backend.admin.dto.AdminBookingDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -33,7 +35,17 @@ public class AdminController {
     @Autowired
     private AdminUserRepository userRepo;
     @Autowired
-    private AdminRoomRepository roomRepo; 
+    private AdminRoomRepository roomRepo;
+    @Autowired
+    private AdminBookingService bookingService;
+    
+     // QUẢN LÝ ĐẶT PHÒNG
+     // Xem tất cả đặt phòng
+     @GetMapping("/bookings")
+     @PreAuthorize("hasRole('ADMIN')")
+     public List<AdminBookingDto> getAllBookings() {
+         return bookingService.getAllBookings();
+     }
 
     // QUẢN LÝ KHÁCH SẠN
     // Xem danh sách khách sạn
@@ -42,6 +54,7 @@ public class AdminController {
     public List<AdminHotel> getAllHotels() {
         return hotelRepo.findAll();
     }
+
     // Thêm khách sạn mới
     @PostMapping("/hotels")
     @PreAuthorize("hasRole('ADMIN')")
@@ -51,6 +64,7 @@ public class AdminController {
         }
         return hotelRepo.save(hotel);
     }
+
     // Cập nhật khách sạn
     @PutMapping("/hotels/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -94,7 +108,7 @@ public class AdminController {
         return roomRepo.findAll();
     }
 
-    // Thêm hoặc Sửa phòng 
+    // Thêm hoặc Sửa phòng
     @PostMapping("/rooms")
     @PreAuthorize("hasRole('ADMIN')")
     public AdminRoom saveRoom(@RequestBody AdminRoom room) {
@@ -133,7 +147,7 @@ public class AdminController {
         }).orElseThrow(() -> new RuntimeException("Không tìm thấy phòng id: " + id));
     }
 
-    // Lấy danh sách Loại phòng 
+    // Lấy danh sách Loại phòng
     @GetMapping("/room-types")
     @PreAuthorize("hasRole('ADMIN')")
     public List<AdminRoomType> getAllRoomTypes() {
@@ -185,7 +199,7 @@ public class AdminController {
         return userRepo.findAll();
     }
 
-    // Tạo tài khoản mới 
+    // Tạo tài khoản mới
     @PostMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createUser(@RequestBody AdminUser user) {
@@ -211,7 +225,7 @@ public class AdminController {
         return ResponseEntity.ok(savedUser);
     }
 
-    // Cập nhật tài khoản 
+    // Cập nhật tài khoản
     @PutMapping("/users/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateUser(@PathVariable Integer id, @RequestBody AdminUser userDetails) {
@@ -225,7 +239,7 @@ public class AdminController {
                 return ResponseEntity.badRequest().body(Map.of("message", "Email mới đã bị trùng với nhân viên khác!"));
             }
 
-            //Check trùng SĐT 
+            // Check trùng SĐT
             if (userDetails.getPhone() != null && !userDetails.getPhone().equals(user.getPhone())
                     && userRepo.existsByPhone(userDetails.getPhone())) {
                 return ResponseEntity.badRequest().body(Map.of("message", "Số điện thoại mới đã bị trùng!"));

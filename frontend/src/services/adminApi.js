@@ -29,7 +29,7 @@ export const adminApi = {
 
     searchRooms: (number) => api.get(`${API_URL}/rooms/search?roomNumber=${number}`),
 
-    // QUẢN LÝ KHÁCH SẠN
+    // QUẢN LÝ NHÂN VIÊN
     getUsers: () => api.get(`${API_URL}/users`),
 
     saveUser: (data) => {
@@ -41,7 +41,7 @@ export const adminApi = {
 
     deleteUser: (id) => api.delete(`${API_URL}/users/${id}`),
 
-    // HOTELS
+    // QUẢN LÝ KHÁCH SẠN
     getHotels: () => api.get(`${API_URL}/hotels`),
 
     deleteHotel: (id) => axios.delete(`${API_URL}/hotels/${id}`),
@@ -53,5 +53,7 @@ export const adminApi = {
         }
         // Nếu không có id -> Gọi POST để Tạo mới
         return axios.post(`${API_URL}/hotels`, data);
-    }
+    },
+
+    getBookings: (params) => api.get(`${API_URL}/bookings`, { params })
 };
