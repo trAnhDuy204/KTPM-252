@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import StarRating from './StarRating';
 import { reviewApi } from '../../services/reviewApi';
-import { Clipboard, Star, X, OctagonAlert } from 'lucide-react';
+import { Clipboard, Star, X, OctagonAlert, MoveRight } from 'lucide-react';
 
 export default function ReviewModal({ booking, onClose, onSuccess }) {
-  const [rating, setRating]   = useState(0);
+  const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ export default function ReviewModal({ booking, onClose, onSuccess }) {
               Đánh giá kỳ nghỉ
             </h2>
             <p className="text-xs text-zinc-500 mt-0.5">
-              {booking.hotelName} · {booking.roomNumber}
+              {booking.hotelName} - {booking.roomNumber}
             </p>
           </div>
           <button
@@ -67,8 +67,10 @@ export default function ReviewModal({ booking, onClose, onSuccess }) {
             <Clipboard className="h-6 w-6 text-zinc-400" />
             <div>
               <p className="text-xs font-medium text-zinc-400">Thời gian lưu trú</p>
-              <p className="text-sm text-zinc-200">
-                {booking.checkIn} → {booking.checkOut}
+              <p className="flex items-center gap-2 text-sm text-zinc-200">
+                <span>{booking.checkIn}</span>
+                <MoveRight size={16} />
+                <span>{booking.checkOut}</span>
               </p>
             </div>
           </div>
@@ -79,12 +81,11 @@ export default function ReviewModal({ booking, onClose, onSuccess }) {
               Đánh giá tổng thể
             </label>
             <StarRating value={rating} onChange={setRating} size="lg" />
-            <p className={`text-sm font-medium h-5 transition-all ${
-              rating >= 4 ? 'text-emerald-400'
-              : rating >= 3 ? 'text-yellow-400'
-              : rating > 0  ? 'text-red-400'
-              : 'text-transparent'
-            }`}>
+            <p className={`text-sm font-medium h-5 transition-all ${rating >= 4 ? 'text-emerald-400'
+                : rating >= 3 ? 'text-yellow-400'
+                  : rating > 0 ? 'text-red-400'
+                    : 'text-transparent'
+              }`}>
               {ratingLabel}
             </p>
           </div>

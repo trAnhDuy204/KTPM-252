@@ -73,8 +73,8 @@ public class ReviewService {
                 .stream()
                 .map(b -> ReviewDto.ReviewableBooking.builder()
                         .bookingId(b.getId())
-                        .hotelName("Khách sạn #" + b.getHotel())   // sẽ join hotels sau
-                        .roomNumber("Phòng #" + b.getRoom())
+                        .hotelName("Khách sạn #" + b.getHotel().getName())
+                        .roomNumber("Phòng #" + b.getRoom().getRoomNumber())
                         .checkIn(b.getCheckIn().format(DATE_FMT))
                         .checkOut(b.getCheckOut().format(DATE_FMT))
                         .alreadyReviewed(reviewRepository

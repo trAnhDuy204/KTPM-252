@@ -19,6 +19,7 @@ import CheckInOut from '@/pages/reception/CheckInOut';
 import HomePage from '@/pages/HomePage';
 import HotelRoomsDisplay from '@/pages/customer/HotelRoomApp';
 import PaymentResult from '@/pages/customer/PaymentResult';
+import ProfilePage from '@/pages/customer/ProfilePage';
 
 function ReceptionRoute({ children }) {
   return (
@@ -53,6 +54,7 @@ function AppRoutes() {
       <Route path="/payment-result" element={<PaymentResult />} />
 
       <Route path="/dashboard" element={<CustomerRoute><CustomerDashboard /></CustomerRoute>} />
+      <Route path="/dashboard/profile" element={<CustomerRoute><ProfilePage /></CustomerRoute>} />
       <Route path="/dashboard/reviews" element={<CustomerRoute><ReviewPage /></CustomerRoute>} />
       <Route path="/dashboard/hotels" element={<CustomerRoute><HotelRoomsDisplay /> </CustomerRoute>} />
 

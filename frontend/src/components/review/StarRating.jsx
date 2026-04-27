@@ -32,7 +32,7 @@ export default function StarRating({
 
       {/* Numeric label khi read-only */}
       {readOnly && value > 0 && (
-        <span className="ml-1.5 text-xs font-medium text-zinc-400 tabular-nums">
+        <span className="ml-1.5 text-xs font-medium  tabular-nums">
           {Number(value).toFixed(1)}
         </span>
       )}

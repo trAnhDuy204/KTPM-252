@@ -66,6 +66,7 @@ public class SecurityConfig {
                     "/api/reviews/hotel/**",
                     "/payment-result/**"
                 ).permitAll()
+                .requestMatchers("/api/profile/**").hasRole("CUSTOMER")
                 .requestMatchers("/api/reception/**").hasRole("RECEPTION")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
