@@ -66,16 +66,14 @@ Hệ thống hỗ trợ quản lý hoạt động khách sạn như đặt phòn
 
 * Unit Test
 * Integration Test
-* System Test
-* User Acceptance Test (UAT)
+* Manual Test : Kiểm thử toàn bộ luồng người dùng (tìm phòng → đặt phòng → thanh toán → check-in)
+* Automation Test : Sử dụng Postman + Newman để kiểm thử API tự động
 
 ### 6.2 Loại kiểm thử
 
 * Kiểm thử chức năng (Functional)
 * Kiểm thử giao diện (UI)
 * Kiểm thử hiệu năng (Performance)
-* Kiểm thử bảo mật (Security)
-* Kiểm thử hồi quy (Regression)
 
 ### 6.3 Kỹ thuật kiểm thử
 
@@ -158,8 +156,10 @@ Hệ thống hỗ trợ quản lý hoạt động khách sạn như đặt phòn
 
 | Rủi ro            | Mức độ     | Giải pháp           |
 | ----------------- | ---------- | ------------------- |
-| Thay đổi yêu cầu hệ thống  | Cao        | Cố định yêu cầu sớm |
-
+| Thay đổi yêu cầu hệ thống | Cao | Cố định yêu cầu sớm |
+| Trùng lịch đặt phòng   | Cao | kiểm tra ràng buộc DB và test boundary |
+| Sai phân quyền | Cao | test theo role (RBAC) |
+| Dữ liệu test không đầy đủ | Thấp | chuẩn bị dataset đa dạng. |
 ---
 
 *Xác nhận của Nhóm trưởng: [Trần Hà Anh Duy]*

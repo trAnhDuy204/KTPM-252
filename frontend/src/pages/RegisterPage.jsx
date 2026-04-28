@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useForm } from '../hooks/useForm';
+import { Building2 } from "lucide-react";
 
 const validate = (v) => ({
   fullName: !v.fullName?.trim() ? 'Họ tên là bắt buộc'
@@ -10,7 +11,7 @@ const validate = (v) => ({
     : !/\S+@\S+\.\S+/.test(v.email) ? 'Email không hợp lệ' : '',
   password: !v.password ? 'Mật khẩu là bắt buộc'
     : v.password.length < 8 ? 'Tối thiểu 8 ký tự'
-    : !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(v.password) ? 'Cần chữ hoa, chữ thường và số' : '',
+      : !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(v.password) ? 'Cần chữ hoa, chữ thường và số' : '',
   confirmPassword: !v.confirmPassword ? 'Vui lòng xác nhận mật khẩu'
     : v.confirmPassword !== v.password ? 'Mật khẩu không khớp' : '',
   phone: v.phone && !/^(\+?[0-9]{9,15})?$/.test(v.phone) ? 'Số điện thoại không hợp lệ' : '',
@@ -35,10 +36,9 @@ const strengthConfig = [
 ];
 
 const inputCls = (hasError) =>
-  `w-full bg-zinc-800/80 border rounded-lg px-4 py-3 text-zinc-100 text-sm font-light outline-none transition-all duration-200 placeholder:text-zinc-600 ${
-    hasError
-      ? 'border-red-500/60 focus:border-red-500 focus:ring-2 focus:ring-red-500/10'
-      : 'border-zinc-700 focus:border-yellow-600/70 focus:ring-2 focus:ring-yellow-500/10'
+  `w-full bg-zinc-800/80 border rounded-lg px-4 py-3 text-zinc-100 text-sm font-light outline-none transition-all duration-200 placeholder:text-zinc-600 ${hasError
+    ? 'border-red-500/60 focus:border-red-500 focus:ring-2 focus:ring-red-500/10'
+    : 'border-zinc-700 focus:border-yellow-600/70 focus:ring-2 focus:ring-yellow-500/10'
   }`;
 
 export default function RegisterPage() {
@@ -78,9 +78,10 @@ export default function RegisterPage() {
           backgroundSize: '28px 28px',
         }} />
         <div className="relative z-10 text-center px-12">
-          <div className="text-yellow-500 text-7xl mb-4 leading-none"
-            style={{ filter: 'drop-shadow(0 0 40px rgba(201,169,110,0.35))' }}>⬡</div>
-          <h1 className="font-display text-6xl font-semibold tracking-[0.2em] text-yellow-500 mb-2">LUMIÈRE</h1>
+          <div className="mb-4" style={{ filter: 'drop-shadow(0 0 40px rgba(201,169,110,0.35))' }}>
+            <Building2 className="w-16 h-16 text-gold-500 mx-auto" />
+          </div>
+          <h1 className="font-display text-6xl font-semibold tracking-[0.2em] text-gold-500 mb-2">LUMIÈRE</h1>
           <p className="text-xs tracking-[0.35em] text-zinc-500 uppercase mb-10">Hotel Management System</p>
 
           <div className="space-y-4 text-left">
@@ -90,7 +91,7 @@ export default function RegisterPage() {
               ['✦', 'Bảo mật cao', 'Xác thực JWT với phân quyền chi tiết'],
             ].map(([icon, title, desc]) => (
               <div key={title} className="flex items-start gap-3">
-                <span className="text-yellow-600 mt-0.5 text-xs">{icon}</span>
+                <span className="text-gold-500 mt-0.5 text-xs">{icon}</span>
                 <div>
                   <p className="text-zinc-300 text-sm font-medium">{title}</p>
                   <p className="text-zinc-600 text-xs font-light">{desc}</p>
@@ -105,8 +106,10 @@ export default function RegisterPage() {
       <div className="w-full lg:w-[520px] flex items-center justify-center p-8 bg-zinc-950 lg:border-l border-zinc-800/60 overflow-y-auto">
         <div className="w-full max-w-md py-8">
           <div className="lg:hidden text-center mb-8">
-            <span className="text-yellow-500 text-4xl">⬡</span>
-            <h1 className="font-display text-3xl font-semibold tracking-widest text-yellow-500 mt-2">LUMIÈRE</h1>
+            <div className="mb-4" style={{ filter: 'drop-shadow(0 0 40px rgba(201,169,110,0.35))' }}>
+              <Building2 className="w-16 h-16 text-gold-500 mx-auto" />
+            </div>
+            <h1 className="font-display text-3xl font-semibold tracking-widest text-gold-500 mt-2">LUMIÈRE</h1>
           </div>
 
           <div className="mb-8">
@@ -161,11 +164,11 @@ export default function RegisterPage() {
               {values.password && (
                 <div className="mt-2 flex items-center gap-2">
                   <div className="flex gap-1 flex-1">
-                    {[1,2,3,4].map(i => (
+                    {[1, 2, 3, 4].map(i => (
                       <div key={i} className={`h-1 flex-1 rounded-full transition-all duration-300 ${strength >= i ? sc.color : 'bg-zinc-700'}`} />
                     ))}
                   </div>
-                  <span className={`text-xs font-medium w-20 text-right ${['','text-red-400','text-amber-400','text-yellow-400','text-emerald-400'][strength]}`}>
+                  <span className={`text-xs font-medium w-20 text-right ${['', 'text-red-400', 'text-amber-400', 'text-yellow-400', 'text-emerald-400'][strength]}`}>
                     {sc?.label}
                   </span>
                 </div>

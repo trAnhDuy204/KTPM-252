@@ -56,7 +56,7 @@ export default function ProfilePage() {
                         </h1>
                         <div className="flex items-center gap-2">
                             <span className="text-zinc-500 text-sm">{profile?.email}</span>
-                            <span className="text-zinc-700">·</span>
+                            <span className="text-zinc-700">-</span>
                             <span className="text-zinc-500 text-sm">
                                 {profile?.role}
                             </span>

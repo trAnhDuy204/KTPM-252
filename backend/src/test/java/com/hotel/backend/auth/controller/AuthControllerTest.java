@@ -184,48 +184,4 @@ class AuthControllerTest {
                     .andExpect(jsonPath("$.accessToken").value("access-token"));
         }
     }
-
-    // POST /api/admin/staff
-    @Nested
-    @DisplayName("POST /api/auth/admin/staff")
-    class CreateStaffEndpoint {
-
-        @Test
-        @DisplayName("201 when admin creates reception staff")
-        @WithMockUser(roles = "ADMIN")
-        void createStaff_201() throws Exception {
-            AuthDto.CreateStaffRequest req = AuthDto.CreateStaffRequest.builder()
-                    .fullName("Reception").email("rec@hotel.com")
-                    .password("Password1").role(Role.RECEPTION).hotelId(1).build();
-
-            AuthDto.UserInfo info = AuthDto.UserInfo.builder()
-                    .id(5).fullName("Reception").email("rec@hotel.com")
-                    .role(Role.RECEPTION).hotelId(1).build();
-
-            when(authService.createStaff(any())).thenReturn(info);
-
-            mockMvc.perform(post("/api/auth/admin/staff")
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(req)))
-                    .andExpect(status().isCreated())
-                    .andExpect(jsonPath("$.role").value("RECEPTION"))
-                    .andExpect(jsonPath("$.hotelId").value(1));
-        }
-
-        @Test
-        @DisplayName("403 when non-admin tries to create staff")
-        @WithMockUser(roles = "CUSTOMER")
-        void createStaff_forbidden_403() throws Exception {
-            AuthDto.CreateStaffRequest req = AuthDto.CreateStaffRequest.builder()
-                    .fullName("Hacker").email("hack@test.com")
-                    .password("Password1").role(Role.ADMIN).build();
-
-            mockMvc.perform(post("/api/auth/admin/staff")
-                            .with(csrf())
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(req)))
-                    .andExpect(status().isForbidden());
-        }
-    }
 }

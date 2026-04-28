@@ -81,36 +81,6 @@ public class AuthService {
         }
     }
 
-    //Create Staff
-    @Transactional
-    public AuthDto.UserInfo createStaff(AuthDto.CreateStaffRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new AuthException("Email already in use: " + request.getEmail());
-        }
-
-        if (request.getRole() == Role.RECEPTION && request.getHotelId() == null) {
-            throw new AuthException("Hotel ID is required for RECEPTION role");
-        }
-
-        if (request.getRole() == Role.CUSTOMER) {
-            throw new AuthException("Cannot create CUSTOMER account via this endpoint");
-        }
-
-        User user = User.builder()
-                .fullName(request.getFullName())
-                .email(request.getEmail().toLowerCase().trim())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .phone(request.getPhone())
-                .role(request.getRole())
-                .hotelId(request.getHotelId())
-                .build();
-        if (user == null) {
-            throw new RuntimeException("User not found");
-        }
-        User saved = userRepository.save(user);
-        return mapToUserInfo(saved);
-    }
-
     //Helpers
     private AuthDto.AuthResponse buildAuthResponse(User user) {
         String accessToken = jwtService.generateToken(user);
