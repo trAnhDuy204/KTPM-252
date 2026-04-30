@@ -2,7 +2,6 @@ package com.hotel.backend.room.dto;
 
 import com.hotel.backend.room.entity.Room;
 import com.hotel.backend.room.entity.RoomStatus;
-import com.hotel.backend.room.entity.RoomType;
 
 public record RoomResponse(
         Integer id,
@@ -12,8 +11,9 @@ public record RoomResponse(
         Integer roomTypeCapacity,
         String roomNumber,
         RoomStatus status,
-        String basePrice, //<-- Lấy baseprice của roomtype database để gộp chung vs data của room r gửi json về react.
-        String hotelName
+        String basePrice,
+        String hotelName,
+        String hotelCity
 ) {
     public static RoomResponse from(Room room) {
         return new RoomResponse(
@@ -25,7 +25,8 @@ public record RoomResponse(
                 room.getRoomNumber(),
                 room.getStatus(),
                 room.getRoomType().getBasePrice().toPlainString(),//phương thức lấy baseprice.
-                room.getHotel().getName()
+                room.getHotel().getName(),
+                room.getHotel().getCity()
         );
     }
 }

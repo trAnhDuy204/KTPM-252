@@ -7,10 +7,12 @@ import ReceptionLayout from '@/components/layout/ReceptionLayout';
 import AdminLayout from '@/components/layout/AdminLayout';
 import CustomerLayout from '@/components/layout/CustomerLayout';
 import LoginPage from '@/pages/LoginPage';
+import BookingPage from '@/pages/customer/BookingPage';
 import RegisterPage from '@/pages/RegisterPage';
 import ReviewPage from '@/pages/customer/ReviewPage';
 import HotelManagement from '@/pages/admin/HotelManagement';
 import AdminRoomManagement from '@/pages/admin/AdminRoomManagement';
+import PaymentResult from '@/pages/customer/PaymentResult';
 import UserManagement from '@/pages/admin/UserManagement';
 import RoomTypeManagement from '@/pages/admin/RoomTypeManagement';
 import { CustomerDashboard, ReceptionDashboard, AdminDashboard } from '@/pages/DashboardPage';
@@ -18,7 +20,6 @@ import RoomManagement from '@/pages/reception/RoomManagement';
 import CheckInOut from '@/pages/reception/CheckInOut';
 import HomePage from '@/pages/HomePage';
 import HotelRoomsDisplay from '@/pages/customer/HotelRoomApp';
-import PaymentResult from '@/pages/customer/PaymentResult';
 import ProfilePage from '@/pages/customer/ProfilePage';
 
 function ReceptionRoute({ children }) {
@@ -57,6 +58,7 @@ function AppRoutes() {
       <Route path="/dashboard/profile" element={<CustomerRoute><ProfilePage /></CustomerRoute>} />
       <Route path="/dashboard/reviews" element={<CustomerRoute><ReviewPage /></CustomerRoute>} />
       <Route path="/dashboard/hotels" element={<CustomerRoute><HotelRoomsDisplay /> </CustomerRoute>} />
+      <Route path="/dashboard/booking" element={<CustomerRoute><BookingPage /></CustomerRoute>} />
 
       <Route path="/reception" element={<ReceptionRoute><ReceptionDashboard /></ReceptionRoute>} />
       <Route path="/reception/rooms" element={<ReceptionRoute><RoomManagement /></ReceptionRoute>} />

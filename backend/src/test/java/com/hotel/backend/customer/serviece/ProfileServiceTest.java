@@ -95,7 +95,7 @@ class ProfileServiceTest {
         roomType.setId(2);
         roomType.setName("Deluxe");
         roomType.setCapacity(2);
-        roomType.setBasePrice(new BigDecimal("500000"));
+        roomType.setBasePrice(new BigDecimal("500000.00"));
         return roomType;
     }
 

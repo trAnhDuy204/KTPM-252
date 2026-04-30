@@ -57,15 +57,14 @@ class RoomControllerTest {
 
     private static final String BASE_URL = "/api/reception/rooms";
 
-    // ==================== POST /api/reception/rooms ====================
-
+    //POST /api/reception/rooms
     @Nested
     class CreateRoom {
 
         @Test
         void shouldReturn201WhenCreatingRoomSuccessfully() throws Exception {
             CreateRoomRequest request = new CreateRoomRequest(1, 2, "101", RoomStatus.AVAILABLE);
-            RoomResponse response = new RoomResponse(10, 1, 2, "Standard", 2, "101", RoomStatus.AVAILABLE,"20","Hilton");
+            RoomResponse response = new RoomResponse(10, 1, 2, "Standard", 2, "101", RoomStatus.AVAILABLE,"20","Hilton", "Da Nang");
 
             when(roomService.createRoom(any(CreateRoomRequest.class))).thenReturn(response);
 
@@ -142,16 +141,15 @@ class RoomControllerTest {
         }
     }
 
-    // ==================== GET /api/reception/rooms ====================
-
+    // GET /api/reception/rooms
     @Nested
     class GetRooms {
 
         @Test
         void shouldReturnAllRoomsWhenNoFilters() throws Exception {
             List<RoomResponse> rooms = List.of(
-                    new RoomResponse(1, 1, 2, "Standard", 2, "101", RoomStatus.AVAILABLE,"20","Hilton"),
-                    new RoomResponse(2, 1, 2, "Standard", 2, "102", RoomStatus.OCCUPIED,"20","Hilton")
+                    new RoomResponse(1, 1, 2, "Standard", 2, "101", RoomStatus.AVAILABLE,"20","Hilton", "Da Nang"),
+                    new RoomResponse(2, 1, 2, "Standard", 2, "102", RoomStatus.OCCUPIED,"20","Hilton", "Da Nang")
             );
 
             when(roomService.getRooms(isNull(), isNull())).thenReturn(rooms);
@@ -166,7 +164,7 @@ class RoomControllerTest {
         @Test
         void shouldFilterByHotelId() throws Exception {
             List<RoomResponse> rooms = List.of(
-                    new RoomResponse(1, 1, 2, "Standard", 2, "101", RoomStatus.AVAILABLE,"20","Hilton")
+                    new RoomResponse(1, 1, 2, "Standard", 2, "101", RoomStatus.AVAILABLE,"20","Hilton", "Da Nang")
             );
 
             when(roomService.getRooms(eq(1), isNull())).thenReturn(rooms);
@@ -180,7 +178,7 @@ class RoomControllerTest {
         @Test
         void shouldFilterByStatus() throws Exception {
             List<RoomResponse> rooms = List.of(
-                    new RoomResponse(1, 1, 2, "Standard", 2, "101", RoomStatus.CLEANING,"20","Hilton")
+                    new RoomResponse(1, 1, 2, "Standard", 2, "101", RoomStatus.CLEANING,"20","Hilton", "Da Nang")
             );
 
             when(roomService.getRooms(isNull(), eq(RoomStatus.CLEANING))).thenReturn(rooms);
@@ -194,7 +192,7 @@ class RoomControllerTest {
         @Test
         void shouldFilterByHotelIdAndStatus() throws Exception {
             List<RoomResponse> rooms = List.of(
-                    new RoomResponse(1, 1, 2, "Standard", 2, "101", RoomStatus.AVAILABLE,"20","Hilton")
+                    new RoomResponse(1, 1, 2, "Standard", 2, "101", RoomStatus.AVAILABLE,"20","Hilton", "Da Nang")
             );
 
             when(roomService.getRooms(eq(1), eq(RoomStatus.AVAILABLE))).thenReturn(rooms);
@@ -218,14 +216,13 @@ class RoomControllerTest {
         }
     }
 
-    //==================== GET /api/reception/rooms/{roomId} ====================
-
+    //GET /api/reception/rooms/{roomId}
     @Nested
     class GetRoom {
 
         @Test
         void shouldReturn200WhenRoomExists() throws Exception {
-            RoomResponse response = new RoomResponse(10, 1, 2, "Standard", 2, "101", RoomStatus.AVAILABLE,"20","Hilton");
+            RoomResponse response = new RoomResponse(10, 1, 2, "Standard", 2, "101", RoomStatus.AVAILABLE,"20","Hilton", "Da Nang");
 
             when(roomService.getRoom(10)).thenReturn(response);
 
@@ -249,15 +246,14 @@ class RoomControllerTest {
         }
     }
 
-    //==================== PATCH /api/reception/rooms/{roomId}/status ====================
-
+    //PATCH /api/reception/rooms/{roomId}/status
     @Nested
     class UpdateRoomStatus {
 
         @Test
         void shouldReturn200WhenStatusUpdateSuccessful() throws Exception {
             UpdateRoomStatusRequest request = new UpdateRoomStatusRequest(RoomStatus.OCCUPIED);
-            RoomResponse response = new RoomResponse(10, 1, 2, "Standard", 2, "101", RoomStatus.OCCUPIED,"20","Hilton");
+            RoomResponse response = new RoomResponse(10, 1, 2, "Standard", 2, "101", RoomStatus.OCCUPIED,"20","Hilton", "Da Nang");
 
             when(roomService.updateRoomStatus(eq(10), eq(RoomStatus.OCCUPIED))).thenReturn(response);
 
@@ -311,8 +307,7 @@ class RoomControllerTest {
         }
     }
 
-    //==================== Authorization ====================
-
+    //Authorization
     @Nested
     class Authorization {
 
