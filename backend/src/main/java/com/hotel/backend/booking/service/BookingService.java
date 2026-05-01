@@ -3,6 +3,7 @@ package com.hotel.backend.booking.service;
 import com.hotel.backend.booking.dto.BookingResponse;
 import com.hotel.backend.booking.dto.CheckInRequest;
 import com.hotel.backend.booking.dto.CreateBookingRequest;
+import com.hotel.backend.booking.dto.UpdateBookingRequest;
 import com.hotel.backend.booking.entity.Booking;
 import com.hotel.backend.booking.entity.BookingStatus;
 import com.hotel.backend.booking.repository.BookingRepository;
@@ -14,6 +15,7 @@ import com.hotel.backend.room.repository.RoomRepository;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final RoomRepository roomRepository;
+    private static final ZoneId ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
 
     public BookingService(BookingRepository bookingRepository, RoomRepository roomRepository) {
         this.bookingRepository = bookingRepository;
@@ -42,7 +45,7 @@ public class BookingService {
             throw new BusinessRuleException("Room already has an active check-in");
         }
 
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZONE);
         if (request.checkOut().isBefore(today) || request.checkOut().isEqual(today)) {
             throw new BusinessRuleException("Check-out date must be after today");
         }
@@ -76,7 +79,7 @@ public class BookingService {
             throw new BusinessRuleException("Booking is not checked in. Current status: " + booking.getStatus());
         }
 
-        LocalDate actualCheckOut = LocalDate.now();
+        LocalDate actualCheckOut = LocalDate.now(ZONE);
         booking.setStatus(BookingStatus.COMPLETED);
         booking.setCheckOut(actualCheckOut);
 
@@ -146,13 +149,14 @@ public class BookingService {
             throw new BusinessRuleException("Room is not available for booking. Current status: " + room.getStatus());
         }
 
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         if (request.checkIn().isBefore(today)) {
             throw new BusinessRuleException("Check-in date cannot be in the past");
         }
         if (!request.checkOut().isAfter(request.checkIn())) {
             throw new BusinessRuleException("Check-out date must be after check-in date");
         }
+        
 
         long nights = ChronoUnit.DAYS.between(request.checkIn(), request.checkOut());
         BigDecimal pricePerNight = room.getRoomType().getBasePrice();
@@ -191,5 +195,51 @@ public class BookingService {
     private Booking findBooking(Integer bookingId) {
         return bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + bookingId));
+    }
+
+
+
+    @Transactional
+    public BookingResponse updateBooking(Integer bookingId, UpdateBookingRequest request) {
+
+        Booking booking = findBooking(bookingId);
+
+        if (booking.getStatus() == BookingStatus.CANCELLED 
+            || booking.getStatus() == BookingStatus.COMPLETED) {
+            throw new BusinessRuleException("Cannot edit this booking");
+        }
+
+        LocalDate today = LocalDate.now(ZONE);
+
+        if (request.checkIn().isBefore(today)) {
+            throw new BusinessRuleException("Check-in cannot be in the past");
+        }
+
+        if (!request.checkOut().isAfter(request.checkIn())) {
+            throw new BusinessRuleException("Invalid dates");
+        }
+
+        // 🔥 Check overlap (IMPORTANT)
+        boolean hasConflict = bookingRepository.existsByRoom_IdAndDateOverlap(
+            booking.getRoom().getId(),
+            request.checkIn(),
+            request.checkOut()
+        );
+
+        if (hasConflict) {
+            throw new BusinessRuleException("Room not available for new dates");
+        }
+
+        // ✅ Update dates
+        booking.setCheckIn(request.checkIn());
+        booking.setCheckOut(request.checkOut());
+
+        // ✅ Recalculate price
+        long nights = ChronoUnit.DAYS.between(request.checkIn(), request.checkOut());
+        BigDecimal pricePerNight = booking.getRoom().getRoomType().getBasePrice();
+        booking.setTotalPrice(pricePerNight.multiply(BigDecimal.valueOf(nights)));
+
+        Booking saved = bookingRepository.save(booking);
+        return BookingResponse.from(saved);
     }
 }

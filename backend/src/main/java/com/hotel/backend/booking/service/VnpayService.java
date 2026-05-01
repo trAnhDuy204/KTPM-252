@@ -20,7 +20,7 @@ public class VnpayService {
     private final String vnp_TmnCode = "M51QNFEJ";
     private final String vnp_HashSecret = "399XZ6P6QCIFLQWK5QS8PRRRLZF71LEG";
     private final String vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    private final String returnUrl = "https://scavenger-tumbling-wincing.ngrok-free.dev/payment-result";
+    private final String returnUrl = "https://scavenger-tumbling-wincing.ngrok-free.dev/api/public/payment/vnpay-return";
 
     public String createPaymentUrl(Integer bookingId, long amount) throws Exception {
 

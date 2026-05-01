@@ -22,6 +22,7 @@ import com.hotel.backend.room.entity.RoomType;
 import com.hotel.backend.room.repository.RoomRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -75,7 +76,7 @@ class BookingServiceTest {
     class CheckIn {
 
         private CheckInRequest validRequest() {
-            return new CheckInRequest(10, LocalDate.now().plusDays(2), "Nguyen Van A", "0901234567");
+            return new CheckInRequest(10, LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(2), "Nguyen Van A", "0901234567");
         }
 
         @Test
@@ -95,7 +96,7 @@ class BookingServiceTest {
             assertThat(response.status()).isEqualTo(BookingStatus.CHECKED_IN);
             assertThat(response.guestName()).isEqualTo("Nguyen Van A");
             assertThat(response.roomNumber()).isEqualTo("101");
-            assertThat(response.checkIn()).isEqualTo(LocalDate.now());
+            assertThat(response.checkIn()).isEqualTo(LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")));
         }
 
         @Test
@@ -118,7 +119,7 @@ class BookingServiceTest {
 
         @Test
         void shouldCalculateTotalPrice() {
-            CheckInRequest request = new CheckInRequest(10, LocalDate.now().plusDays(3), "Guest", null);
+            CheckInRequest request = new CheckInRequest(10, LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(3), "Guest", null);
             when(roomRepository.findById(10)).thenReturn(Optional.of(room));
             when(bookingRepository.existsByRoom_IdAndStatus(10, BookingStatus.CHECKED_IN)).thenReturn(false);
             when(bookingRepository.save(any(Booking.class))).thenAnswer(inv -> {
@@ -176,7 +177,7 @@ class BookingServiceTest {
 
         @Test
         void shouldRejectCheckInWhenCheckOutDateIsToday() {
-            CheckInRequest request = new CheckInRequest(10, LocalDate.now(), "Guest", null);
+            CheckInRequest request = new CheckInRequest(10, LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")), "Guest", null);
             when(roomRepository.findById(10)).thenReturn(Optional.of(room));
 
             assertThatThrownBy(() -> bookingService.checkIn(request))
@@ -186,7 +187,7 @@ class BookingServiceTest {
 
         @Test
         void shouldRejectCheckInWhenCheckOutDateIsPast() {
-            CheckInRequest request = new CheckInRequest(10, LocalDate.now().minusDays(1), "Guest", null);
+            CheckInRequest request = new CheckInRequest(10, LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).minusDays(1), "Guest", null);
             when(roomRepository.findById(10)).thenReturn(Optional.of(room));
 
             assertThatThrownBy(() -> bookingService.checkIn(request))
@@ -196,7 +197,7 @@ class BookingServiceTest {
 
         @Test
         void shouldThrowWhenRoomNotFound() {
-            CheckInRequest request = new CheckInRequest(99, LocalDate.now().plusDays(1), "Guest", null);
+            CheckInRequest request = new CheckInRequest(99, LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(1), "Guest", null);
             when(roomRepository.findById(99)).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> bookingService.checkIn(request))
@@ -220,15 +221,15 @@ class BookingServiceTest {
             BookingResponse response = bookingService.checkOut(1);
 
             assertThat(response.status()).isEqualTo(BookingStatus.COMPLETED);
-            assertThat(response.checkOut()).isEqualTo(LocalDate.now());
+            assertThat(response.checkOut()).isEqualTo(LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")));
         }
 
         @Test
         void shouldRecalculatePriceOnCheckOut() {
             // Booking checked in today, original checkout was +5 days, but checking out now (same day)
             Booking booking = buildBooking(1, BookingStatus.CHECKED_IN);
-            booking.setCheckIn(LocalDate.now()); // checked in today
-            booking.setCheckOut(LocalDate.now().plusDays(5)); // original: 5 nights
+            booking.setCheckIn(LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"))); // checked in today
+            booking.setCheckOut(LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(5)); // original: 5 nights
             booking.setTotalPrice(new BigDecimal("2500000")); // 5 * 500,000
             when(bookingRepository.findById(1)).thenReturn(Optional.of(booking));
             when(bookingRepository.save(any(Booking.class))).thenAnswer(inv -> inv.getArgument(0));
@@ -244,8 +245,8 @@ class BookingServiceTest {
         void shouldRecalculatePriceForEarlyCheckOut() {
             // Checked in 2 days ago, original checkout was +5 days from check-in
             Booking booking = buildBooking(1, BookingStatus.CHECKED_IN);
-            booking.setCheckIn(LocalDate.now().minusDays(2)); // checked in 2 days ago
-            booking.setCheckOut(LocalDate.now().plusDays(3)); // original: 5 nights
+            booking.setCheckIn(LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).minusDays(2)); // checked in 2 days ago
+            booking.setCheckOut(LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(3)); // original: 5 nights
             booking.setTotalPrice(new BigDecimal("2500000")); // 5 * 500,000
             when(bookingRepository.findById(1)).thenReturn(Optional.of(booking));
             when(bookingRepository.save(any(Booking.class))).thenAnswer(inv -> inv.getArgument(0));
@@ -260,7 +261,7 @@ class BookingServiceTest {
         @Test
         void shouldChargeMinimumOneNightOnSameDayCheckOut() {
             Booking booking = buildBooking(1, BookingStatus.CHECKED_IN);
-            booking.setCheckIn(LocalDate.now());
+            booking.setCheckIn(LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")));
             when(bookingRepository.findById(1)).thenReturn(Optional.of(booking));
             when(bookingRepository.save(any(Booking.class))).thenAnswer(inv -> inv.getArgument(0));
             when(roomRepository.save(any(Room.class))).thenReturn(room);
@@ -420,8 +421,8 @@ class BookingServiceTest {
         private CreateBookingRequest validRequest() {
             return new CreateBookingRequest(
                     10,
-                    LocalDate.now().plusDays(1),
-                    LocalDate.now().plusDays(3),
+                    LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(1),
+                    LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(3),
                     "Nguyen Van B",
                     "0909090909"
             );
@@ -463,7 +464,7 @@ class BookingServiceTest {
         @Test
         void shouldCalculateTotalPriceForAdvanceBooking() {
             CreateBookingRequest request = new CreateBookingRequest(
-                    10, LocalDate.now().plusDays(1), LocalDate.now().plusDays(4), "Guest", null);
+                    10, LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(1), LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(4), "Guest", null);
             when(roomRepository.findById(10)).thenReturn(Optional.of(room));
             when(roomRepository.save(any(Room.class))).thenReturn(room);
             when(bookingRepository.save(any(Booking.class))).thenAnswer(inv -> {
@@ -494,7 +495,7 @@ class BookingServiceTest {
         @Test
         void shouldRejectBookingWhenCheckInIsInPast() {
             CreateBookingRequest request = new CreateBookingRequest(
-                    10, LocalDate.now().minusDays(1), LocalDate.now().plusDays(1), "Guest", null);
+                    10, LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).minusDays(1), LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(1), "Guest", null);
             when(roomRepository.findById(10)).thenReturn(Optional.of(room));
 
             assertThatThrownBy(() -> bookingService.createBooking(request))
@@ -505,7 +506,7 @@ class BookingServiceTest {
         @Test
         void shouldRejectBookingWhenCheckOutNotAfterCheckIn() {
             CreateBookingRequest request = new CreateBookingRequest(
-                    10, LocalDate.now().plusDays(2), LocalDate.now().plusDays(1), "Guest", null);
+                    10, LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(2), LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(1), "Guest", null);
             when(roomRepository.findById(10)).thenReturn(Optional.of(room));
 
             assertThatThrownBy(() -> bookingService.createBooking(request))
@@ -516,7 +517,7 @@ class BookingServiceTest {
         @Test
         void shouldThrowWhenRoomNotFound() {
             CreateBookingRequest request = new CreateBookingRequest(
-                    99, LocalDate.now().plusDays(1), LocalDate.now().plusDays(3), "Guest", null);
+                    99, LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(1), LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(3), "Guest", null);
             when(roomRepository.findById(99)).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> bookingService.createBooking(request))
@@ -580,8 +581,8 @@ class BookingServiceTest {
         booking.setId(id);
         booking.setHotel(hotel);
         booking.setRoom(room);
-        booking.setCheckIn(LocalDate.now());
-        booking.setCheckOut(LocalDate.now().plusDays(2));
+        booking.setCheckIn(LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+        booking.setCheckOut(LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).plusDays(2));
         booking.setTotalPrice(new BigDecimal("1000000"));
         booking.setStatus(status);
         booking.setGuestName("Test Guest");
