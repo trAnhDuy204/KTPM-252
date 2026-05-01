@@ -1,234 +1,122 @@
-// package com.hotel.backend.review.controller;
+package com.hotel.backend.review.controller;
 
-// import com.fasterxml.jackson.databind.ObjectMapper;
-// import com.hotel.backend.review.dto.ReviewDto;
-// import com.hotel.backend.auth.entity.Role;
-// import com.hotel.backend.auth.entity.User;
-// import com.hotel.backend.review.exception.ResourceNotFoundException;
-// import com.hotel.backend.review.exception.ReviewException;
-// import com.hotel.backend.review.service.ReviewService;
-// import org.junit.jupiter.api.*;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-// import org.springframework.boot.test.mock.mockito.MockBean;
-// import org.springframework.http.MediaType;
-// import org.springframework.security.test.context.support.WithMockUser;
-// import org.springframework.test.web.servlet.MockMvc;
+import com.hotel.backend.auth.entity.User;
+import com.hotel.backend.review.dto.ReviewDto;
+import com.hotel.backend.review.service.ReviewService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
-// import java.time.LocalDateTime;
-// import java.util.List;
+import java.util.List;
 
-// import static org.mockito.ArgumentMatchers.*;
-// import static org.mockito.Mockito.*;
-// import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
-// import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
-// @WebMvcTest(ReviewController.class)
-// @DisplayName("ReviewController Tests")
-// class ReviewControllerTest {
+@ExtendWith(MockitoExtension.class)
+class ReviewControllerTest {
 
-//     @Autowired MockMvc     mockMvc;
-//     @Autowired ObjectMapper mapper;
-//     @SuppressWarnings("removal")
-//     @MockBean  ReviewService reviewService;
+    @Mock
+    private ReviewService reviewService;
 
-//     // Stub principal
-//     private User mockUser() {
-//         return User.builder().id(1).fullName("Nguyễn Văn A")
-//                 .email("a@test.com").password("x").role(Role.CUSTOMER).build();
-//     }
+    @InjectMocks
+    private ReviewController reviewController;
 
-//     private ReviewDto.Response sampleResponse() {
-//         return ReviewDto.Response.builder()
-//                 .id(100).bookingId(10).userId(1)
-//                 .userFullName("Nguyễn Văn A").rating(5)
-//                 .comment("Tuyệt vời!").createdAt(LocalDateTime.now())
-//                 .build();
-//     }
+    @Test
+    void createReview_shouldReturnCreatedReviewWithCreatedStatus() {
+        User user = mock(User.class);
+        ReviewDto.CreateRequest request = mock(ReviewDto.CreateRequest.class);
+        ReviewDto.Response expectedResponse = mock(ReviewDto.Response.class);
 
-//     // POST /api/reviews
-//     @Nested @DisplayName("POST /api/reviews")
-//     class Create {
+        when(user.getId()).thenReturn(1);
+        when(reviewService.createReview(1, request)).thenReturn(expectedResponse);
 
-//         @Test @DisplayName("201 khi tạo review hợp lệ")
-//         @WithMockUser(roles = "CUSTOMER")
-//         void created_201() throws Exception {
-//             ReviewDto.CreateRequest req = ReviewDto.CreateRequest.builder()
-//                     .bookingId(10).rating(5).comment("Tuyệt vời!").build();
+        ResponseEntity<ReviewDto.Response> response =
+                reviewController.createReview(user, request);
 
-//             when(reviewService.createReview(anyInt(), any())).thenReturn(sampleResponse());
+        assertThat(response.getStatusCode().value()).isEqualTo(201);
+        assertThat(response.getBody()).isSameAs(expectedResponse);
+        verify(reviewService).createReview(1, request);
+    }
 
-//             mockMvc.perform(post("/api/reviews")
-//                             .with(csrf()).with(user(mockUser()))
-//                             .contentType(MediaType.APPLICATION_JSON)
-//                             .content(mapper.writeValueAsString(req)))
-//                     .andExpect(status().isCreated())
-//                     .andExpect(jsonPath("$.rating").value(5))
-//                     .andExpect(jsonPath("$.comment").value("Tuyệt vời!"))
-//                     .andExpect(jsonPath("$.userFullName").value("Nguyễn Văn A"));
-//         }
+    @Test
+    void getReviewableBookings_shouldReturnReviewableBookingsFromService() {
+        User user = mock(User.class);
+        ReviewDto.ReviewableBooking booking = mock(ReviewDto.ReviewableBooking.class);
+        List<ReviewDto.ReviewableBooking> expectedResponse = List.of(booking);
 
-//         @Test @DisplayName("400 khi rating vượt quá 5")
-//         @WithMockUser(roles = "CUSTOMER")
-//         void invalidRating_400() throws Exception {
-//             ReviewDto.CreateRequest req = ReviewDto.CreateRequest.builder()
-//                     .bookingId(10).rating(6).comment("Test").build();
+        when(user.getId()).thenReturn(1);
+        when(reviewService.getReviewableBookings(1)).thenReturn(expectedResponse);
 
-//             mockMvc.perform(post("/api/reviews")
-//                             .with(csrf()).with(user(mockUser()))
-//                             .contentType(MediaType.APPLICATION_JSON)
-//                             .content(mapper.writeValueAsString(req)))
-//                     .andExpect(status().isBadRequest());
-//         }
+        ResponseEntity<List<ReviewDto.ReviewableBooking>> response =
+                reviewController.getReviewableBookings(user);
 
-//         @Test @DisplayName("400 khi rating nhỏ hơn 1")
-//         @WithMockUser(roles = "CUSTOMER")
-//         void ratingTooLow_400() throws Exception {
-//             ReviewDto.CreateRequest req = ReviewDto.CreateRequest.builder()
-//                     .bookingId(10).rating(0).build();
+        assertThat(response.getStatusCode().value()).isEqualTo(200);
+        assertThat(response.getBody()).isSameAs(expectedResponse);
+        verify(reviewService).getReviewableBookings(1);
+    }
 
-//             mockMvc.perform(post("/api/reviews")
-//                             .with(csrf()).with(user(mockUser()))
-//                             .contentType(MediaType.APPLICATION_JSON)
-//                             .content(mapper.writeValueAsString(req)))
-//                     .andExpect(status().isBadRequest());
-//         }
+    @Test
+    void getMyReviews_shouldReturnMyReviewsFromService() {
+        User user = mock(User.class);
+        ReviewDto.Response review = mock(ReviewDto.Response.class);
+        List<ReviewDto.Response> expectedResponse = List.of(review);
 
-//         @Test @DisplayName("400 khi thiếu bookingId")
-//         @WithMockUser(roles = "CUSTOMER")
-//         void missingBookingId_400() throws Exception {
-//             ReviewDto.CreateRequest req = ReviewDto.CreateRequest.builder()
-//                     .rating(4).comment("Ok").build();
+        when(user.getId()).thenReturn(1);
+        when(reviewService.getMyReviews(1)).thenReturn(expectedResponse);
 
-//             mockMvc.perform(post("/api/reviews")
-//                             .with(csrf()).with(user(mockUser()))
-//                             .contentType(MediaType.APPLICATION_JSON)
-//                             .content(mapper.writeValueAsString(req)))
-//                     .andExpect(status().isBadRequest());
-//         }
+        ResponseEntity<List<ReviewDto.Response>> response =
+                reviewController.getMyReviews(user);
 
-//         @Test @DisplayName("400 khi đã review rồi")
-//         @WithMockUser(roles = "CUSTOMER")
-//         void alreadyReviewed_400() throws Exception {
-//             ReviewDto.CreateRequest req = ReviewDto.CreateRequest.builder()
-//                     .bookingId(10).rating(5).build();
+        assertThat(response.getStatusCode().value()).isEqualTo(200);
+        assertThat(response.getBody()).isSameAs(expectedResponse);
+        verify(reviewService).getMyReviews(1);
+    }
 
-//             when(reviewService.createReview(anyInt(), any()))
-//                     .thenThrow(new ReviewException("Bạn đã đánh giá đặt phòng này rồi"));
+    @Test
+    void getHotelReviews_shouldReturnHotelReviewsFromService() {
+        Integer hotelId = 10;
+        ReviewDto.Response review = mock(ReviewDto.Response.class);
+        List<ReviewDto.Response> expectedResponse = List.of(review);
 
-//             mockMvc.perform(post("/api/reviews")
-//                             .with(csrf()).with(user(mockUser()))
-//                             .contentType(MediaType.APPLICATION_JSON)
-//                             .content(mapper.writeValueAsString(req)))
-//                     .andExpect(status().isBadRequest())
-//                     .andExpect(jsonPath("$.message").value("Bạn đã đánh giá đặt phòng này rồi"));
-//         }
+        when(reviewService.getReviewsByHotel(hotelId)).thenReturn(expectedResponse);
 
-//         @Test @DisplayName("403 khi RECEPTION cố gửi review")
-//         @WithMockUser(roles = "RECEPTION")
-//         void receptionForbidden_403() throws Exception {
-//             ReviewDto.CreateRequest req = ReviewDto.CreateRequest.builder()
-//                     .bookingId(10).rating(5).build();
+        ResponseEntity<List<ReviewDto.Response>> response =
+                reviewController.getHotelReviews(hotelId);
 
-//             mockMvc.perform(post("/api/reviews")
-//                             .with(csrf())
-//                             .contentType(MediaType.APPLICATION_JSON)
-//                             .content(mapper.writeValueAsString(req)))
-//                     .andExpect(status().isForbidden());
-//         }
-//     }
+        assertThat(response.getStatusCode().value()).isEqualTo(200);
+        assertThat(response.getBody()).isSameAs(expectedResponse);
+        verify(reviewService).getReviewsByHotel(hotelId);
+    }
 
-//     // GET /api/reviews/my-bookings
-//     @Nested @DisplayName("GET /api/reviews/my-bookings")
-//     class MyBookings {
+    @Test
+    void getHotelRating_shouldReturnHotelRatingFromService() {
+        Integer hotelId = 10;
+        ReviewDto.HotelRating expectedResponse = mock(ReviewDto.HotelRating.class);
 
-//         @Test @DisplayName("200 trả về danh sách booking có thể review")
-//         @WithMockUser(roles = "CUSTOMER")
-//         void ok_200() throws Exception {
-//             List<ReviewDto.ReviewableBooking> list = List.of(
-//                     ReviewDto.ReviewableBooking.builder()
-//                             .bookingId(10).hotelName("Khách sạn A")
-//                             .roomNumber("101").checkIn("10/01/2025").checkOut("15/01/2025")
-//                             .alreadyReviewed(false).build()
-//             );
+        when(reviewService.getHotelRating(hotelId)).thenReturn(expectedResponse);
 
-//             when(reviewService.getReviewableBookings(anyInt())).thenReturn(list);
+        ResponseEntity<ReviewDto.HotelRating> response =
+                reviewController.getHotelRating(hotelId);
 
-//             mockMvc.perform(get("/api/reviews/my-bookings")
-//                             .with(user(mockUser())))
-//                     .andExpect(status().isOk())
-//                     .andExpect(jsonPath("$[0].bookingId").value(10))
-//                     .andExpect(jsonPath("$[0].alreadyReviewed").value(false));
-//         }
-//     }
+        assertThat(response.getStatusCode().value()).isEqualTo(200);
+        assertThat(response.getBody()).isSameAs(expectedResponse);
+        verify(reviewService).getHotelRating(hotelId);
+    }
 
-//     // GET /api/reviews/hotel/{hotelId}
-//     @Nested @DisplayName("GET /api/reviews/hotel/{hotelId}")
-//     class HotelReviews {
+    @Test
+    void deleteReview_shouldCallServiceAndReturnNoContent() {
+        Integer reviewId = 5;
+        User user = mock(User.class);
 
-//         @Test @DisplayName("200 public — không cần đăng nhập")
-//         void public_200() throws Exception {
-//             when(reviewService.getReviewsByHotel(5))
-//                     .thenReturn(List.of(sampleResponse()));
+        when(user.getId()).thenReturn(1);
 
-//             mockMvc.perform(get("/api/reviews/hotel/5"))
-//                     .andExpect(status().isOk())
-//                     .andExpect(jsonPath("$[0].rating").value(5));
-//         }
+        ResponseEntity<Void> response = reviewController.deleteReview(reviewId, user);
 
-//         @Test @DisplayName("200 hotel chưa có review trả về mảng rỗng")
-//         void noReviews_emptyArray() throws Exception {
-//             when(reviewService.getReviewsByHotel(99)).thenReturn(List.of());
-
-//             mockMvc.perform(get("/api/reviews/hotel/99"))
-//                     .andExpect(status().isOk())
-//                     .andExpect(jsonPath("$").isArray())
-//                     .andExpect(jsonPath("$").isEmpty());
-//         }
-//     }
-
-//     // GET /api/reviews/hotel/{hotelId}/rating
-//     @Nested @DisplayName("GET /api/reviews/hotel/{hotelId}/rating")
-//     class HotelRating {
-
-//         @Test @DisplayName("200 trả về điểm trung bình")
-//         void ok_200() throws Exception {
-//             ReviewDto.HotelRating rating = ReviewDto.HotelRating.builder()
-//                     .hotelId(5).averageRating(4.3).totalReviews(3).build();
-
-//             when(reviewService.getHotelRating(5)).thenReturn(rating);
-
-//             mockMvc.perform(get("/api/reviews/hotel/5/rating"))
-//                     .andExpect(status().isOk())
-//                     .andExpect(jsonPath("$.averageRating").value(4.3))
-//                     .andExpect(jsonPath("$.totalReviews").value(3));
-//         }
-//     }
-
-//     // DELETE /api/reviews/{id}
-//     @Nested @DisplayName("DELETE /api/reviews/{id}")
-//     class Delete {
-
-//         @Test @DisplayName("204 khi xóa review của mình")
-//         @WithMockUser(roles = "CUSTOMER")
-//         void noContent_204() throws Exception {
-//             doNothing().when(reviewService).deleteReview(anyInt(), anyInt());
-
-//             mockMvc.perform(delete("/api/reviews/100")
-//                             .with(csrf()).with(user(mockUser())))
-//                     .andExpect(status().isNoContent());
-//         }
-
-//         @Test @DisplayName("404 khi review không tồn tại")
-//         @WithMockUser(roles = "CUSTOMER")
-//         void notFound_404() throws Exception {
-//             doThrow(new ResourceNotFoundException("Không tìm thấy đánh giá #999"))
-//                     .when(reviewService).deleteReview(anyInt(), anyInt());
-
-//             mockMvc.perform(delete("/api/reviews/999")
-//                             .with(csrf()).with(user(mockUser())))
-//                     .andExpect(status().isNotFound());
-//         }
-//     }
-// }
+        assertThat(response.getStatusCode().value()).isEqualTo(204);
+        assertThat(response.getBody()).isNull();
+        verify(reviewService).deleteReview(reviewId, 1);
+    }
+}

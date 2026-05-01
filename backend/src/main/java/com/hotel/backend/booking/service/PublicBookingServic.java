@@ -1,7 +1,6 @@
 package com.hotel.backend.booking.service;
 
 import com.hotel.backend.booking.dto.BookingResponse;
-import com.hotel.backend.booking.dto.CheckInRequest;
 import com.hotel.backend.booking.dto.CreateBookingRequest;
 import com.hotel.backend.booking.entity.Booking;
 import com.hotel.backend.booking.entity.BookingStatus;
@@ -36,96 +35,6 @@ public class PublicBookingServic {
         this.userRepository = userRepository;
     }
 
-    @Transactional
-    public BookingResponse checkIn(CheckInRequest request) {
-        Room room = roomRepository.findById(request.roomId())
-                .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + request.roomId()));
-
-        if (room.getStatus() != RoomStatus.AVAILABLE && room.getStatus() != RoomStatus.RESERVED) {
-            throw new BusinessRuleException("Room is not available for check-in. Current status: " + room.getStatus());
-        }
-
-        if (bookingRepository.existsByRoom_IdAndStatus(request.roomId(), BookingStatus.CHECKED_IN)) {
-            throw new BusinessRuleException("Room already has an active check-in");
-        }
-
-        LocalDate today = LocalDate.now();
-        if (request.checkOut().isBefore(today) || request.checkOut().isEqual(today)) {
-            throw new BusinessRuleException("Check-out date must be after today");
-        }
-
-        long nights = ChronoUnit.DAYS.between(today, request.checkOut());
-        BigDecimal pricePerNight = room.getRoomType().getBasePrice();
-        BigDecimal totalPrice = pricePerNight.multiply(BigDecimal.valueOf(nights));
-
-        Booking booking = new Booking();
-        booking.setHotel(room.getHotel());
-        booking.setRoom(room);
-        booking.setCheckIn(today);
-        booking.setCheckOut(request.checkOut());
-        booking.setTotalPrice(totalPrice);
-        booking.setStatus(BookingStatus.CHECKED_IN);
-        booking.setGuestName(request.guestName());
-        booking.setGuestPhone(request.guestPhone());
-
-        room.setStatus(RoomStatus.OCCUPIED);
-        roomRepository.save(room);
-
-        Booking saved = bookingRepository.save(booking);
-        return BookingResponse.from(saved);
-    }
-
-    @Transactional
-    public BookingResponse checkOut(Integer bookingId) {
-        Booking booking = findBooking(bookingId);
-
-        if (booking.getStatus() != BookingStatus.CHECKED_IN) {
-            throw new BusinessRuleException("Booking is not checked in. Current status: " + booking.getStatus());
-        }
-
-        LocalDate actualCheckOut = LocalDate.now();
-        booking.setStatus(BookingStatus.COMPLETED);
-        booking.setCheckOut(actualCheckOut);
-
-        long actualNights = ChronoUnit.DAYS.between(booking.getCheckIn(), actualCheckOut);
-        if (actualNights < 1) {
-            actualNights = 1;
-        }
-        BigDecimal pricePerNight = booking.getRoom().getRoomType().getBasePrice();
-        booking.setTotalPrice(pricePerNight.multiply(BigDecimal.valueOf(actualNights)));
-
-        Room room = booking.getRoom();
-        room.setStatus(RoomStatus.CLEANING);
-        roomRepository.save(room);
-
-        Booking saved = bookingRepository.save(booking);
-        return BookingResponse.from(saved);
-    }
-
-    @Transactional
-    public BookingResponse cancelBooking(Integer bookingId) {
-        Booking booking = findBooking(bookingId);
-
-        if (booking.getStatus() == BookingStatus.COMPLETED || booking.getStatus() == BookingStatus.CANCELLED) {
-            throw new BusinessRuleException("Cannot cancel a booking that is " + booking.getStatus());
-        }
-
-        BookingStatus previousStatus = booking.getStatus();
-        booking.setStatus(BookingStatus.CANCELLED);
-
-        Room room = booking.getRoom();
-        if (previousStatus == BookingStatus.CHECKED_IN) {
-            room.setStatus(RoomStatus.CLEANING);
-            roomRepository.save(room);
-        } else if (previousStatus == BookingStatus.PENDING || previousStatus == BookingStatus.CONFIRMED) {
-            room.setStatus(RoomStatus.AVAILABLE);
-            roomRepository.save(room);
-        }
-
-        Booking saved = bookingRepository.save(booking);
-        return BookingResponse.from(saved);
-    }
-
     public List<BookingResponse> getBookings(Integer hotelId, BookingStatus status) {
         List<Booking> bookings;
         if (hotelId != null && status != null) {
@@ -138,10 +47,6 @@ public class PublicBookingServic {
             bookings = bookingRepository.findAll();
         }
         return bookings.stream().map(BookingResponse::from).toList();
-    }
-
-    public BookingResponse getBooking(Integer bookingId) {
-        return BookingResponse.from(findBooking(bookingId));
     }
 
     @Transactional
@@ -205,14 +110,25 @@ public class PublicBookingServic {
     }
 
     @Transactional
-    public BookingResponse confirmBooking(Integer bookingId) {
+    public BookingResponse cancelBooking(Integer bookingId) {
         Booking booking = findBooking(bookingId);
 
-        if (booking.getStatus() != BookingStatus.PENDING) {
-            throw new BusinessRuleException("Only PENDING bookings can be confirmed");
+        if (booking.getStatus() == BookingStatus.COMPLETED || booking.getStatus() == BookingStatus.CANCELLED) {
+            throw new BusinessRuleException("Cannot cancel a booking that is " + booking.getStatus());
         }
 
-        booking.setStatus(BookingStatus.CONFIRMED);
+        BookingStatus previousStatus = booking.getStatus();
+        booking.setStatus(BookingStatus.CANCELLED);
+
+        Room room = booking.getRoom();
+        if (previousStatus == BookingStatus.CHECKED_IN) {
+            room.setStatus(RoomStatus.CLEANING);
+            roomRepository.save(room);
+        } else if (previousStatus == BookingStatus.PENDING || previousStatus == BookingStatus.CONFIRMED) {
+            room.setStatus(RoomStatus.AVAILABLE);
+            roomRepository.save(room);
+        }
+
         Booking saved = bookingRepository.save(booking);
         return BookingResponse.from(saved);
     }

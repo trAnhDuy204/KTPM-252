@@ -1,11 +1,10 @@
-package com.hotel.backend.services;
+package com.hotel.backend.services.service;
 
 import com.hotel.backend.services.dto.ServiceDto;
 import com.hotel.backend.services.entity.HotelService;
 import com.hotel.backend.services.entity.ServiceUsage;
 import com.hotel.backend.services.repository.HotelServiceRepository;
 import com.hotel.backend.services.repository.ServiceUsageRepository;
-import com.hotel.backend.services.service.HotelServiceService;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.*;

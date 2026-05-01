@@ -27,6 +27,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import java.math.BigDecimal;
 
 @ExtendWith(MockitoExtension.class)
 class RoomServiceTest {
@@ -45,10 +46,15 @@ class RoomServiceTest {
     @BeforeEach
     void setUp() {
         roomService = new RoomService(roomRepository, entityManager);
+
         hotel = new Hotel();
         hotel.setId(1);
+
         roomType = new RoomType();
         roomType.setId(2);
+        roomType.setName("Deluxe");
+        roomType.setCapacity(2);
+        roomType.setBasePrice(BigDecimal.valueOf(500000));
     }
 
     // ==================== CREATE ROOM ====================
@@ -72,6 +78,7 @@ class RoomServiceTest {
             assertThat(response.roomNumber()).isEqualTo("101");
             assertThat(response.hotelId()).isEqualTo(1);
             assertThat(response.roomTypeId()).isEqualTo(2);
+            assertThat(response.basePrice()).isEqualTo("500000");
         }
 
         @Test
@@ -87,6 +94,7 @@ class RoomServiceTest {
             RoomResponse response = roomService.createRoom(request);
 
             assertThat(response.status()).isEqualTo(RoomStatus.MAINTENANCE);
+            assertThat(response.basePrice()).isEqualTo("500000");
         }
 
         @Test
@@ -131,6 +139,7 @@ class RoomServiceTest {
 
             assertThat(response.id()).isEqualTo(10);
             assertThat(response.roomNumber()).isEqualTo("101");
+            assertThat(response.basePrice()).isEqualTo("500000");
         }
 
         @Test
@@ -221,7 +230,7 @@ class RoomServiceTest {
         // ---------- Valid transitions ----------
 
         @ParameterizedTest(name = "AVAILABLE -> {0}")
-        @CsvSource({"RESERVED", "OCCUPIED", "CLEANING", "MAINTENANCE"})
+        @CsvSource({ "RESERVED", "OCCUPIED", "CLEANING", "MAINTENANCE" })
         void shouldAllowTransitionFromAvailable(RoomStatus target) {
             Room room = buildRoom(10, "101", RoomStatus.AVAILABLE);
             when(roomRepository.findById(10)).thenReturn(Optional.of(room));
@@ -233,7 +242,7 @@ class RoomServiceTest {
         }
 
         @ParameterizedTest(name = "RESERVED -> {0}")
-        @CsvSource({"AVAILABLE", "OCCUPIED", "MAINTENANCE"})
+        @CsvSource({ "AVAILABLE", "OCCUPIED", "MAINTENANCE" })
         void shouldAllowTransitionFromReserved(RoomStatus target) {
             Room room = buildRoom(10, "101", RoomStatus.RESERVED);
             when(roomRepository.findById(10)).thenReturn(Optional.of(room));
@@ -256,7 +265,7 @@ class RoomServiceTest {
         }
 
         @ParameterizedTest(name = "CLEANING -> {0}")
-        @CsvSource({"AVAILABLE", "MAINTENANCE"})
+        @CsvSource({ "AVAILABLE", "MAINTENANCE" })
         void shouldAllowTransitionFromCleaning(RoomStatus target) {
             Room room = buildRoom(10, "101", RoomStatus.CLEANING);
             when(roomRepository.findById(10)).thenReturn(Optional.of(room));
@@ -281,7 +290,7 @@ class RoomServiceTest {
         // ---------- Invalid transitions ----------
 
         @ParameterizedTest(name = "OCCUPIED -> {0} should be rejected")
-        @CsvSource({"AVAILABLE", "RESERVED", "MAINTENANCE"})
+        @CsvSource({ "AVAILABLE", "RESERVED", "MAINTENANCE" })
         void shouldRejectInvalidTransitionFromOccupied(RoomStatus target) {
             Room room = buildRoom(10, "101", RoomStatus.OCCUPIED);
             when(roomRepository.findById(10)).thenReturn(Optional.of(room));
@@ -292,7 +301,7 @@ class RoomServiceTest {
         }
 
         @ParameterizedTest(name = "MAINTENANCE -> {0} should be rejected")
-        @CsvSource({"RESERVED", "OCCUPIED", "CLEANING"})
+        @CsvSource({ "RESERVED", "OCCUPIED", "CLEANING" })
         void shouldRejectInvalidTransitionFromMaintenance(RoomStatus target) {
             Room room = buildRoom(10, "101", RoomStatus.MAINTENANCE);
             when(roomRepository.findById(10)).thenReturn(Optional.of(room));
@@ -369,7 +378,7 @@ class RoomServiceTest {
         }
 
         @ParameterizedTest(name = "Should allow delete when status is {0}")
-        @CsvSource({"AVAILABLE", "RESERVED", "CLEANING", "MAINTENANCE"})
+        @CsvSource({ "AVAILABLE", "RESERVED", "CLEANING", "MAINTENANCE" })
         void shouldAllowDeleteForNonOccupiedStatuses(RoomStatus status) {
             Room room = buildRoom(10, "101", status);
             when(roomRepository.findById(10)).thenReturn(Optional.of(room));
