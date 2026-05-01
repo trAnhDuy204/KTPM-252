@@ -72,6 +72,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Cloudinary SDK -->
+        <dependency>
+            <groupId>com.cloudinary</groupId>
+            <artifactId>cloudinary-http45</artifactId>
+            <version>1.38.0</version>
+        </dependency>
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>

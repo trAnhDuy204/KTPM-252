@@ -19,6 +19,7 @@ import { CustomerDashboard, ReceptionDashboard, AdminDashboard } from '@/pages/D
 import RoomManagement from '@/pages/reception/RoomManagement';
 import CheckInOut from '@/pages/reception/CheckInOut';
 import HomePage from '@/pages/HomePage';
+import RoomDetailPage from '@/pages/customer/RoomDetailPage';
 import HotelRoomsDisplay from '@/pages/customer/HotelRoomApp';
 import ProfilePage from '@/pages/customer/ProfilePage';
 
@@ -59,6 +60,7 @@ function AppRoutes() {
       <Route path="/dashboard/reviews" element={<CustomerRoute><ReviewPage /></CustomerRoute>} />
       <Route path="/dashboard/hotels" element={<CustomerRoute><HotelRoomsDisplay /> </CustomerRoute>} />
       <Route path="/dashboard/booking" element={<CustomerRoute><BookingPage /></CustomerRoute>} />
+      <Route path="/dashboard/room-detail/:id" element={<CustomerRoute><RoomDetailPage /></CustomerRoute>} />
 
       <Route path="/reception" element={<ReceptionRoute><ReceptionDashboard /></ReceptionRoute>} />
       <Route path="/reception/rooms" element={<ReceptionRoute><RoomManagement /></ReceptionRoute>} />

@@ -45,7 +45,7 @@ export default function EditProfileForm({ profile, onSuccess, onError }) {
     return (
         <div className="max-w-lg">
             <div className=" border border-zinc-800 rounded-2xl p-7">
-                <h3 className="font-display text-xl font-semibold  mb-6">Thông tin cá nhân</h3>
+                <h3 className=" text-xl font-semibold  mb-6">Thông tin cá nhân</h3>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                     {/* Email (read-only) */}

@@ -37,19 +37,19 @@ function Toast({ id, message, type, onClose }) {
 
   const styles = {
     success: {
-      bg:   ' border-emerald-500/40',
+      bg: ' border-emerald-500/40',
       icon: <Check className="h-4 w-4" />,
       iconCls: 'bg-emerald-500/20 text-emerald-400',
       text: 'text-emerald-300',
     },
     error: {
-      bg:   ' border-red-500/40',
+      bg: ' border-red-500/40',
       icon: <X className="h-4 w-4" />,
       iconCls: 'bg-red-500/20 text-red-400',
       text: 'text-red-300',
     },
     info: {
-      bg:   ' border-sky-500/40',
+      bg: ' border-sky-500/40',
       icon: <OctagonAlert className="h-4 w-4" />,
       iconCls: 'bg-sky-500/20 text-sky-400',
       text: 'text-sky-300',
@@ -60,9 +60,8 @@ function Toast({ id, message, type, onClose }) {
 
   return (
     <div
-      className={`pointer-events-auto flex items-start gap-3 px-4 py-3.5 rounded-xl border shadow-2xl shadow-black/40 min-w-[280px] max-w-sm transition-all duration-300 ${s.bg} ${
-        visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
-      }`}
+      className={`bg-zinc-900 pointer-events-auto flex items-start gap-3 px-4 py-3.5 rounded-xl border shadow-2xl shadow-black/40 min-w-[280px] max-w-sm transition-all duration-300 ${s.bg} ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+        }`}
     >
       {/* Icon */}
       <span className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5 ${s.iconCls}`}>

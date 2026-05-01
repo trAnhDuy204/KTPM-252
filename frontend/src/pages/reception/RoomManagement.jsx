@@ -5,7 +5,7 @@ import {
   SearchX,
   X,
 } from "lucide-react";
-import { createRoom, deleteRoom, getRooms, updateRoomStatus } from "@/services/roomApi";
+import { createRoom, deleteRoom, getRooms, updateRoomStatus, uploadRoomImages, getRoomImages, deleteRoomImage } from "@/services/roomApi";
 import { useAuth } from "@/context/AuthContext";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import CreateRoomForm from "@/components/room/CreateRoomForm";
@@ -29,6 +29,24 @@ export default function RoomManagement() {
   const [error, setError] = useState("");
   const [showCreate, setShowCreate] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+
+  const [selectedRoomId, setSelectedRoomId] = useState(null);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [showUpload, setShowUpload] = useState(false);
+  const [files, setFiles] = useState([]);
+  const [images, setImages] = useState([]);
+
+  const handleAddImage = async (room) => {
+    setSelectedRoom(room);
+    setShowUpload(true);
+
+    try {
+      const res = await getRoomImages(room.id);
+      setImages(res.data.images || []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const showError = (err) => {
     const data = err.response?.data;
@@ -224,6 +242,7 @@ export default function RoomManagement() {
                         room={room}
                         onStatusChange={handleStatusChange}
                         onDelete={setDeleteConfirm}
+                        onAddImage={handleAddImage}
                       />
                     </div>
                   ))}
@@ -234,6 +253,121 @@ export default function RoomManagement() {
         )}
       </div>
 
+      {showUpload && (
+        <div className="fixed inset-0  flex items-center justify-center z-50">
+          <div className="bg-zinc-900 text-zinc-50 p-6 rounded-xl w-[420px] border border-zinc-700">
+            {images.length > 0 && (
+              <div className="mt-4">
+                <p className="text-lg font-semibold mb-2">Ảnh hiện tại</p>
+
+                <div className="grid grid-cols-3 gap-2">
+                  {images.map((img) => (
+                    <div key={img.id} className="relative group">
+                      <img
+                        src={img.url}
+                        alt=""
+                        className="h-20 w-full object-cover rounded border border-zinc-700"
+                      />
+
+                      {/* nút xoá */}
+                      <button
+                        onClick={async () => {
+                          if (!confirm("Xóa ảnh này?")) return;
+
+                          try {
+                            await deleteRoomImage(selectedRoom.id, img.id);
+
+                            // cập nhật UI ngay
+                            setImages((prev) =>
+                              prev.filter((i) => i.id !== img.id)
+                            );
+                          } catch (err) {
+                            console.error(err);
+                            alert("Xóa thất bại");
+                          }
+                        }}
+                        className="absolute top-1 right-1 bg-black/60 text-white text-xs px-1 rounded opacity-0 group-hover:opacity-100"
+                      >
+                        ✕
+                      </button>
+
+                      {/* ảnh chính */}
+                      {img.isPrimary && (
+                        <span className="absolute bottom-1 left-1 text-[10px] bg-yellow-500 text-black px-1 rounded">
+                          Chính
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <h3 className="text-lg font-semibold mb-4">
+              Upload ảnh phòng #{selectedRoom.roomNumber}
+            </h3>
+
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={(e) => {
+                const list = Array.from(e.target.files);
+
+                if (list.length > 10) {
+                  alert("Tối đa 10 ảnh");
+                  return;
+                }
+
+                setFiles(list);
+              }}
+            />
+
+            {/* Preview */}
+            {files.length > 0 && (
+              <div className="grid grid-cols-3 gap-2 mt-3">
+                {files.map((file, i) => (
+                  <img
+                    key={i}
+                    src={URL.createObjectURL(file)}
+                    alt=""
+                    className="h-20 w-full object-cover rounded"
+                  />
+                ))}
+              </div>
+            )}
+
+            <div className="flex gap-2 mt-5">
+              <button
+                onClick={async () => {
+                  try {
+                    await uploadRoomImages(selectedRoom.id, files);
+                    setShowUpload(false);
+                    setFiles([]);
+                  } catch (err) {
+                    console.error(err);
+                    alert("Upload thất bại");
+                  }
+                }}
+                className="px-4 py-2 bg-yellow-500 rounded"
+              >
+                Upload
+              </button>
+
+              <button
+                onClick={() => {
+                  setShowUpload(false);
+                  setFiles([]);
+                }}
+                className="px-4 py-2 border border-zinc-600 rounded"
+              >
+                Hủy
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <ConfirmDialog
         open={deleteConfirm !== null}
         title="Xóa phòng"
@@ -242,6 +376,7 @@ export default function RoomManagement() {
         onConfirm={confirmDelete}
         onCancel={() => setDeleteConfirm(null)}
       />
+
     </>
   );
 }

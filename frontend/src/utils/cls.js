@@ -1,5 +1,5 @@
 export const pageTitle =
-  "font-display text-3xl font-semibold tracking-tight text-hi";
+  "text-3xl font-semibold tracking-tight text-hi";
 
 export const pageSubtitle = "text-sm text-muted";
 

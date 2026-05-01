@@ -1,7 +1,8 @@
 import { STATUS_LABELS, STATUS_COLORS, STATUS_TRANSITIONS } from "@/constants/roomStatus";
 import { btnGhostDanger, panelCard, panelRaised } from "@/utils/cls";
+import { ImagePlus } from "lucide-react";
 
-export default function RoomCard({ room, onStatusChange, onDelete }) {
+export default function RoomCard({ room, onStatusChange, onDelete, onAddImage }) {
   const transitions = STATUS_TRANSITIONS[room.status] || [];
   const roomTypeValue = room.roomTypeName || room.roomTypeId || "—";
 
@@ -74,6 +75,14 @@ export default function RoomCard({ room, onStatusChange, onDelete }) {
           Xóa phòng
         </button>
       )}
+
+      <button
+        className="w-full flex items-center justify-center gap-2 rounded-lg border border-zinc-700 px-3 py-2 text-sm hover:border-yellow-500 hover:text-yellow-400 transition"
+        onClick={() => onAddImage(room)}
+      >
+        <ImagePlus className="w-4 h-4" />
+        Thêm hình
+      </button>
     </div>
   );
 }

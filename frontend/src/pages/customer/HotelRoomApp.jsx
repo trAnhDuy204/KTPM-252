@@ -39,7 +39,7 @@ function RoomCard({ room }) {
       navigate('/login');
       return;
     }
-    // Navigate sang trang đặt phòng, truyền room qua state
+
     navigate('/dashboard/booking', { state: { room } });
   };
 
@@ -78,7 +78,9 @@ function RoomCard({ room }) {
         </span>
 
         {/* View detail button */}
-        <button className="px-3 py-2 rounded-lg border border-zinc-700 text-xs hover:border-zinc-500 hover:text-zinc-200 transition-colors">
+        <button className="px-3 py-2 rounded-lg border border-zinc-700 text-xs hover:border-zinc-500 hover:text-zinc-200 transition-colors"
+          onClick={()=> navigate(`/dashboard/room-detail/${room.id}`)}
+        >
           Xem chi tiết
         </button>
 

@@ -94,7 +94,7 @@ export default function ReviewPage() {
       {/* Header */}
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="font-display text-3xl font-semibold  mb-1">
+          <h1 className=" text-3xl font-semibold  mb-1">
             Đánh giá của tôi
           </h1>
           <p className="text-zinc-500 text-sm">
@@ -105,13 +105,13 @@ export default function ReviewPage() {
         {/* Summary badges */}
         <div className="flex items-center gap-3">
           <div className="text-center px-4 py-2  border border-zinc-800 rounded-xl">
-            <p className="font-display text-2xl font-semibold text-yellow-400">
+            <p className=" text-2xl font-semibold text-yellow-400">
               {pendingBookings.length}
             </p>
             <p className="text-[11px]  uppercase tracking-wider">Chờ đánh giá</p>
           </div>
           <div className="text-center px-4 py-2  border border-zinc-800 rounded-xl">
-            <p className="font-display text-2xl font-semibold text-emerald-400">
+            <p className=" text-2xl font-semibold text-emerald-400">
               {myReviews.length}
             </p>
             <p className="text-[11px]  uppercase tracking-wider">Đã đánh giá</p>

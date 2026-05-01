@@ -68,7 +68,7 @@ export default function ChangePasswordForm({ onSuccess, onError }) {
     return (
         <div className="max-w-lg">
             <div className=" border border-zinc-800 rounded-2xl p-7">
-                <h3 className="font-display text-xl font-semibold  mb-2">Đổi mật khẩu</h3>
+                <h3 className=" text-xl font-semibold  mb-2">Đổi mật khẩu</h3>
                 <p className="text-sm text-zinc-500 mb-6">Mật khẩu mới phải khác mật khẩu hiện tại.</p>
 
                 <form onSubmit={handleSubmit} className="space-y-5">

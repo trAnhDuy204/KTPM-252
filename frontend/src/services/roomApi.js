@@ -20,3 +20,42 @@ export const getHotels = () => api.get("/reception/hotels");
 
 export const getRoomTypes = (hotelId) =>
   api.get("/reception/room-types", { params: { hotelId } });
+
+
+export const getRoomImages = (roomId) =>
+  api.get(`/reception/rooms/${roomId}/images`);
+
+
+export const uploadRoomImages = (roomId, files, caption) => {
+  const formData = new FormData();
+
+  files.forEach(file => {
+    formData.append("files", file); // ⚠️ phải đúng "files"
+  });
+
+  if (caption) {
+    formData.append("caption", caption);
+  }
+
+  return api.post(
+    `/reception/rooms/${roomId}/images`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+};
+
+export const setPrimaryImage = (roomId, imageId) =>
+  api.patch(`/reception/rooms/${roomId}/images/${imageId}/primary`);
+
+
+export const updateImageCaption = (roomId, imageId, caption) =>
+  api.patch(`/reception/rooms/${roomId}/images/${imageId}/caption`, {
+    caption,
+  });
+
+export const deleteRoomImage = (roomId, imageId) =>
+  api.delete(`/reception/rooms/${roomId}/images/${imageId}`);

@@ -32,8 +32,8 @@ CREATE TABLE rooms (
     hotel_id INT REFERENCES hotels(id) ON DELETE CASCADE,
     room_type_id INT REFERENCES room_types(id),
     room_number VARCHAR(20) NOT NULL,
-    status VARCHAR(20) DEFAULT 'AVAILABLE',
-    -- AVAILABLE / RESERVED / OCCUPIED / CLEANING / MAINTENANCE
+    status VARCHAR(20) DEFAULT 'AVAILABLE', 
+    -- AVAILABLE / OCCUPIED / CLEANING / MAINTENANCE
     UNIQUE (hotel_id, room_number)
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE bookings (
     check_in DATE NOT NULL,
     check_out DATE NOT NULL,
     total_price NUMERIC(12,2),
-    status VARCHAR(20) DEFAULT 'PENDING',
+    status VARCHAR(20) DEFAULT 'PENDING', 
     -- PENDING / CONFIRMED / CHECKED_IN / COMPLETED / CANCELLED
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -92,6 +92,24 @@ CREATE TABLE pricing_policies (
     price NUMERIC(12,2)
 );
 
+CREATE TABLE IF NOT EXISTS room_images (
+    id          SERIAL PRIMARY KEY,
+    room_id     INT          NOT NULL REFERENCES rooms(id) ON DELETE CASCADE,
+    url         TEXT         NOT NULL,        -- Cloudinary secure_url
+    public_id   VARCHAR(255) NOT NULL UNIQUE, 
+    is_primary  BOOLEAN      DEFAULT FALSE,   
+    caption     VARCHAR(255),                 
+    uploaded_at TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+);
+ 
+CREATE INDEX IF NOT EXISTS idx_room_images_room_id ON room_images(room_id);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_room_images_primary
+    ON room_images(room_id)
+    WHERE is_primary = TRUE;
+
 CREATE INDEX idx_booking_dates ON bookings(check_in, check_out);
+
 CREATE INDEX idx_room_status ON rooms(status);
+
 CREATE INDEX idx_user_role ON users(role);

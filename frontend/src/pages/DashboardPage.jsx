@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { getRooms } from '../services/roomApi';
 import { getBookings } from '../services/bookingApi';
 import { adminApi } from '../services/adminApi';
-import { Clipboard, Building2, Star, AlertCircle, CheckCircle2, Users, TrendingUp } from 'lucide-react';
+import { Clipboard, Building2, Star, AlertCircle, CheckCircle2, Users, TrendingUp, Hotel } from 'lucide-react';
 import { BOOKING_STATUS_COLORS, BOOKING_STATUS_LABELS } from '@/constants/bookingStatus';
 import { pageTitle, pageSubtitle, panelCard, panelRaised, statCard, statLabel } from '@/utils/cls';
 
@@ -111,7 +111,7 @@ function StatCard({ Icon, label, value, sub }) {
   return (
     <div className=" border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-colors duration-200">
       {Icon && <Icon className="w-6 h-6 mb-3 text-yellow-500" />}
-      <div className="font-display text-3xl font-semibold  mb-1">{value}</div>
+      <div className=" text-3xl font-semibold  mb-1">{value}</div>
       <div className="text-xs font-medium  uppercase tracking-wider">{label}</div>
       {sub && <div className="text-xs  mt-1">{sub}</div>}
     </div>
@@ -168,7 +168,7 @@ export function CustomerDashboard() {
       {/* Header */}
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="font-display text-3xl font-semibold  mb-1">
+          <h1 className="text-3xl font-semibold  mb-1">
             Xin chào, {user?.fullName}
           </h1>
           <p className="text-zinc-500 text-sm">Khám phá và đặt phòng khách sạn yêu thích của bạn</p>
@@ -433,7 +433,7 @@ export function AdminDashboard() {
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <StatCard
-          icon={<IconBuilding />}
+          icon={Hotel}
           label="Khách sạn"
           value={hotels.length}
           sub="Đang hoạt động"
@@ -441,7 +441,7 @@ export function AdminDashboard() {
           accent="indigo"
         />
         <StatCard
-          icon={<IconUsers />}
+          icon={Users}
           label="Nhân viên"
           value={staff.length}
           sub="Lễ tân & Quản trị"
@@ -449,7 +449,7 @@ export function AdminDashboard() {
           accent="violet"
         />
         <StatCard
-          icon={<IconClipboard />}
+          icon={Clipboard}
           label="Đặt phòng"
           value={bookingsThisMonth.length}
           sub={monthLabel}
@@ -457,7 +457,7 @@ export function AdminDashboard() {
           accent="sky"
         />
         <StatCard
-          icon={<IconTrend />}
+          icon={TrendingUp}
           label="Doanh thu"
           value={fmtVND(revenueThisMonth)}
           sub={monthLabel}

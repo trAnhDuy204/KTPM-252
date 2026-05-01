@@ -46,12 +46,12 @@ export default function ProfilePage() {
                 <div className="flex items-center gap-4">
                     {/*Avatar*/}
                     <div className="w-16 h-16 rounded-2xl bg-yellow-600/15 border border-yellow-600/25 flex items-center justify-center flex-shrink-0">
-                        <span className="font-display text-2xl font-semibold text-yellow-500">
+                        <span className=" text-2xl font-semibold text-yellow-500">
                             {profile?.fullName?.charAt(0).toUpperCase()}
                         </span>
                     </div>
                     <div>
-                        <h1 className="font-display text-3xl font-semibold mb-1">
+                        <h1 className=" text-3xl font-semibold mb-1">
                             {profile?.fullName}
                         </h1>
                         <div className="flex items-center gap-2">
@@ -82,7 +82,7 @@ export default function ProfilePage() {
                     ].map(s => (
                         <div key={s.label}
                             className=" border border-zinc-800 rounded-xl p-4 text-center">
-                            <div className={`font-display text-2xl font-semibold ${s.color}`}>{s.value}</div>
+                            <div className={` text-2xl font-semibold ${s.color}`}>{s.value}</div>
                             <div className="text-[11px]  mt-0.5 uppercase tracking-wider">{s.label}</div>
                         </div>
                     ))}
