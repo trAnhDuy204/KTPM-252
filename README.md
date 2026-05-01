@@ -45,6 +45,11 @@ cd backend
 ./mvnw spring-boot:run
 ### Chạy môi trường test VNpay
 ngrok http 8080
+#### //dữ liệu test:
+9704198526191432198
+NGUYEN VAN A
+07/15
+OTP: 123456
 ### Chạy Frontend
 cd frontend
 npm install
