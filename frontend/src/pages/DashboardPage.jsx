@@ -27,10 +27,12 @@ function StatCard({ Icon, label, value, sub }) {
   return (
     <div className=" border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-colors duration-200">
       {Icon && <Icon className="w-6 h-6 mb-3 text-yellow-500" />}
-      <div className="font-display text-3xl font-semibold  mb-1">{value}</div>
+      <div className="font-sans text-3xl font-semibold  mb-1">{value}</div>
       <div className="text-xs font-medium text-zinc-500 uppercase tracking-wider">{label}</div>
       {sub && <div className="text-xs text-zinc-600 mt-1">{sub}</div>}
+  
     </div>
+    
   );
 }
 
@@ -77,6 +79,24 @@ function ReceptionStatCard({ Icon, label, value, tone }) {
 /*Customer Dashboard*/
 export function CustomerDashboard() {
   const { user } = useAuth();
+  const [bookings, setBookings] = useState([]);
+
+  useEffect(() => {
+  fetch(`http://localhost:8080/api/public/bookings?userId=${user.id}`)
+    .then(res => res.json())
+    .then(data => setBookings(data))
+    .catch(err => console.log(err));
+}, []);
+
+  const total = bookings.length;
+  const completed = bookings.filter(
+    b => b.status === "COMPLETED"
+  ).length;
+
+  const pending = bookings.filter(
+    b => b.status === "PENDING"
+  ).length;
+
 
 
   return (
@@ -94,9 +114,9 @@ export function CustomerDashboard() {
 
         {/* Stats */}
         <div className="grid grid-cols-4 gap-4 mb-8">
-          <StatCard Icon={Clipboard} label="Tổng đặt phòng" value="0" sub="Chưa có lịch sử" />
-          <StatCard Icon={CheckCircle2} label="Đã hoàn thành" value="0" />
-          <StatCard Icon={AlertCircle} label="Chờ xác nhận" value="0" />
+          <StatCard Icon={Clipboard} label="Tổng đặt phòng" value={Number(total)} />
+          <StatCard Icon={CheckCircle2} label="Đã hoàn thành" value={Number(completed)} />
+          <StatCard Icon={AlertCircle} label="Chờ xác nhận" value={Number(pending)} />
           <StatCard Icon={Star} label="Đánh giá" value="0" />
         </div>
 

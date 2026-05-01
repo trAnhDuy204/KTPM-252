@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useAuth } from '../../context/AuthContext';
+
 
 /* Reuse simple EmptyState */
 function EmptyState({ text }) {
@@ -9,43 +11,65 @@ function EmptyState({ text }) {
   );
 }
 
-function handleBook(room) {
-  const requestBody = {
-    userId: 1,
-    hotelId: room.hotelId,
-    roomId: room.id,
-    checkIn: "2026-04-25",
-    checkOut: "2026-04-27",
-    guestName: "Test User",
-    guestPhone: "0123456789"
-  };
+/*function handleBook(room) {
 
-  fetch("http://localhost:8080/api/public/bookings", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(requestBody)
-  })
-    .then(async (res) => {
-      if (!res.ok) {
-        const msg = await res.text();
-        throw new Error(msg);
-      }
-      return res.json();
+  if (!user?.id) {
+      alert("Bạn chưa đăng nhập!");
+      return;
+    }
+
+    const now = new Date();
+
+    const checkIn = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Ho_Chi_Minh",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).format(now);
+
+    const checkOutDate = new Date(now);
+    checkOutDate.setDate(checkOutDate.getDate() + 2);
+
+    const checkOut = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Ho_Chi_Minh",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).format(checkOutDate);
+
+    const requestBody = {
+      userId: user.id, // ✅ dynamic
+      hotelId: room.hotelId,
+      roomId: room.id,
+      checkIn,
+      checkOut,
+      guestName: user.fullName || "Guest",
+      guestPhone: user.phone || "0000000000"
+    };
+
+    fetch("http://localhost:8080/api/public/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(requestBody)
     })
-    .then((data) => {
-      console.log("Booking success:", data);
-
-      // 👇 CALL PAYMENT HERE
-      handlePay(data.id);
-
-    })
-    .catch((err) => {
-      console.error("Booking error:", err.message);
-      alert("Đặt phòng thất bại: " + err.message);
-    });
-}
+      .then(async (res) => {
+        if (!res.ok) {
+          const msg = await res.text();
+          throw new Error(msg);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Booking success:", data);
+        handlePay(data.id);
+      })
+      .catch((err) => {
+        console.error("Booking error:", err.message);
+        alert("Đặt phòng thất bại: " + err.message);
+      });
+}*/
 
 function handlePay(bookingId) {
   fetch(`http://localhost:8080/api/public/payment/vnpay?bookingId=${bookingId}`)
@@ -59,7 +83,7 @@ function handlePay(bookingId) {
     });
 }
 /* Room Card (same style as ReviewPage cards) */
-function RoomCard({ room }) {
+function RoomCard({ room, onBook }) {
   return (
     <div className="border border-zinc-800 hover:border-zinc-700 rounded-xl p-5 flex items-center justify-between transition-colors duration-200 group">
       
@@ -95,7 +119,7 @@ function RoomCard({ room }) {
           Xem Phòng
         </button>
         <button
-          onClick={() => handleBook(room)}
+          onClick={() => onBook(room)}
           className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-500 text-white text-xs font-medium"
         >
           Đặt phòng
@@ -106,11 +130,47 @@ function RoomCard({ room }) {
 }
 
 function HotelRoomsDisplay() {
+  
   const [rooms, setRooms] = useState([]);
   const [originalRooms, setOriginalRooms] = useState([]);
   const [roomType, setRoomType] = useState("all");
   const [loading, setLoading] = useState(true);
 
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const { user } = useAuth(); 
+
+  const handleBook = (room) => { 
+    if (!user?.id) {
+      alert("Bạn chưa đăng nhập!");
+      return;
+    }
+    if (!checkIn || !checkOut) {
+    alert("Vui lòng chọn ngày!");
+    return;
+    }
+    const requestBody = {
+      userId: user.id,
+      hotelId: room.hotelId,
+      roomId: room.id,
+      checkIn,
+      checkOut,
+      guestName: user.fullName || "Guest",
+      guestPhone: user.phone || "0000000000"
+    };
+
+    fetch("http://localhost:8080/api/public/bookings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestBody)
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error(await res.text());
+        return res.json();
+      })
+      .then((data) => handlePay(data.id))
+      .catch((err) => alert(err.message));
+  };
   /* Fetch data */
   useEffect(() => {
     fetch("http://localhost:8080/api/public/rooms")
@@ -122,6 +182,8 @@ function HotelRoomsDisplay() {
       .catch(err => console.log("Error:", err))
       .finally(() => setLoading(false));
   }, []);
+  
+  
 
   /* Sort */
   function AscDesc(order) {
@@ -135,6 +197,7 @@ function HotelRoomsDisplay() {
 
     setRooms(sorted);
   }
+  
 
   /* Filter */
   const filteredRooms =
@@ -144,18 +207,37 @@ function HotelRoomsDisplay() {
           r => r.roomTypeName?.toLowerCase() === roomType.toLowerCase()
         );
 
-  const grouped = rooms.reduce((acc, room) => {
+  const grouped = filteredRooms.reduce((acc, room) => {
     const hotel = room.hotelName;
     if (!acc[hotel]) acc[hotel] = [];
     acc[hotel].push(room);
     return acc;
   }, {});
-
   return (
     <div style={{ marginTop: "60px", padding: "20px" }}>
 
       {/* Filter + Sort */}
       <div className="flex gap-3 mb-6">
+        <div>
+        <label className="text-xs text-zinc-400">Check-in</label>
+        <input
+          type="date"
+          value={checkIn}
+          onChange={(e) => setCheckIn(e.target.value)}
+          className="border border-zinc-700 rounded-lg px-3 py-2 bg-zinc-900 text-sm"
+        />
+      </div>
+
+      {/* Check-out */}
+      <div>
+        <label className="text-xs text-zinc-400">Check-out</label>
+        <input
+          type="date"
+          value={checkOut}
+          onChange={(e) => setCheckOut(e.target.value)}
+          className="border border-zinc-700 rounded-lg px-3 py-2 bg-zinc-900 text-sm"
+        />
+        </div>
         <select
           value={roomType}
           onChange={e => setRoomType(e.target.value)}
@@ -211,7 +293,7 @@ function HotelRoomsDisplay() {
               {/* Rooms under that hotel */}
               <div className="space-y-3">
                 {rooms.map(room => (
-                  <RoomCard key={room.id} room={room} />
+                  <RoomCard key={room.id} room={room}  onBook={handleBook}/>
                 ))}
               </div>
 
@@ -221,6 +303,7 @@ function HotelRoomsDisplay() {
       )}
     </div>
   );
+  
   
 }
 

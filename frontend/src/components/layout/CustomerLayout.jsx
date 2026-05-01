@@ -10,12 +10,14 @@ import {
   LogOut,
   Moon,
   Sun,
+  Backpack,
 } from "lucide-react";
 
 const navItems = [
   { Icon: Home, label: "Tổng quan", path: "/dashboard" },
   { Icon: Clipboard, label: "Khách sạn", path: "/dashboard/hotels" },
   { Icon: Star, label: 'Đánh giá' ,path: '/dashboard/reviews' },
+  { Icon: Backpack, label: 'Xem Booking', path: '/dashboard/mybookings' },
   { Icon: User, label: 'Hồ sơ', path: '/dashboard' },
 ];
 
