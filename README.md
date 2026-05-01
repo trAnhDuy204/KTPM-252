@@ -38,12 +38,14 @@ Dự án quản lý khách sạn:
 ## Cài đặt và chạy
 ### Yêu cầu
 - Java 17+
-- Node.js 18+ (nếu dùng React)
+- Node.js 18+
 - PostgreSQL
 ### Chạy Backend
 cd backend
 ./mvnw spring-boot:run
-### Chạy Frontend (nếu dùng React)
+### Chạy môi trường test VNpay
+ngrok http 8080
+### Chạy Frontend
 cd frontend
 npm install
 npm start

@@ -1,5 +1,8 @@
-import { Hotel, MapPinHouse, BedSingle, User, DoorClosed, CheckCircle, 
-  Wifi, Snowflake, Tv, Bath, Coffee, Sparkles } from 'lucide-react';
+import {
+    Hotel, MapPinHouse, BedSingle, User, DoorClosed, CheckCircle,
+    Wifi, Snowflake, Tv, Bath, Coffee, Sparkles, ZoomIn,
+    ChevronLeft, ChevronRight, X
+} from 'lucide-react';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -83,7 +86,6 @@ export default function RoomDetailPage() {
 
     if (error) return (
         <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-            <span className="text-4xl">😞</span>
             <p className="text-zinc-400">{error}</p>
             <button onClick={() => navigate(-1)}
                 className="px-5 py-2.5 rounded-lg border border-zinc-700 text-zinc-400 hover:text-zinc-100 transition-colors">
@@ -139,8 +141,9 @@ export default function RoomDetailPage() {
                                     </div>
 
                                     {/* Zoom hint */}
-                                    <div className="absolute top-3 left-3 px-2.5 py-1 backdrop-blur-sm rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity">
-                                        🔍 Phóng to
+                                    <div className="absolute top-3 left-3 flex items-center gap-1 px-2.5 py-1 backdrop-blur-sm rounded-full text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <ZoomIn className="w-3.5 h-3.5" />
+                                        <span>Phóng to</span>
                                     </div>
 
                                     {/* Prev/Next arrows */}
@@ -148,15 +151,15 @@ export default function RoomDetailPage() {
                                         <>
                                             <button
                                                 onClick={(e) => { e.stopPropagation(); setActiveIdx(i => (i - 1 + images.length) % images.length); }}
-                                                className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full  hover:bg-black/80  flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
+                                                className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full  hover:bg-gray-300  flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
                                             >
-                                                ‹
+                                                <ChevronLeft />
                                             </button>
                                             <button
                                                 onClick={(e) => { e.stopPropagation(); setActiveIdx(i => (i + 1) % images.length); }}
-                                                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full  hover:bg-black/80 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full  hover:bg-gray-300 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
                                             >
-                                                ›
+                                                <ChevronRight />
                                             </button>
                                         </>
                                     )}
@@ -293,17 +296,6 @@ export default function RoomDetailPage() {
                                 {isBookable ? 'Đặt phòng ngay' : 'Phòng không khả dụng'}
                             </button>
                         </div>
-
-                        {/* Image count */}
-                        {hasImages && (
-                            <button
-                                onClick={() => setLightbox(true)}
-                                className="w-full flex items-center justify-between px-4 py-3 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-2xl text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
-                            >
-                                <span>🖼 Xem tất cả {images.length} ảnh</span>
-                                <span>→</span>
-                            </button>
-                        )}
                     </div>
                 </div>
             </div>
@@ -326,7 +318,7 @@ export default function RoomDetailPage() {
                             onClick={() => setLightbox(false)}
                             className="text-zinc-400 hover:text-zinc-100 text-2xl transition-colors"
                         >
-                            ✕
+                            <X />
                         </button>
                     </div>
 
@@ -343,15 +335,15 @@ export default function RoomDetailPage() {
                             <>
                                 <button
                                     onClick={() => setActiveIdx(i => (i - 1 + images.length) % images.length)}
-                                    className="absolute left-4 w-12 h-12 rounded-full bg-black/70 hover:bg-black/90 text-zinc-200 text-xl flex items-center justify-center transition-all"
+                                    className="absolute left-4 w-12 h-12 rounded-full bg-gray-800 hover:bg-black/90 text-zinc-200 text-xl flex items-center justify-center transition-all"
                                 >
-                                    ‹
+                                    <ChevronLeft />
                                 </button>
                                 <button
                                     onClick={() => setActiveIdx(i => (i + 1) % images.length)}
-                                    className="absolute right-4 w-12 h-12 rounded-full bg-black/70 hover:bg-black/90 text-zinc-200 text-xl flex items-center justify-center transition-all"
+                                    className="absolute right-4 w-12 h-12 rounded-full bg-gray-800 hover:bg-black/90 text-zinc-200 text-xl flex items-center justify-center transition-all"
                                 >
-                                    ›
+                                    <ChevronRight />
                                 </button>
                             </>
                         )}
