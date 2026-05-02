@@ -98,7 +98,7 @@ function BookingCard({ booking, onReview }) {
                         {cfg.label}
                     </span>
                     {booking.totalPrice && (
-                        <p className="font-display text-lg font-semibold ">
+                        <p className=" text-lg font-semibold ">
                             {Number(booking.totalPrice).toLocaleString('vi-VN')}₫
                         </p>
                     )}

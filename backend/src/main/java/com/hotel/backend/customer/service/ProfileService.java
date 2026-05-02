@@ -143,6 +143,7 @@ public class ProfileService {
                 .id(b.getId())
                 .hotelName  (hotel    != null ? hotel.getName()      : "Khách sạn #" + b.getHotel().getId())
                 .hotelCity  (hotel    != null ? hotel.getCity()       : "—")
+                .roomId     (b.getRoom().getId())
                 .roomNumber (room     != null ? room.getRoomNumber()  : "Phòng #" + b.getRoom().getId())
                 .roomTypeName(roomType != null ? roomType.getName()   : "—")
                 .checkIn    (b.getCheckIn() .format(DATE_FMT))

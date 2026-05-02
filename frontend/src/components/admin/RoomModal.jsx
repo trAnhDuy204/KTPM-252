@@ -169,6 +169,7 @@ const RoomModal = ({ isOpen, onClose, onSave, selectedRoom }) => {
               }
             >
               <option value="AVAILABLE">Trống</option>
+              <option value="RESERVED">Đã đặt</option>
               <option value="OCCUPIED">Có khách</option>
               <option value="CLEANING">Dọn dẹp</option>
               <option value="MAINTENANCE">Bảo trì</option>

@@ -5,7 +5,7 @@ import { panelCard } from "@/utils/cls";
 import { Search, CirclePlus } from 'lucide-react';
 
 export const getStatusVn = (status) => {
-    const map = { 'AVAILABLE': 'Trống', 'OCCUPIED': 'Có khách', 'CLEANING': 'Dọn dẹp', 'MAINTENANCE': 'Bảo trì' };
+    const map = { 'AVAILABLE': 'Trống', 'RESERVED': 'Đã đặt', 'OCCUPIED': 'Có khách', 'CLEANING': 'Dọn dẹp', 'MAINTENANCE': 'Bảo trì' };
     return map[status] || 'Trống';
 };
 

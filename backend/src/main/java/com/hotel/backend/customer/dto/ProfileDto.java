@@ -55,6 +55,7 @@ public class ProfileDto {
         private Integer    id;
         private String     hotelName;
         private String     hotelCity;
+        private Integer    roomId;
         private String     roomNumber;
         private String     roomTypeName;
         private String     checkIn;   

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getRooms } from '../services/roomApi';
 import { getBookings } from '../services/bookingApi';
 import { adminApi } from '../services/adminApi';
-import { Clipboard, Building2, Star, AlertCircle, CheckCircle2, Users, TrendingUp, Hotel } from 'lucide-react';
+import { profileApi } from '../services/profileApi';
+import { Clipboard, User, Calendar, Star, Search, AlertCircle, CheckCircle2, Users, TrendingUp, Hotel, CircleEllipsis, MoveRight, ChevronRightIcon } from 'lucide-react';
 import { BOOKING_STATUS_COLORS, BOOKING_STATUS_LABELS } from '@/constants/bookingStatus';
 import { pageTitle, pageSubtitle, panelCard, panelRaised, statCard, statLabel } from '@/utils/cls';
 
@@ -22,32 +24,6 @@ function RoleBadge({ role }) {
     </span>
   );
 }
-
-const IconBuilding = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-    <rect x="3" y="3" width="18" height="18" rx="2" />
-    <path d="M9 22V12h6v10M9 7h1m4 0h1M9 11h1m4 0h1" />
-  </svg>
-);
-const IconUsers = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-    <circle cx="9" cy="7" r="4" />
-    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-  </svg>
-);
-const IconClipboard = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
-    <rect x="8" y="2" width="8" height="4" rx="1" />
-  </svg>
-);
-const IconTrend = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-    <polyline points="17 6 23 6 23 12" />
-  </svg>
-);
 const IconRefresh = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
     <path d="M23 4v6h-6M1 20v-6h6" />
@@ -118,20 +94,6 @@ function StatCard({ Icon, label, value, sub }) {
   );
 }
 
-function EmptyState({ Icon, text, action }) {
-  return (
-    <div className="flex flex-col items-center justify-center py-14 gap-3 text-center">
-      {Icon && <Icon className="w-12 h-12 opacity-30 text-zinc-400" />}
-      <p className="text-sm text-zinc-500 leading-relaxed">{text}</p>
-      {action && (
-        <button className="mt-1 px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-zinc-950 text-xs font-medium tracking-widest uppercase transition-colors">
-          {action}
-        </button>
-      )}
-    </div>
-  );
-}
-
 const receptionStatTones = {
   available: { icon: 'text-success', value: 'text-success' },
   occupied: { icon: 'text-danger', value: 'text-danger' },
@@ -158,44 +120,306 @@ function ReceptionStatCard({ Icon, label, value, tone }) {
   );
 }
 
+const STATUS_CFG = {
+  PENDING: { label: 'Chờ xác nhận', dot: 'bg-amber-400', text: 'text-amber-400', bar: 'bg-amber-500/20 border-amber-500/25' },
+  CONFIRMED: { label: 'Đã xác nhận', dot: 'bg-sky-400', text: 'text-sky-400', bar: 'bg-sky-500/20   border-sky-500/25' },
+  CHECKED_IN: { label: 'Đang ở', dot: 'bg-emerald-400', text: 'text-emerald-400', bar: 'bg-emerald-500/20 border-emerald-500/25' },
+  COMPLETED: { label: 'Hoàn thành', dot: 'bg-zinc-500', text: 'text-zinc-400', bar: 'bg-zinc-500/10  border-zinc-700' },
+  CANCELLED: { label: 'Đã hủy', dot: 'bg-red-500', text: 'text-red-400', bar: 'bg-red-500/10   border-red-500/25' },
+};
+
+function BookingRow({ booking, navigate }) {
+  const cfg = STATUS_CFG[booking.status] ?? STATUS_CFG.PENDING;
+  console.log(booking);
+
+  return (
+    <div
+      className="flex items-center gap-4 px-6 py-4 hover:bg-zinc-800/40 transition-colors cursor-pointer group"
+      onClick={() => navigate(`/dashboard/room-detail/${booking.roomId}`, { state: { booking } })}
+    >
+      {/* Hotel icon */}
+      <div className="w-10 h-10 rounded-xl border border-zinc-700 flex items-center justify-center text-lg flex-shrink-0">
+        <Hotel />
+      </div>
+
+      {/* Info */}
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium truncate">{booking.hotelName}</p>
+        <p className="text-xs mt-0.5 flex items-center gap-1 flex-wrap">
+          <span>
+            {booking.roomNumber}
+            {booking.roomTypeName && booking.roomTypeName !== '—' && ` - ${booking.roomTypeName}`}
+          </span>
+
+          <span className="mx-1.5 text-zinc-700">-</span>
+
+          <span className="flex items-center gap-1">
+            {booking.checkIn}
+            <MoveRight className="w-3 h-3" />
+            {booking.checkOut}
+          </span>
+        </p>
+      </div>
+
+      {/* Right side */}
+      <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
+        <span className={`text-[10px] px-2 py-0.5 rounded-full border flex items-center gap-1 ${cfg.bar}`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot} inline-block`} />
+          <span className={cfg.text}>{cfg.label}</span>
+        </span>
+        {booking.totalPrice && (
+          <span className="text-xs text-zinc-500 tabular-nums">
+            {fmtVND(booking.totalPrice)}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function EmptyBookings({ onExplore }) {
+  return (
+    <div className="flex flex-col items-center py-14 px-6 gap-4 text-center">
+      <div className="w-16 h-16 rounded-2xl border border-zinc-700 flex items-center justify-center text-3xl opacity-40">
+        <Hotel />
+      </div>
+      <div>
+        <p className="text-sm font-medium text-zinc-400 mb-1">Chưa có đặt phòng nào</p>
+        <p className="text-xs text-zinc-600">Hãy khám phá và đặt phòng khách sạn yêu thích!</p>
+      </div>
+      <button
+        onClick={onExplore}
+        className="px-5 py-2.5 rounded-xl bg-yellow-600 hover:bg-yellow-500 text-zinc-950 text-xs font-medium uppercase tracking-widest transition-all hover:shadow-lg hover:shadow-yellow-500/20"
+      >
+        Khám phá ngay
+      </button>
+    </div>
+  );
+}
+
+function SkeletonStatCard() {
+  return (
+    <div className=" border border-zinc-800 rounded-2xl p-5 animate-pulse">
+      <div className="w-8 h-8  rounded-lg mb-3" />
+      <div className="h-8 w-12  rounded mb-1" />
+      <div className="h-3 w-20  rounded" />
+    </div>
+  );
+}
+
+function SkeletonBookingRow() {
+  return (
+    <div className="flex items-center gap-4 px-6 py-4 animate-pulse">
+      <div className="w-10 h-10  rounded-xl flex-shrink-0" />
+      <div className="flex-1 space-y-2">
+        <div className="h-3.5  rounded w-2/3" />
+        <div className="h-3  rounded w-1/2" />
+      </div>
+      <div className="h-5 w-20  rounded-full" />
+    </div>
+  );
+}
+
 /*Customer Dashboard*/
 export function CustomerDashboard() {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
+  const [bookings, setBookings] = useState([]);
+  const [summary, setSummary] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  /* ── Fetch data ── */
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [bRes, sRes] = await Promise.all([
+        profileApi.getBookings(),
+        profileApi.getBookingSummary(),
+      ]);
+      setBookings(bRes.data ?? []);
+      setSummary(sRes.data ?? null);
+    } catch {
+      /* fail silently — hiển thị empty state */
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  /* ── Derived data ── */
+  const recentBookings = bookings.slice(0, 4);
+  const pendingReviews = bookings.filter(b => b.canReview).length;
+
+  /* ── Greeting by time ── */
+  const hour = new Date().getHours();
+  const greeting =
+    hour < 12 ? 'Chào buổi sáng' :
+      hour < 18 ? 'Chào buổi chiều' : 'Chào buổi tối';
 
   return (
-    <>
-      {/* Header */}
-      <div className="flex items-start justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-semibold  mb-1">
-            Xin chào, {user?.fullName}
-          </h1>
-          <p className="text-zinc-500 text-sm">Khám phá và đặt phòng khách sạn yêu thích của bạn</p>
+    <div>
+      {/* ══ Hero header ══ */}
+      <div>
+        {/* Decorative glow */}
+        <div className="absolute top-0 right-0 w-96 h-48 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse at 80% 0%, rgba(202,138,4,0.06) 0%, transparent 70%)' }} />
+
+        <div className="flex items-start justify-between relative z-10">
+          <div>
+            {/* Greeting line */}
+            <p className="text-xs font-medium tracking-[0.25em] uppercase text-yellow-600 mb-2">
+              {greeting}
+            </p>
+            <h1 className=" text-4xl font-semibold  mb-1 leading-tight">
+              {user?.fullName}
+            </h1>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <RoleBadge role={user?.role} />
+          </div>
         </div>
-        <RoleBadge role={user?.role} />
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-4 gap-4 mb-8">
-        <StatCard Icon={Clipboard} label="Tổng đặt phòng" value="0" sub="Chưa có lịch sử" />
-        <StatCard Icon={CheckCircle2} label="Đã hoàn thành" value="0" />
-        <StatCard Icon={AlertCircle} label="Chờ xác nhận" value="0" />
-        <StatCard Icon={Star} label="Đánh giá" value="0" />
-      </div>
+      {/* ══ Main content ══ */}
+      <div className="px-8 py-8 space-y-8">
 
-      {/* Cards */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className=" border border-zinc-800 rounded-xl p-6">
-          <h3 className="text-sm font-medium text-zinc-300 mb-4">Đặt phòng gần đây</h3>
-          <EmptyState Icon={Building2} text={"Chưa có đặt phòng nào.\nHãy khám phá các khách sạn ngay!"} action="Tìm khách sạn" />
+        {/* ── Stats row ── */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {loading
+            ? Array.from({ length: 4 }).map((_, i) => <SkeletonStatCard key={i} />)
+            : (
+              <>
+                <StatCard
+                  Icon={Clipboard}
+                  label="Tổng đặt phòng"
+                  value={summary?.total ?? 0}
+                  sub={summary?.total === 0 ? 'Chưa có lịch sử' : undefined}
+                />
+                <StatCard
+                  Icon={CheckCircle2}
+                  label="Hoàn thành"
+                  value={summary?.completed ?? 0}
+                  highlight={summary?.completed > 0}
+                />
+                <StatCard
+                  Icon={CircleEllipsis}
+                  label="Chờ xác nhận"
+                  value={summary?.pending ?? 0}
+                  pulse={summary?.pending > 0}
+                />
+                <StatCard
+                  Icon={Star}
+                  label="Chờ đánh giá"
+                  value={pendingReviews}
+                  sub={pendingReviews > 0 ? 'Có thể đánh giá' : undefined}
+                />
+              </>
+            )
+          }
         </div>
-        <div className=" border border-zinc-800 rounded-xl p-6">
-          <h3 className="text-sm font-medium text-zinc-300 mb-4">Khách sạn yêu thích</h3>
-          <EmptyState Icon={Star} text="Chưa có khách sạn yêu thích." />
+
+        {/* ── Two column: Recent bookings + Quick actions ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
+
+          {/* Recent bookings */}
+          <div className=" border border-zinc-800 rounded-2xl overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-800">
+              <div>
+                <h3 className="text-sm font-medium ">Đặt phòng gần đây</h3>
+                <p className="text-xs text-zinc-600 mt-0.5">
+                  {bookings.length > 0 ? `${bookings.length} đặt phòng` : 'Lịch sử 30 ngày gần nhất'}
+                </p>
+              </div>
+              {bookings.length > 0 && (
+                <button
+                  onClick={() => navigate('/dashboard/profile')}
+                  className="text-xs text-yellow-500 hover:text-yellow-400 transition-colors"
+                >
+                  Xem tất cả
+                </button>
+              )}
+            </div>
+
+            {loading ? (
+              <div className="divide-y divide-zinc-800">
+                {[1, 2, 3].map(i => <SkeletonBookingRow key={i} />)}
+              </div>
+            ) : recentBookings.length === 0 ? (
+              <EmptyBookings onExplore={() => navigate('/dashboard/hotels')} />
+            ) : (
+              <div className="divide-y divide-zinc-800/60">
+                {recentBookings.map(b => (
+                  <BookingRow key={b.id} booking={b} navigate={navigate} />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Right column */}
+          <div className="space-y-4">
+
+            {/* Quick actions */}
+            <div className=" border border-zinc-800 rounded-2xl p-5">
+              <h3 className="text-xs font-medium uppercase tracking-widest mb-4">
+                Thao tác nhanh
+              </h3>
+              <div className="space-y-2">
+                {[
+                  { icon: <Search />, label: 'Khám phá khách sạn', desc: 'Tìm phòng phù hợp', path: '/dashboard/hotels', color: 'hover:border-yellow-600/40 hover:bg-yellow-600/5' },
+                  { icon: <Calendar />, label: 'Lịch sử đặt phòng', desc: 'Xem tất cả booking', path: '/dashboard/profile', color: 'hover:border-sky-600/40 hover:bg-sky-600/5' },
+                  { icon: <Star />, label: 'Viết đánh giá', desc: `${pendingReviews} chuyến chờ review`, path: '/dashboard/reviews', color: 'hover:border-amber-600/40 hover:bg-amber-600/5' },
+                  { icon: <User />, label: 'Cập nhật hồ sơ', desc: 'Thông tin & mật khẩu', path: '/dashboard/profile', color: 'hover:border-emerald-600/40 hover:bg-emerald-600/5' },
+                ].map(({ icon, label, desc, path, color }) => (
+                  <button
+                    key={label}
+                    onClick={() => navigate(path)}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-zinc-800 transition-all duration-150 group text-left ${color}`}
+                  >
+                    <span className="text-lg flex-shrink-0 group-hover:scale-110 transition-transform duration-150">
+                      {icon}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-sm transition-colors leading-none mb-0.5">
+                        {label}
+                      </p>
+                      <p className="text-xs text-zinc-600">{desc}</p>
+                    </div>
+                    <span className="ml-auto text-zinc-700 group-hover:text-zinc-400 transition-colors text-sm"><ChevronRightIcon /></span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Pending review nudge */}
+            {pendingReviews > 0 && (
+              <div className="bg-amber-500/8 border border-amber-500/20 rounded-2xl p-5">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl flex-shrink-0 text-amber-300"><Star /></span>
+                  <div>
+                    <p className="text-sm font-medium text-amber-300 mb-1">
+                      Bạn có {pendingReviews} chuyến chờ đánh giá
+                    </p>
+                    <p className="text-xs text-amber-500/70 mb-3">
+                      Chia sẻ trải nghiệm giúp khách hàng khác lựa chọn tốt hơn.
+                    </p>
+                    <button
+                      onClick={() => navigate('/dashboard/reviews')}
+                      className="text-xs px-3 py-1.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-400 border border-amber-500/25 transition-colors"
+                    >
+                      Đánh giá ngay
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -433,7 +657,7 @@ export function AdminDashboard() {
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <StatCard
-          icon={Hotel}
+          Icon={Hotel}
           label="Khách sạn"
           value={hotels.length}
           sub="Đang hoạt động"
@@ -441,7 +665,7 @@ export function AdminDashboard() {
           accent="indigo"
         />
         <StatCard
-          icon={Users}
+          Icon={Users}
           label="Nhân viên"
           value={staff.length}
           sub="Lễ tân & Quản trị"
@@ -449,7 +673,7 @@ export function AdminDashboard() {
           accent="violet"
         />
         <StatCard
-          icon={Clipboard}
+          Icon={Clipboard}
           label="Đặt phòng"
           value={bookingsThisMonth.length}
           sub={monthLabel}
@@ -457,7 +681,7 @@ export function AdminDashboard() {
           accent="sky"
         />
         <StatCard
-          icon={TrendingUp}
+          Icon={TrendingUp}
           label="Doanh thu"
           value={fmtVND(revenueThisMonth)}
           sub={monthLabel}
