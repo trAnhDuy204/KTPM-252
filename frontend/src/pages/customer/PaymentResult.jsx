@@ -70,7 +70,7 @@ function PaymentResult() {
 
         {/* Button về home */}
         <button
-          onClick={() => window.location.href = "/dashboard"}
+          onClick={() => window.location.assign("/dashboard")}
           className="mt-4 px-6 py-3 rounded-xl bg-[#842A3B] text-white font-semibold hover:bg-[#6e2230] transition-all shadow-md"
         >
           Về trang chủ

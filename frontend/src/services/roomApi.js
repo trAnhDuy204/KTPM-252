@@ -30,7 +30,7 @@ export const uploadRoomImages = (roomId, files, caption) => {
   const formData = new FormData();
 
   files.forEach(file => {
-    formData.append("files", file); // ⚠️ phải đúng "files"
+    formData.append("files", file);
   });
 
   if (caption) {

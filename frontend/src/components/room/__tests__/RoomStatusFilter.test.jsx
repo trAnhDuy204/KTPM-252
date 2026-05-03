@@ -1,43 +1,50 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
-import RoomStatusFilter from '../RoomStatusFilter';
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import "@testing-library/jest-dom";
+import RoomStatusFilter from "../RoomStatusFilter";
 
-describe('RoomStatusFilter', () => {
-  it('renders all status buttons plus "Tất cả"', () => {
-    render(<RoomStatusFilter value="" onChange={vi.fn()} />);
+describe("RoomStatusFilter", () => {
+  it('renders select with all options', () => {
+    render(<RoomStatusFilter value="" onChange={jest.fn()} />);
 
-    const buttons = screen.getAllByRole('button');
-    expect(buttons).toHaveLength(6); // "Tất cả" + 5 statuses
+    const select = screen.getByRole("combobox");
+    expect(select).toBeInTheDocument();
 
-    expect(screen.getByText('Tất cả')).toBeInTheDocument();
-    expect(screen.getByText('Trống')).toBeInTheDocument();
-    expect(screen.getByText('Đã đặt')).toBeInTheDocument();
-    expect(screen.getByText('Đang ở')).toBeInTheDocument();
-    expect(screen.getByText('Đang dọn')).toBeInTheDocument();
-    expect(screen.getByText('Bảo trì')).toBeInTheDocument();
+    const options = screen.getAllByRole("option");
+    expect(options).toHaveLength(6);
+
+    expect(screen.getByText("Tất cả")).toBeInTheDocument();
+    expect(screen.getByText("Trống")).toBeInTheDocument();
+    expect(screen.getByText("Đã đặt")).toBeInTheDocument();
+    expect(screen.getByText("Đang ở")).toBeInTheDocument();
+    expect(screen.getByText("Đang dọn")).toBeInTheDocument();
+    expect(screen.getByText("Bảo trì")).toBeInTheDocument();
   });
 
-  it('highlights active filter button', () => {
-    render(<RoomStatusFilter value="OCCUPIED" onChange={vi.fn()} />);
+  it("selects correct value", () => {
+    render(<RoomStatusFilter value="OCCUPIED" onChange={jest.fn()} />);
 
-    const activeBtn = screen.getByText('Đang ở');
-    expect(activeBtn.className).toContain('text-white');
+    const select = screen.getByRole("combobox");
+    expect(select.value).toBe("OCCUPIED");
   });
 
-  it('calls onChange when a status button is clicked', async () => {
+  it("calls onChange when selecting option", async () => {
     const user = userEvent.setup();
-    const onChange = vi.fn();
+    const onChange = jest.fn();
+
     render(<RoomStatusFilter value="" onChange={onChange} />);
 
-    await user.click(screen.getByText('Trống'));
-    expect(onChange).toHaveBeenCalledWith('AVAILABLE');
+    const select = screen.getByRole("combobox");
+
+    await user.selectOptions(select, "AVAILABLE");
+
+    expect(onChange).toHaveBeenCalledWith("AVAILABLE");
   });
 
-  it('highlights "Tất cả" when value is empty', () => {
-    render(<RoomStatusFilter value="" onChange={vi.fn()} />);
+  it('defaults to "Tất cả" when value is empty', () => {
+    render(<RoomStatusFilter value="" onChange={jest.fn()} />);
 
-    const allBtn = screen.getByText('Tất cả');
-    expect(allBtn.className).toContain('text-white');
+    const select = screen.getByRole("combobox");
+    expect(select.value).toBe("");
   });
 });

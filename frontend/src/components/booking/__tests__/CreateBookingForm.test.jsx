@@ -1,13 +1,25 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import CreateBookingForm from "../CreateBookingForm";
+import "@testing-library/jest-dom";
 
-vi.mock("@/services/roomApi", () => ({
-  getRooms: vi.fn(),
+import CreateBookingForm from "../CreateBookingForm";
+import { getRooms } from "@/services/roomApi";
+
+jest.mock("@/services/roomApi", () => ({
+  getRooms: jest.fn(),
 }));
 
-import { getRooms } from "@/services/roomApi";
+jest.mock("@/context/AuthContext", () => ({
+  useAuth: () => ({
+    user: {
+      id: 1,
+      hotelId: 1,
+      fullName: "Reception User",
+      role: "RECEPTION",
+    },
+  }),
+}));
+
 
 const mockRooms = [
   { id: 10, roomNumber: "101", status: "AVAILABLE" },
@@ -16,12 +28,13 @@ const mockRooms = [
 
 describe("CreateBookingForm", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     getRooms.mockResolvedValue({ data: mockRooms });
   });
 
-  it("renders form with all fields", async () => {
-    render(<CreateBookingForm onSubmit={vi.fn()} onCancel={vi.fn()} />);
+  it("renders form with all fields", () => {
+    render(<CreateBookingForm onSubmit={jest.fn()} onCancel={jest.fn()} />);
+
     expect(screen.getByText("Đặt phòng trước")).toBeInTheDocument();
     expect(screen.getByText(/Phòng/)).toBeInTheDocument();
     expect(screen.getByText(/Tên khách/)).toBeInTheDocument();
@@ -33,7 +46,8 @@ describe("CreateBookingForm", () => {
   });
 
   it("loads available rooms into dropdown", async () => {
-    render(<CreateBookingForm onSubmit={vi.fn()} onCancel={vi.fn()} />);
+    render(<CreateBookingForm onSubmit={jest.fn()} onCancel={jest.fn()} />);
+
     await waitFor(() => {
       expect(screen.getByText(/Phòng 101/)).toBeInTheDocument();
       expect(screen.getByText(/Phòng 102/)).toBeInTheDocument();
@@ -42,8 +56,9 @@ describe("CreateBookingForm", () => {
 
   it("calls onSubmit with correct data when all fields are valid", async () => {
     const user = userEvent.setup();
-    const onSubmit = vi.fn();
-    render(<CreateBookingForm onSubmit={onSubmit} onCancel={vi.fn()} />);
+    const onSubmit = jest.fn();
+
+    render(<CreateBookingForm onSubmit={onSubmit} onCancel={jest.fn()} />);
 
     await screen.findByText(/Phòng 101/);
 
@@ -53,7 +68,11 @@ describe("CreateBookingForm", () => {
     await user.type(dateInputs[0], "2026-04-01");
     await user.type(dateInputs[1], "2026-04-03");
 
-    await user.type(screen.getByPlaceholderText("VD: Nguyen Van A"), "Test Guest");
+    await user.type(
+      screen.getByPlaceholderText("VD: Nguyen Van A"),
+      "Test Guest"
+    );
+
     await user.click(screen.getByText("Đặt phòng"));
 
     await waitFor(() => {
@@ -69,8 +88,9 @@ describe("CreateBookingForm", () => {
 
   it("shows validation errors when submitting empty form", async () => {
     const user = userEvent.setup();
-    const onSubmit = vi.fn();
-    render(<CreateBookingForm onSubmit={onSubmit} onCancel={vi.fn()} />);
+    const onSubmit = jest.fn();
+
+    render(<CreateBookingForm onSubmit={onSubmit} onCancel={jest.fn()} />);
 
     await user.click(screen.getByText("Đặt phòng"));
 
@@ -83,18 +103,22 @@ describe("CreateBookingForm", () => {
 
   it("shows phone validation error for invalid phone number", async () => {
     const user = userEvent.setup();
-    render(<CreateBookingForm onSubmit={vi.fn()} onCancel={vi.fn()} />);
+
+    render(<CreateBookingForm onSubmit={jest.fn()} onCancel={jest.fn()} />);
 
     await user.type(screen.getByPlaceholderText("VD: 0901234567"), "abc123");
     await user.click(screen.getByText("Đặt phòng"));
 
-    expect(await screen.findByText(/Số điện thoại không hợp lệ/)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/Số điện thoại không hợp lệ/)
+    ).toBeInTheDocument();
   });
 
   it("does not show phone error when phone is empty (optional field)", async () => {
     const user = userEvent.setup();
-    const onSubmit = vi.fn();
-    render(<CreateBookingForm onSubmit={onSubmit} onCancel={vi.fn()} />);
+    const onSubmit = jest.fn();
+
+    render(<CreateBookingForm onSubmit={onSubmit} onCancel={jest.fn()} />);
 
     await screen.findByText(/Phòng 101/);
     await user.selectOptions(screen.getByRole("combobox"), "10");
@@ -102,19 +126,29 @@ describe("CreateBookingForm", () => {
     const dateInputs = document.querySelectorAll('input[type="date"]');
     await user.type(dateInputs[0], "2026-04-01");
     await user.type(dateInputs[1], "2026-04-03");
-    await user.type(screen.getByPlaceholderText("VD: Nguyen Van A"), "Test Guest");
+
+    await user.type(
+      screen.getByPlaceholderText("VD: Nguyen Van A"),
+      "Test Guest"
+    );
 
     await user.click(screen.getByText("Đặt phòng"));
 
-    await waitFor(() => expect(onSubmit).toHaveBeenCalled());
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalled();
+    });
+
     expect(screen.queryByText(/Số điện thoại không hợp lệ/)).not.toBeInTheDocument();
   });
 
   it("calls onCancel when cancel button is clicked", async () => {
     const user = userEvent.setup();
-    const onCancel = vi.fn();
-    render(<CreateBookingForm onSubmit={vi.fn()} onCancel={onCancel} />);
+    const onCancel = jest.fn();
+
+    render(<CreateBookingForm onSubmit={jest.fn()} onCancel={onCancel} />);
+
     await user.click(screen.getByText("Hủy"));
+
     expect(onCancel).toHaveBeenCalled();
   });
 });

@@ -1,30 +1,40 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import CheckInOut from "../CheckInOut";
 
-vi.mock("@/services/bookingApi", () => ({
-  getBookings: vi.fn(),
-  checkIn: vi.fn(),
-  checkOut: vi.fn(),
-  cancelBooking: vi.fn(),
-  createBooking: vi.fn(),
-  confirmBooking: vi.fn(),
+jest.mock("@/services/bookingApi", () => ({
+  getBookings: jest.fn(),
+  checkIn: jest.fn(),
+  checkOut: jest.fn(),
+  cancelBooking: jest.fn(),
+  createBooking: jest.fn(),
+  confirmBooking: jest.fn(),
 }));
 
-vi.mock("@/services/roomApi", () => ({
-  getRooms: vi.fn().mockResolvedValue({ data: [] }),
+jest.mock("@/context/AuthContext", () => ({
+  useAuth: jest.fn(() => ({
+    user: { id: 1, fullName: "Test User", role: "RECEPTION", hotelId: 1 },
+    logout: jest.fn(),
+  })),
 }));
 
-import {
+jest.mock("@/context/ThemeContext", () => ({
+  useTheme: jest.fn(() => ({ theme: "dark", toggleTheme: jest.fn() })),
+}));
+
+jest.mock("@/services/roomApi", () => ({
+  getRooms: jest.fn().mockResolvedValue({ data: [] }),
+}));
+
+const {
   cancelBooking,
   checkIn,
   checkOut,
   confirmBooking,
   createBooking,
   getBookings,
-} from "@/services/bookingApi";
+} = require("@/services/bookingApi");
 
 const mockBookings = [
   {
@@ -60,7 +70,7 @@ const renderPage = () =>
 
 describe("CheckInOut", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
     getBookings.mockResolvedValue({ data: mockBookings });
     checkIn.mockResolvedValue({ data: {} });
     checkOut.mockResolvedValue({ data: {} });

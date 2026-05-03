@@ -87,16 +87,16 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} noValidate className="space-y-5">
             <div>
-              <label className="block text-[11px] font-medium tracking-widest uppercase text-zinc-500 mb-2">Email</label>
-              <input name="email" type="email" placeholder="your@email.com"
+              <label htmlFor='email' className="block text-[11px] font-medium tracking-widest uppercase text-zinc-500 mb-2">Email</label>
+              <input id='email' name="email" type="email" placeholder="your@email.com"
                 value={values.email} onChange={handleChange} onBlur={handleBlur} autoComplete="email"
                 className={`w-full bg-zinc-800/80 border rounded-lg px-4 py-3 text-zinc-100 text-sm font-light outline-none transition-all duration-200 placeholder:text-zinc-600 ${touched.email && errors.email ? 'border-red-500/60 focus:border-red-500 focus:ring-2 focus:ring-red-500/10' : 'border-zinc-700 focus:border-yellow-600/70 focus:ring-2 focus:ring-yellow-500/10'}`} />
               {touched.email && errors.email && <p className="mt-1.5 text-xs text-red-400">{errors.email}</p>}
             </div>
 
             <div>
-              <label className="block text-[11px] font-medium tracking-widest uppercase text-zinc-500 mb-2">Mật khẩu</label>
-              <input name="password" type="password" placeholder="••••••••"
+              <label htmlFor='password' className="block text-[11px] font-medium tracking-widest uppercase text-zinc-500 mb-2">Mật khẩu</label>
+              <input id='password' name="password" type="password" placeholder="••••••••"
                 value={values.password} onChange={handleChange} onBlur={handleBlur} autoComplete="current-password"
                 className={`w-full bg-zinc-800/80 border rounded-lg px-4 py-3 text-zinc-100 text-sm font-light outline-none transition-all duration-200 placeholder:text-zinc-600 ${touched.password && errors.password ? 'border-red-500/60 focus:border-red-500 focus:ring-2 focus:ring-red-500/10' : 'border-zinc-700 focus:border-yellow-600/70 focus:ring-2 focus:ring-yellow-500/10'}`} />
               {touched.password && errors.password && <p className="mt-1.5 text-xs text-red-400">{errors.password}</p>}

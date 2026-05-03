@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { reviewApi } from '../../services/reviewApi';
-import ReviewModal from '../../components/review/ReviewModal';
-import ReviewCard from '../../components/review/ReviewCard';
-import PendingCard from '../../components/review/PendingCard';
-import { useToast } from '../../components/review/Toast';
+import { reviewApi } from '@/services/reviewApi';
+import ReviewModal from '@/components/review/ReviewModal';
+import ReviewCard from '@/components/review/ReviewCard';
+import PendingCard from '@/components/review/PendingCard';
+import { useToast } from '@/components/review/Toast';
 import { Clipboard, Star } from 'lucide-react';
 
 function EmptyState({ Icon, text, action }) {

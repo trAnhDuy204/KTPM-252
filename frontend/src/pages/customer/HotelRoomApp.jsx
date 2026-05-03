@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import CusTomerRoomCard from "@/components/customerBooking/CusTomerRoomCard";
-import { BedSingle, Hotel, MapPinHouse, MoveDown, MoveUp } from "lucide-react";
+import { Hotel, MoveDown, MoveUp } from "lucide-react";
 
 function EmptyState({ text }) {
   return (
@@ -15,7 +14,7 @@ function EmptyState({ text }) {
 
 export default function HotelRoomsApp() {
   const [rooms, setRooms] = useState([]);
-  const [originalRooms, setOrig] = useState([]);
+  const [originalRooms, setOriginalRooms] = useState([]);
   const [roomType, setRoomType] = useState('all');
   const [sortOrder, setSortOrder] = useState('none');
   const [loading, setLoading] = useState(true);
@@ -24,7 +23,7 @@ export default function HotelRoomsApp() {
   useEffect(() => {
     fetch('http://localhost:8080/api/public/rooms')
       .then(r => r.json())
-      .then(data => { setRooms(data); setOrig(data); })
+      .then(data => { setRooms(data); setOriginalRooms(data); })
       .catch(err => console.error('Error:', err))
       .finally(() => setLoading(false));
   }, []);
@@ -32,15 +31,20 @@ export default function HotelRoomsApp() {
 
   const handleSort = (order) => {
     setSortOrder(order);
-    setRooms(prev => [...prev].sort((a, b) =>
-      order === 'asc' ? a.basePrice - b.basePrice : b.basePrice - a.basePrice
-    ));
   };
 
 
-  const filtered = roomType === 'all'
-    ? rooms
-    : rooms.filter(r => r.roomTypeName?.toLowerCase() === roomType.toLowerCase());
+  let filtered = roomType === 'all'
+    ? originalRooms
+    : originalRooms.filter(r =>
+      r.roomTypeName?.toLowerCase() === roomType.toLowerCase()
+    );
+
+  if (sortOrder === 'asc') {
+    filtered = [...filtered].sort((a, b) => a.basePrice - b.basePrice);
+  } else if (sortOrder === 'desc') {
+    filtered = [...filtered].sort((a, b) => b.basePrice - a.basePrice);
+  }
 
 
   const grouped = filtered.reduce((acc, room) => {
@@ -86,8 +90,8 @@ export default function HotelRoomsApp() {
         <button
           onClick={() => handleSort('desc')}
           className={`px-4 py-2 rounded-lg border text-sm transition-colors flex items-center gap-2 ${sortOrder === 'desc'
-              ? 'border-yellow-600/50 text-yellow-400 bg-yellow-600/10'
-              : 'border-zinc-700 hover:border-zinc-500'
+            ? 'border-yellow-600/50 text-yellow-400 bg-yellow-600/10'
+            : 'border-zinc-700 hover:border-zinc-500'
             }`}
         >
           <MoveDown className="w-4 h-4" />
@@ -115,20 +119,9 @@ export default function HotelRoomsApp() {
           <EmptyState text="Không có phòng nào phù hợp." />
         </div>
       ) : (
-        <div className="space-y-8">
-          {Object.entries(grouped).map(([hotelName, hotelRooms]) => (
-            <div key={hotelName}>
-              {/* Hotel header */}
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-xl font-semibold text-yellow-400"><Hotel size={40} /></span>
-                <h2 className=" text-xl font-semibold text-yellow-400">{hotelName}</h2>
-                <span className="text-xs text-zinc-600">{hotelRooms.length} phòng</span>
-              </div>
-
-              <div className="space-y-3">
-                {hotelRooms.map(room => <CusTomerRoomCard key={room.id} room={room} />)}
-              </div>
-            </div>
+        <div className="space-y-3">
+          {filtered.map(room => (
+            <CusTomerRoomCard key={room.id} room={room} />
           ))}
         </div>
       )}

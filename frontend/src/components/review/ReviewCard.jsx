@@ -1,5 +1,5 @@
 import React from 'react';
-import StarRating from '../../components/review/StarRating';
+import StarRating from '@/components/review/StarRating';
 import { Building2, X, MoveRight } from 'lucide-react';
 
 export default function ReviewCard({ review, bookings, onDelete }) {
