@@ -13,4 +13,9 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
     List<Room> findByHotelId(Integer hotelId);
 
     boolean existsByRoomType_Id(Integer id);
+
+    void deleteByHotelId(Integer hotelId);
+
+    boolean existsByHotelIdAndStatusNot(Integer hotelId, String status);
+
 }

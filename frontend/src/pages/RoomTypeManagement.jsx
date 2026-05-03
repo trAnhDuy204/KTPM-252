@@ -55,11 +55,11 @@ const RoomTypeManagement = () => {
 
         const isNameExists = types.some(type =>
             type.name.toLowerCase() === formData.name.toLowerCase() &&
-            type.id !== selectedType?.id // Nếu đang sửa thì bỏ qua chính nó
+            type.id !== selectedType?.id
         );
 
         if (isNameExists) {
-            alert("Tên loại phòng này đã tồn tại trong hệ thống!");
+            alert("Loại phòng này đã tồn tại!");
             return;
         }
         // ---------------------------------------------------
@@ -91,7 +91,8 @@ const RoomTypeManagement = () => {
             fetchTypes();
 
         } catch (err) {
-            alert("Lỗi lưu dữ liệu! Vui lòng thử lại sau.");
+            const message = err.response?.data?.message || "Lỗi lưu dữ liệu! Vui lòng thử lại sau.";
+            alert(message);
         }
     };
 

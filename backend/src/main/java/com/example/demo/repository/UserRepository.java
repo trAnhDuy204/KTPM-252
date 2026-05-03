@@ -13,6 +13,14 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findByFullNameContainingIgnoreCaseOrEmailContainingIgnoreCase(String fullName, String email);
 
     boolean existsByEmail(String email);
+
     boolean existsByPhone(String phone);
-    boolean existsByHotelId(Integer hotelId);s
+
+    boolean existsByEmailAndIdNot(String email, Integer id);
+
+    boolean existsByPhoneAndIdNot(String phone, Integer id);
+
+    boolean existsByHotelId(Integer hotelId);
+
+    List<User> findByHotelId(Integer hotelId);
 }
