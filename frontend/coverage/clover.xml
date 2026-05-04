@@ -1,0 +1,1534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1777901190238" clover="3.2.0">
+  <project timestamp="1777901190238" name="All files">
+    <metrics statements="1330" coveredstatements="1122" conditionals="1010" coveredconditionals="837" methods="542" coveredmethods="457" elements="2882" coveredelements="2416" complexity="0" loc="1330" ncloc="1330" packages="16" files="50" classes="50"/>
+    <package name="components">
+      <metrics statements="16" coveredstatements="15" conditionals="11" coveredconditionals="8" methods="6" coveredmethods="5"/>
+      <file name="ConfirmDialog.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\ConfirmDialog.jsx">
+        <metrics statements="16" coveredstatements="15" conditionals="11" coveredconditionals="8" methods="6" coveredmethods="5"/>
+        <line num="12" count="42" type="stmt"/>
+        <line num="13" count="42" type="stmt"/>
+        <line num="14" count="42" type="stmt"/>
+        <line num="16" count="42" type="stmt"/>
+        <line num="17" count="14" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="42" type="stmt"/>
+        <line num="21" count="42" type="cond" truecount="2" falsecount="0"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="29" count="42" type="cond" truecount="2" falsecount="0"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="42" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.admin">
+      <metrics statements="65" coveredstatements="64" conditionals="48" coveredconditionals="39" methods="23" coveredmethods="22"/>
+      <file name="HotelModal.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\admin\HotelModal.jsx">
+        <metrics statements="11" coveredstatements="11" conditionals="15" coveredconditionals="15" methods="6" coveredmethods="6"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="17" type="stmt"/>
+        <line num="5" count="5" type="cond" truecount="5" falsecount="0"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="12" count="17" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="65" count="1" type="stmt"/>
+        <line num="79" count="1" type="stmt"/>
+      </file>
+      <file name="RoomModal.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\admin\RoomModal.jsx">
+        <metrics statements="54" coveredstatements="53" conditionals="33" coveredconditionals="24" methods="17" coveredmethods="16"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="46" type="stmt"/>
+        <line num="6" count="46" type="stmt"/>
+        <line num="7" count="46" type="stmt"/>
+        <line num="8" count="46" type="stmt"/>
+        <line num="9" count="46" type="stmt"/>
+        <line num="10" count="46" type="stmt"/>
+        <line num="12" count="46" type="stmt"/>
+        <line num="21" count="46" type="stmt"/>
+        <line num="22" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="23" count="19" type="stmt"/>
+        <line num="24" count="19" type="stmt"/>
+        <line num="25" count="19" type="stmt"/>
+        <line num="29" count="18" type="cond" truecount="1" falsecount="1"/>
+        <line num="30" count="18" type="cond" truecount="1" falsecount="1"/>
+        <line num="32" count="18" type="stmt"/>
+        <line num="33" count="18" type="stmt"/>
+        <line num="35" count="18" type="cond" truecount="2" falsecount="0"/>
+        <line num="36" count="6" type="stmt"/>
+        <line num="45" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="47" count="6" type="stmt"/>
+        <line num="48" count="6" type="stmt"/>
+        <line num="50" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="52" count="12" type="stmt"/>
+        <line num="60" count="12" type="stmt"/>
+        <line num="61" count="12" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="65" count="1" type="stmt"/>
+        <line num="68" count="19" type="stmt"/>
+        <line num="72" count="46" type="stmt"/>
+        <line num="73" count="104" type="stmt"/>
+        <line num="76" count="46" type="stmt"/>
+        <line num="77" count="3" type="stmt"/>
+        <line num="78" count="3" type="stmt"/>
+        <line num="79" count="3" type="stmt"/>
+        <line num="87" count="46" type="stmt"/>
+        <line num="88" count="2" type="stmt"/>
+        <line num="89" count="2" type="stmt"/>
+        <line num="90" count="2" type="stmt"/>
+        <line num="92" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="93" count="2" type="stmt"/>
+        <line num="102" count="46" type="cond" truecount="2" falsecount="0"/>
+        <line num="104" count="45" type="stmt"/>
+        <line num="126" count="5" type="stmt"/>
+        <line num="127" count="5" type="stmt"/>
+        <line num="134" count="5" type="stmt"/>
+        <line num="139" count="52" type="stmt"/>
+        <line num="153" count="1" type="stmt"/>
+        <line num="168" count="0" type="stmt"/>
+        <line num="189" count="43" type="stmt"/>
+        <line num="191" count="29" type="stmt"/>
+        <line num="210" count="43" type="stmt"/>
+        <line num="212" count="20" type="stmt"/>
+        <line num="252" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.booking">
+      <metrics statements="128" coveredstatements="110" conditionals="101" coveredconditionals="83" methods="46" coveredmethods="40"/>
+      <file name="BookingCard.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\booking\BookingCard.jsx">
+        <metrics statements="7" coveredstatements="7" conditionals="14" coveredconditionals="14" methods="4" coveredmethods="4"/>
+        <line num="4" count="12" type="stmt"/>
+        <line num="5" count="12" type="stmt"/>
+        <line num="6" count="12" type="cond" truecount="3" falsecount="0"/>
+        <line num="8" count="12" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="66" count="1" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+      </file>
+      <file name="BookingStatusFilter.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\booking\BookingStatusFilter.jsx">
+        <metrics statements="7" coveredstatements="7" conditionals="8" coveredconditionals="8" methods="4" coveredmethods="4"/>
+        <line num="4" count="24" type="stmt"/>
+        <line num="6" count="120" type="stmt"/>
+        <line num="9" count="24" type="stmt"/>
+        <line num="12" count="144" type="stmt"/>
+        <line num="13" count="144" type="stmt"/>
+        <line num="15" count="144" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+      </file>
+      <file name="BookingTable.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\booking\BookingTable.jsx">
+        <metrics statements="11" coveredstatements="8" conditionals="17" coveredconditionals="11" methods="6" coveredmethods="3"/>
+        <line num="5" count="8" type="cond" truecount="1" falsecount="1"/>
+        <line num="7" count="8" type="stmt"/>
+        <line num="26" count="16" type="stmt"/>
+        <line num="27" count="16" type="stmt"/>
+        <line num="28" count="16" type="stmt"/>
+        <line num="30" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="32" count="16" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="81" count="1" type="stmt"/>
+        <line num="89" count="0" type="stmt"/>
+      </file>
+      <file name="CheckInForm.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\booking\CheckInForm.jsx">
+        <metrics statements="51" coveredstatements="44" conditionals="28" coveredconditionals="22" methods="15" coveredmethods="14"/>
+        <line num="15" count="2" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="18" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="19" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="21" count="4" type="cond" truecount="4" falsecount="0"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="28" count="68" type="stmt"/>
+        <line num="29" count="68" type="stmt"/>
+        <line num="30" count="68" type="stmt"/>
+        <line num="36" count="68" type="stmt"/>
+        <line num="37" count="68" type="stmt"/>
+        <line num="39" count="68" type="stmt"/>
+        <line num="40" count="13" type="stmt"/>
+        <line num="41" count="13" type="cond" truecount="1" falsecount="1"/>
+        <line num="42" count="13" type="stmt"/>
+        <line num="43" count="13" type="stmt"/>
+        <line num="47" count="13" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="52" count="13" type="stmt"/>
+        <line num="55" count="68" type="stmt"/>
+        <line num="56" count="30" type="stmt"/>
+        <line num="57" count="30" type="cond" truecount="1" falsecount="1"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="61" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="68" count="68" type="stmt"/>
+        <line num="69" count="4" type="stmt"/>
+        <line num="70" count="4" type="stmt"/>
+        <line num="71" count="4" type="stmt"/>
+        <line num="72" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="73" count="2" type="stmt"/>
+        <line num="74" count="2" type="stmt"/>
+        <line num="76" count="2" type="stmt"/>
+        <line num="77" count="2" type="stmt"/>
+        <line num="85" count="68" type="stmt"/>
+        <line num="86" count="68" type="stmt"/>
+        <line num="87" count="272" type="cond" truecount="2" falsecount="0"/>
+        <line num="89" count="68" type="stmt"/>
+        <line num="90" count="272" type="cond" truecount="2" falsecount="0"/>
+        <line num="97" count="68" type="stmt"/>
+        <line num="114" count="2" type="stmt"/>
+        <line num="118" count="80" type="stmt"/>
+        <line num="135" count="2" type="stmt"/>
+        <line num="149" count="20" type="stmt"/>
+        <line num="161" count="6" type="stmt"/>
+      </file>
+      <file name="CreateBookingForm.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\booking\CreateBookingForm.jsx">
+        <metrics statements="52" coveredstatements="44" conditionals="34" coveredconditionals="28" methods="17" coveredmethods="15"/>
+        <line num="15" count="2" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="18" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="19" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="2" type="cond" truecount="3" falsecount="1"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="23" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="24" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="25" count="4" type="cond" truecount="4" falsecount="0"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="32" count="70" type="stmt"/>
+        <line num="33" count="70" type="stmt"/>
+        <line num="34" count="70" type="stmt"/>
+        <line num="41" count="70" type="stmt"/>
+        <line num="42" count="70" type="stmt"/>
+        <line num="44" count="70" type="stmt"/>
+        <line num="45" count="13" type="cond" truecount="1" falsecount="1"/>
+        <line num="46" count="13" type="stmt"/>
+        <line num="47" count="13" type="stmt"/>
+        <line num="48" count="0" type="stmt"/>
+        <line num="52" count="70" type="stmt"/>
+        <line num="53" count="32" type="stmt"/>
+        <line num="54" count="32" type="cond" truecount="1" falsecount="1"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="58" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="65" count="70" type="stmt"/>
+        <line num="66" count="4" type="stmt"/>
+        <line num="67" count="4" type="stmt"/>
+        <line num="68" count="4" type="stmt"/>
+        <line num="69" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="70" count="2" type="stmt"/>
+        <line num="71" count="2" type="stmt"/>
+        <line num="73" count="2" type="stmt"/>
+        <line num="74" count="2" type="stmt"/>
+        <line num="83" count="70" type="stmt"/>
+        <line num="84" count="70" type="stmt"/>
+        <line num="85" count="350" type="cond" truecount="2" falsecount="0"/>
+        <line num="87" count="70" type="stmt"/>
+        <line num="88" count="350" type="cond" truecount="2" falsecount="0"/>
+        <line num="95" count="70" type="stmt"/>
+        <line num="112" count="2" type="stmt"/>
+        <line num="116" count="84" type="stmt"/>
+        <line num="133" count="20" type="stmt"/>
+        <line num="147" count="2" type="stmt"/>
+        <line num="161" count="2" type="stmt"/>
+        <line num="173" count="6" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.customerBooking">
+      <metrics statements="52" coveredstatements="52" conditionals="46" coveredconditionals="46" methods="29" coveredmethods="29"/>
+      <file name="ConfirmScreen.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\customerBooking\ConfirmScreen.jsx">
+        <metrics statements="11" coveredstatements="11" conditionals="16" coveredconditionals="16" methods="8" coveredmethods="8"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="59" type="stmt"/>
+        <line num="8" count="50" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="17" count="75" type="cond" truecount="2" falsecount="0"/>
+        <line num="18" count="27" type="stmt"/>
+        <line num="19" count="25" type="cond" truecount="2" falsecount="0"/>
+        <line num="21" count="25" type="stmt"/>
+        <line num="46" count="8" type="stmt"/>
+        <line num="98" count="80" type="stmt"/>
+        <line num="107" count="259" type="stmt"/>
+      </file>
+      <file name="CusTomerRoomCard.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\customerBooking\CusTomerRoomCard.jsx">
+        <metrics statements="13" coveredstatements="13" conditionals="8" coveredconditionals="8" methods="3" coveredmethods="3"/>
+        <line num="7" count="28" type="stmt"/>
+        <line num="9" count="28" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="28" type="cond" truecount="2" falsecount="0"/>
+        <line num="24" count="28" type="stmt"/>
+        <line num="26" count="28" type="stmt"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="28" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="34" count="3" type="stmt"/>
+        <line num="37" count="28" type="stmt"/>
+        <line num="73" count="2" type="stmt"/>
+      </file>
+      <file name="DatePickerCard.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\customerBooking\DatePickerCard.jsx">
+        <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4"/>
+        <line num="4" count="36" type="stmt"/>
+        <line num="7" count="18" type="stmt"/>
+        <line num="9" count="18" type="stmt"/>
+        <line num="23" count="6" type="stmt"/>
+        <line num="24" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="25" count="5" type="stmt"/>
+        <line num="26" count="5" type="stmt"/>
+        <line num="27" count="5" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+      </file>
+      <file name="OderSummary.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\customerBooking\OderSummary.jsx">
+        <metrics statements="8" coveredstatements="8" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="6"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="79" type="stmt"/>
+        <line num="7" count="44" type="stmt"/>
+        <line num="10" count="66" type="cond" truecount="2" falsecount="0"/>
+        <line num="12" count="22" type="stmt"/>
+        <line num="35" count="11" type="stmt"/>
+        <line num="36" count="11" type="stmt"/>
+        <line num="75" count="44" type="stmt"/>
+      </file>
+      <file name="ServiceCard.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\customerBooking\ServiceCard.jsx">
+        <metrics statements="11" coveredstatements="11" conditionals="14" coveredconditionals="14" methods="8" coveredmethods="8"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="48" type="stmt"/>
+        <line num="8" count="21" type="stmt"/>
+        <line num="18" count="6" type="stmt"/>
+        <line num="29" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="30" count="48" type="stmt"/>
+        <line num="31" count="48" type="stmt"/>
+        <line num="37" count="3" type="stmt"/>
+        <line num="55" count="5" type="stmt"/>
+        <line num="57" count="3" type="stmt"/>
+        <line num="63" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.layout">
+      <metrics statements="68" coveredstatements="64" conditionals="59" coveredconditionals="59" methods="33" coveredmethods="29"/>
+      <file name="AdminLayout.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\layout\AdminLayout.jsx">
+        <metrics statements="21" coveredstatements="20" conditionals="19" coveredconditionals="19" methods="10" coveredmethods="9"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="24" count="48" type="stmt"/>
+        <line num="42" count="24" type="stmt"/>
+        <line num="46" count="120" type="cond" truecount="3" falsecount="0"/>
+        <line num="49" count="120" type="stmt"/>
+        <line num="52" count="3" type="stmt"/>
+        <line num="69" count="24" type="stmt"/>
+        <line num="73" count="120" type="cond" truecount="3" falsecount="0"/>
+        <line num="76" count="120" type="stmt"/>
+        <line num="79" count="0" type="stmt"/>
+        <line num="96" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="97" count="48" type="cond" truecount="2" falsecount="0"/>
+        <line num="99" count="48" type="stmt"/>
+        <line num="114" count="24" type="stmt"/>
+        <line num="115" count="24" type="stmt"/>
+        <line num="116" count="24" type="stmt"/>
+        <line num="117" count="24" type="stmt"/>
+        <line num="119" count="24" type="stmt"/>
+        <line num="120" count="3" type="stmt"/>
+        <line num="121" count="3" type="stmt"/>
+        <line num="124" count="24" type="stmt"/>
+      </file>
+      <file name="CustomerLayout.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\layout\CustomerLayout.jsx">
+        <metrics statements="22" coveredstatements="21" conditionals="21" coveredconditionals="21" methods="10" coveredmethods="9"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="25" count="60" type="stmt"/>
+        <line num="43" count="30" type="stmt"/>
+        <line num="47" count="120" type="cond" truecount="3" falsecount="0"/>
+        <line num="50" count="120" type="stmt"/>
+        <line num="53" count="4" type="stmt"/>
+        <line num="70" count="30" type="stmt"/>
+        <line num="74" count="120" type="cond" truecount="3" falsecount="0"/>
+        <line num="77" count="120" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="97" count="60" type="cond" truecount="2" falsecount="0"/>
+        <line num="98" count="60" type="cond" truecount="2" falsecount="0"/>
+        <line num="100" count="60" type="stmt"/>
+        <line num="115" count="30" type="stmt"/>
+        <line num="116" count="30" type="stmt"/>
+        <line num="117" count="30" type="stmt"/>
+        <line num="118" count="30" type="stmt"/>
+        <line num="120" count="30" type="stmt"/>
+        <line num="121" count="3" type="stmt"/>
+        <line num="122" count="3" type="stmt"/>
+        <line num="125" count="30" type="stmt"/>
+      </file>
+      <file name="ReceptionLayout.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\layout\ReceptionLayout.jsx">
+        <metrics statements="25" coveredstatements="23" conditionals="19" coveredconditionals="19" methods="13" coveredmethods="11"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="23" count="24" type="stmt"/>
+        <line num="41" count="12" type="stmt"/>
+        <line num="45" count="36" type="cond" truecount="3" falsecount="0"/>
+        <line num="48" count="36" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="68" count="12" type="stmt"/>
+        <line num="72" count="36" type="cond" truecount="3" falsecount="0"/>
+        <line num="75" count="36" type="stmt"/>
+        <line num="78" count="0" type="stmt"/>
+        <line num="95" count="24" type="cond" truecount="2" falsecount="0"/>
+        <line num="96" count="24" type="cond" truecount="2" falsecount="0"/>
+        <line num="98" count="24" type="stmt"/>
+        <line num="113" count="12" type="stmt"/>
+        <line num="114" count="12" type="stmt"/>
+        <line num="115" count="12" type="stmt"/>
+        <line num="116" count="12" type="stmt"/>
+        <line num="118" count="12" type="stmt"/>
+        <line num="120" count="12" type="stmt"/>
+        <line num="121" count="1" type="stmt"/>
+        <line num="122" count="1" type="stmt"/>
+        <line num="125" count="12" type="stmt"/>
+        <line num="143" count="3" type="stmt"/>
+        <line num="158" count="0" type="stmt"/>
+        <line num="185" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.profile">
+      <metrics statements="87" coveredstatements="87" conditionals="95" coveredconditionals="92" methods="32" coveredmethods="32"/>
+      <file name="BookingHistory.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\profile\BookingHistory.jsx">
+        <metrics statements="18" coveredstatements="18" conditionals="25" coveredconditionals="24" methods="9" coveredmethods="9"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="13" count="20" type="stmt"/>
+        <line num="15" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="17" count="21" type="stmt"/>
+        <line num="19" count="20" type="stmt"/>
+        <line num="24" count="120" type="cond" truecount="2" falsecount="0"/>
+        <line num="25" count="285" type="cond" truecount="2" falsecount="0"/>
+        <line num="26" count="120" type="stmt"/>
+        <line num="27" count="7" type="stmt"/>
+        <line num="46" count="42" type="stmt"/>
+        <line num="55" count="42" type="cond" truecount="1" falsecount="1"/>
+        <line num="56" count="42" type="stmt"/>
+        <line num="57" count="42" type="stmt"/>
+        <line num="58" count="42" type="stmt"/>
+        <line num="59" count="42" type="stmt"/>
+        <line num="60" count="42" type="stmt"/>
+        <line num="63" count="42" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+      </file>
+      <file name="ChangePasswordForm.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\profile\ChangePasswordForm.jsx">
+        <metrics statements="43" coveredstatements="43" conditionals="42" coveredconditionals="40" methods="13" coveredmethods="13"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="147" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="16" count="49" type="stmt"/>
+        <line num="17" count="49" type="stmt"/>
+        <line num="18" count="49" type="stmt"/>
+        <line num="19" count="49" type="stmt"/>
+        <line num="21" count="49" type="stmt"/>
+        <line num="23" count="49" type="stmt"/>
+        <line num="24" count="49" type="stmt"/>
+        <line num="25" count="49" type="cond" truecount="2" falsecount="0"/>
+        <line num="26" count="49" type="cond" truecount="2" falsecount="0"/>
+        <line num="27" count="49" type="cond" truecount="2" falsecount="0"/>
+        <line num="28" count="49" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="49" type="stmt"/>
+        <line num="32" count="49" type="stmt"/>
+        <line num="33" count="9" type="stmt"/>
+        <line num="34" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="35" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="36" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="37" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="40" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="41" count="9" type="stmt"/>
+        <line num="44" count="49" type="stmt"/>
+        <line num="45" count="9" type="stmt"/>
+        <line num="46" count="9" type="stmt"/>
+        <line num="47" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="48" count="4" type="stmt"/>
+        <line num="49" count="4" type="stmt"/>
+        <line num="50" count="4" type="stmt"/>
+        <line num="51" count="2" type="stmt"/>
+        <line num="52" count="2" type="stmt"/>
+        <line num="54" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="56" count="4" type="stmt"/>
+        <line num="60" count="49" type="stmt"/>
+        <line num="61" count="49" type="stmt"/>
+        <line num="68" count="49" type="stmt"/>
+        <line num="104" count="96" type="cond" truecount="3" falsecount="1"/>
+        <line num="141" count="147" type="stmt"/>
+        <line num="148" count="23" type="stmt"/>
+        <line num="154" count="1" type="stmt"/>
+      </file>
+      <file name="EditProfileForm.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\profile\EditProfileForm.jsx">
+        <metrics statements="26" coveredstatements="26" conditionals="28" coveredconditionals="28" methods="10" coveredmethods="10"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="70" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="14" count="35" type="cond" truecount="4" falsecount="0"/>
+        <line num="15" count="35" type="stmt"/>
+        <line num="16" count="35" type="stmt"/>
+        <line num="18" count="35" type="stmt"/>
+        <line num="19" count="9" type="stmt"/>
+        <line num="20" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="21" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="22" count="9" type="cond" truecount="4" falsecount="0"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="24" count="9" type="stmt"/>
+        <line num="27" count="35" type="stmt"/>
+        <line num="28" count="9" type="stmt"/>
+        <line num="29" count="9" type="stmt"/>
+        <line num="30" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
+        <line num="33" count="4" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+        <line num="39" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="41" count="4" type="stmt"/>
+        <line num="45" count="35" type="stmt"/>
+        <line num="64" count="5" type="stmt"/>
+        <line num="76" count="5" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.review">
+      <metrics statements="102" coveredstatements="100" conditionals="118" coveredconditionals="108" methods="61" coveredmethods="59"/>
+      <file name="PendingCard.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\review\PendingCard.jsx">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="5" count="3" type="stmt"/>
+      </file>
+      <file name="ReviewCard.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\review\ReviewCard.jsx">
+        <metrics statements="5" coveredstatements="5" conditionals="6" coveredconditionals="4" methods="3" coveredmethods="3"/>
+        <line num="6" count="6" type="stmt"/>
+        <line num="8" count="6" type="stmt"/>
+        <line num="9" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="10" count="6" type="stmt"/>
+        <line num="16" count="6" type="stmt"/>
+      </file>
+      <file name="ReviewModal.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\review\ReviewModal.jsx">
+        <metrics statements="18" coveredstatements="18" conditionals="20" coveredconditionals="19" methods="4" coveredmethods="4"/>
+        <line num="7" count="28" type="stmt"/>
+        <line num="8" count="28" type="stmt"/>
+        <line num="9" count="28" type="stmt"/>
+        <line num="10" count="28" type="stmt"/>
+        <line num="12" count="28" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="14" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="25" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="31" count="28" type="cond" truecount="2" falsecount="0"/>
+        <line num="33" count="28" type="stmt"/>
+        <line num="42" count="12" type="stmt"/>
+        <line num="103" count="3" type="stmt"/>
+      </file>
+      <file name="RoomDetailReview.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\review\RoomDetailReview.jsx">
+        <metrics statements="47" coveredstatements="45" conditionals="67" coveredconditionals="61" methods="30" coveredmethods="28"/>
+        <line num="8" count="63" type="stmt"/>
+        <line num="9" count="63" type="stmt"/>
+        <line num="12" count="315" type="cond" truecount="2" falsecount="0"/>
+        <line num="22" count="160" type="cond" truecount="2" falsecount="0"/>
+        <line num="23" count="160" type="stmt"/>
+        <line num="42" count="132" type="stmt"/>
+        <line num="62" count="70" type="stmt"/>
+        <line num="63" count="70" type="stmt"/>
+        <line num="64" count="70" type="stmt"/>
+        <line num="65" count="70" type="stmt"/>
+        <line num="68" count="70" type="stmt"/>
+        <line num="69" count="70" type="stmt"/>
+        <line num="71" count="70" type="stmt"/>
+        <line num="74" count="70" type="stmt"/>
+        <line num="75" count="32" type="cond" truecount="2" falsecount="0"/>
+        <line num="76" count="31" type="stmt"/>
+        <line num="77" count="31" type="stmt"/>
+        <line num="79" count="31" type="stmt"/>
+        <line num="84" count="26" type="cond" truecount="1" falsecount="1"/>
+        <line num="85" count="26" type="cond" truecount="1" falsecount="1"/>
+        <line num="87" count="3" type="stmt"/>
+        <line num="88" count="29" type="stmt"/>
+        <line num="92" count="350" type="stmt"/>
+        <line num="94" count="640" type="stmt"/>
+        <line num="98" count="70" type="stmt"/>
+        <line num="99" count="128" type="cond" truecount="2" falsecount="0"/>
+        <line num="101" count="140" type="cond" truecount="2" falsecount="0"/>
+        <line num="102" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="103" count="5" type="cond" truecount="1" falsecount="1"/>
+        <line num="104" count="0" type="stmt"/>
+        <line num="108" count="70" type="cond" truecount="2" falsecount="0"/>
+        <line num="109" count="70" type="cond" truecount="2" falsecount="0"/>
+        <line num="110" count="70" type="cond" truecount="2" falsecount="0"/>
+        <line num="113" count="70" type="cond" truecount="2" falsecount="0"/>
+        <line num="119" count="70" type="stmt"/>
+        <line num="149" count="165" type="stmt"/>
+        <line num="154" count="132" type="stmt"/>
+        <line num="163" count="1" type="stmt"/>
+        <line num="207" count="160" type="stmt"/>
+        <line num="213" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="224" count="1" type="stmt"/>
+        <line num="233" count="160" type="stmt"/>
+        <line num="234" count="96" type="stmt"/>
+        <line num="236" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="253" count="2" type="stmt"/>
+        <line num="270" count="0" type="stmt"/>
+        <line num="279" count="118" type="stmt"/>
+      </file>
+      <file name="RoomDetailReviewCard.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\review\RoomDetailReviewCard.jsx">
+        <metrics statements="13" coveredstatements="13" conditionals="20" coveredconditionals="20" methods="7" coveredmethods="7"/>
+        <line num="5" count="29" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="54" type="stmt"/>
+        <line num="13" count="29" type="stmt"/>
+        <line num="20" count="330" type="cond" truecount="2" falsecount="0"/>
+        <line num="22" count="29" type="stmt"/>
+        <line num="30" count="29" type="stmt"/>
+        <line num="31" count="29" type="cond" truecount="2" falsecount="0"/>
+        <line num="32" count="29" type="cond" truecount="4" falsecount="0"/>
+        <line num="34" count="29" type="stmt"/>
+        <line num="35" count="29" type="cond" truecount="2" falsecount="0"/>
+        <line num="36" count="28" type="stmt"/>
+        <line num="41" count="29" type="stmt"/>
+        <line num="76" count="6" type="stmt"/>
+      </file>
+      <file name="Toast.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\review\Toast.jsx">
+        <metrics statements="18" coveredstatements="18" conditionals="5" coveredconditionals="4" methods="16" coveredmethods="16"/>
+        <line num="6" count="16" type="stmt"/>
+        <line num="8" count="16" type="cond" truecount="0" falsecount="1"/>
+        <line num="9" count="7" type="stmt"/>
+        <line num="10" count="7" type="stmt"/>
+        <line num="11" count="7" type="stmt"/>
+        <line num="12" count="7" type="stmt"/>
+        <line num="16" count="16" type="stmt"/>
+        <line num="18" count="16" type="stmt"/>
+        <line num="19" count="16" type="stmt"/>
+        <line num="21" count="7" type="stmt"/>
+        <line num="26" count="16" type="stmt"/>
+        <line num="30" count="8" type="stmt"/>
+        <line num="32" count="8" type="stmt"/>
+        <line num="34" count="7" type="stmt"/>
+        <line num="35" count="7" type="stmt"/>
+        <line num="38" count="8" type="stmt"/>
+        <line num="59" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="61" count="8" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.room">
+      <metrics statements="94" coveredstatements="80" conditionals="63" coveredconditionals="48" methods="49" coveredmethods="40"/>
+      <file name="CreateRoomForm.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\room\CreateRoomForm.jsx">
+        <metrics statements="53" coveredstatements="47" conditionals="26" coveredconditionals="20" methods="20" coveredmethods="19"/>
+        <line num="15" count="2" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="18" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="19" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="23" count="4" type="stmt"/>
+        <line num="27" count="139" type="stmt"/>
+        <line num="28" count="139" type="stmt"/>
+        <line num="29" count="139" type="stmt"/>
+        <line num="30" count="139" type="stmt"/>
+        <line num="35" count="139" type="stmt"/>
+        <line num="36" count="139" type="stmt"/>
+        <line num="38" count="139" type="stmt"/>
+        <line num="39" count="139" type="cond" truecount="1" falsecount="1"/>
+        <line num="40" count="139" type="stmt"/>
+        <line num="41" count="139" type="stmt"/>
+        <line num="42" count="139" type="cond" truecount="1" falsecount="1"/>
+        <line num="44" count="139" type="stmt"/>
+        <line num="52" count="139" type="stmt"/>
+        <line num="53" count="33" type="cond" truecount="2" falsecount="0"/>
+        <line num="54" count="18" type="stmt"/>
+        <line num="55" count="18" type="stmt"/>
+        <line num="57" count="15" type="stmt"/>
+        <line num="61" count="139" type="stmt"/>
+        <line num="62" count="21" type="stmt"/>
+        <line num="63" count="21" type="cond" truecount="1" falsecount="1"/>
+        <line num="64" count="0" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="67" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="74" count="139" type="stmt"/>
+        <line num="75" count="4" type="stmt"/>
+        <line num="76" count="4" type="stmt"/>
+        <line num="77" count="4" type="stmt"/>
+        <line num="78" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="79" count="2" type="stmt"/>
+        <line num="80" count="2" type="stmt"/>
+        <line num="83" count="2" type="stmt"/>
+        <line num="84" count="2" type="stmt"/>
+        <line num="91" count="139" type="stmt"/>
+        <line num="92" count="417" type="cond" truecount="2" falsecount="0"/>
+        <line num="94" count="139" type="stmt"/>
+        <line num="95" count="417" type="cond" truecount="2" falsecount="0"/>
+        <line num="102" count="139" type="stmt"/>
+        <line num="119" count="3" type="stmt"/>
+        <line num="123" count="109" type="stmt"/>
+        <line num="138" count="3" type="stmt"/>
+        <line num="143" count="161" type="stmt"/>
+        <line num="160" count="15" type="stmt"/>
+      </file>
+      <file name="RoomCard.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\room\RoomCard.jsx">
+        <metrics statements="7" coveredstatements="5" conditionals="16" coveredconditionals="12" methods="5" coveredmethods="3"/>
+        <line num="6" count="32" type="cond" truecount="1" falsecount="1"/>
+        <line num="7" count="32" type="cond" truecount="2" falsecount="1"/>
+        <line num="9" count="32" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="63" count="79" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+      </file>
+      <file name="RoomFilterBar.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\room\RoomFilterBar.jsx">
+        <metrics statements="23" coveredstatements="17" conditionals="17" coveredconditionals="12" methods="17" coveredmethods="11"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="63" type="stmt"/>
+        <line num="16" count="21" type="stmt"/>
+        <line num="17" count="10" type="stmt"/>
+        <line num="18" count="10" type="stmt"/>
+        <line num="19" count="12" type="stmt"/>
+        <line num="20" count="12" type="cond" truecount="1" falsecount="2"/>
+        <line num="23" count="21" type="stmt"/>
+        <line num="24" count="10" type="stmt"/>
+        <line num="25" count="10" type="stmt"/>
+        <line num="26" count="12" type="stmt"/>
+        <line num="27" count="12" type="cond" truecount="4" falsecount="0"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="32" count="21" type="cond" truecount="4" falsecount="0"/>
+        <line num="34" count="21" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="60" count="105" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="75" count="0" type="stmt"/>
+        <line num="86" count="0" type="stmt"/>
+        <line num="90" count="16" type="stmt"/>
+        <line num="99" count="0" type="stmt"/>
+      </file>
+      <file name="RoomStatusFilter.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\room\RoomStatusFilter.jsx">
+        <metrics statements="6" coveredstatements="6" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="6" count="20" type="stmt"/>
+        <line num="9" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="19" count="24" type="stmt"/>
+      </file>
+      <file name="RoomStatusSummary.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\components\room\RoomStatusSummary.jsx">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <line num="5" count="25" type="stmt"/>
+        <line num="6" count="25" type="stmt"/>
+        <line num="7" count="175" type="stmt"/>
+        <line num="10" count="25" type="stmt"/>
+        <line num="20" count="125" type="stmt"/>
+      </file>
+    </package>
+    <package name="constants">
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="bookingStatus.js" path="D:\HOC_TAP\QL-KhachSan\frontend\src\constants\bookingStatus.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+      </file>
+      <file name="roomStatus.js" path="D:\HOC_TAP\QL-KhachSan\frontend\src\constants\roomStatus.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="hooks">
+      <metrics statements="30" coveredstatements="30" conditionals="14" coveredconditionals="10" methods="15" coveredmethods="15"/>
+      <file name="useForm.js" path="D:\HOC_TAP\QL-KhachSan\frontend\src\hooks\useForm.js">
+        <metrics statements="30" coveredstatements="30" conditionals="14" coveredconditionals="10" methods="15" coveredmethods="15"/>
+        <line num="4" count="95" type="stmt"/>
+        <line num="5" count="95" type="stmt"/>
+        <line num="6" count="95" type="stmt"/>
+        <line num="8" count="95" type="stmt"/>
+        <line num="9" count="29" type="stmt"/>
+        <line num="10" count="29" type="stmt"/>
+        <line num="11" count="29" type="cond" truecount="4" falsecount="0"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="17" count="95" type="stmt"/>
+        <line num="18" count="16" type="stmt"/>
+        <line num="19" count="16" type="stmt"/>
+        <line num="20" count="16" type="cond" truecount="1" falsecount="1"/>
+        <line num="21" count="16" type="stmt"/>
+        <line num="22" count="16" type="cond" truecount="1" falsecount="1"/>
+        <line num="26" count="95" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="30" count="95" type="stmt"/>
+        <line num="31" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="34" count="95" type="stmt"/>
+        <line num="35" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="36" count="10" type="stmt"/>
+        <line num="37" count="10" type="stmt"/>
+        <line num="38" count="29" type="stmt"/>
+        <line num="39" count="21" type="stmt"/>
+        <line num="42" count="95" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="48" count="95" type="stmt"/>
+      </file>
+    </package>
+    <package name="pages">
+      <metrics statements="47" coveredstatements="47" conditionals="99" coveredconditionals="98" methods="11" coveredmethods="11"/>
+      <file name="LoginPage.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\pages\LoginPage.jsx">
+        <metrics statements="16" coveredstatements="16" conditionals="28" coveredconditionals="28" methods="4" coveredmethods="4"/>
+        <line num="7" count="8" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="17" count="28" type="stmt"/>
+        <line num="18" count="28" type="stmt"/>
+        <line num="19" count="28" type="stmt"/>
+        <line num="21" count="28" type="stmt"/>
+        <line num="23" count="28" type="stmt"/>
+        <line num="24" count="5" type="stmt"/>
+        <line num="25" count="5" type="stmt"/>
+        <line num="26" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="35" count="28" type="stmt"/>
+      </file>
+      <file name="RegisterPage.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\pages\RegisterPage.jsx">
+        <metrics statements="31" coveredstatements="31" conditionals="71" coveredconditionals="70" methods="7" coveredmethods="7"/>
+        <line num="7" count="13" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="45" type="cond" truecount="2" falsecount="0"/>
+        <line num="22" count="15" type="stmt"/>
+        <line num="23" count="15" type="cond" truecount="2" falsecount="0"/>
+        <line num="24" count="15" type="cond" truecount="2" falsecount="0"/>
+        <line num="25" count="15" type="cond" truecount="2" falsecount="0"/>
+        <line num="26" count="15" type="cond" truecount="2" falsecount="0"/>
+        <line num="27" count="15" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="225" type="cond" truecount="2" falsecount="0"/>
+        <line num="45" count="45" type="stmt"/>
+        <line num="46" count="45" type="stmt"/>
+        <line num="47" count="45" type="stmt"/>
+        <line num="49" count="45" type="stmt"/>
+        <line num="51" count="45" type="stmt"/>
+        <line num="52" count="45" type="stmt"/>
+        <line num="54" count="45" type="stmt"/>
+        <line num="55" count="3" type="stmt"/>
+        <line num="56" count="3" type="stmt"/>
+        <line num="57" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="58" count="2" type="stmt"/>
+        <line num="59" count="2" type="stmt"/>
+        <line num="60" count="2" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="64" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="68" count="45" type="stmt"/>
+        <line num="93" count="135" type="stmt"/>
+        <line num="168" count="60" type="cond" truecount="2" falsecount="0"/>
+      </file>
+    </package>
+    <package name="pages.admin">
+      <metrics statements="104" coveredstatements="78" conditionals="49" coveredconditionals="29" methods="35" coveredmethods="30"/>
+      <file name="AdminRoomManagement.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\pages\admin\AdminRoomManagement.jsx">
+        <metrics statements="50" coveredstatements="38" conditionals="26" coveredconditionals="14" methods="17" coveredmethods="15"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="21" type="stmt"/>
+        <line num="9" count="21" type="cond" truecount="2" falsecount="0"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="19" type="stmt"/>
+        <line num="14" count="19" type="stmt"/>
+        <line num="15" count="19" type="stmt"/>
+        <line num="16" count="19" type="stmt"/>
+        <line num="17" count="19" type="stmt"/>
+        <line num="18" count="19" type="stmt"/>
+        <line num="20" count="19" type="stmt"/>
+        <line num="21" count="9" type="stmt"/>
+        <line num="26" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="27" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="30" count="19" type="stmt"/>
+        <line num="32" count="19" type="stmt"/>
+        <line num="33" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="43" count="19" type="cond" truecount="1" falsecount="0"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="48" count="19" type="stmt"/>
+        <line num="49" count="0" type="cond" truecount="0" falsecount="5"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="62" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="73" count="19" type="stmt"/>
+        <line num="74" count="20" type="stmt"/>
+        <line num="75" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="76" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="79" count="19" type="stmt"/>
+        <line num="85" count="1" type="stmt"/>
+        <line num="100" count="1" type="stmt"/>
+        <line num="109" count="1" type="stmt"/>
+        <line num="113" count="20" type="stmt"/>
+        <line num="137" count="18" type="stmt"/>
+        <line num="138" count="26" type="stmt"/>
+        <line num="141" count="18" type="stmt"/>
+        <line num="189" count="1" type="stmt"/>
+        <line num="197" count="2" type="stmt"/>
+        <line num="215" count="0" type="stmt"/>
+      </file>
+      <file name="HotelManagement.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\pages\admin\HotelManagement.jsx">
+        <metrics statements="54" coveredstatements="40" conditionals="23" coveredconditionals="15" methods="18" coveredmethods="15"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="13" type="stmt"/>
+        <line num="8" count="13" type="stmt"/>
+        <line num="9" count="13" type="stmt"/>
+        <line num="10" count="13" type="stmt"/>
+        <line num="11" count="13" type="stmt"/>
+        <line num="13" count="13" type="stmt"/>
+        <line num="17" count="13" type="stmt"/>
+        <line num="18" count="46" type="cond" truecount="1" falsecount="1"/>
+        <line num="20" count="92" type="stmt"/>
+        <line num="22" count="16" type="stmt"/>
+        <line num="23" count="13" type="stmt"/>
+        <line num="24" count="6" type="stmt"/>
+        <line num="25" count="6" type="stmt"/>
+        <line num="26" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="32" count="13" type="stmt"/>
+        <line num="34" count="13" type="stmt"/>
+        <line num="35" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="43" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="48" count="13" type="cond" truecount="1" falsecount="0"/>
+        <line num="49" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="59" count="13" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="70" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="75" count="13" type="stmt"/>
+        <line num="76" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="80" count="16" type="stmt"/>
+        <line num="81" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="83" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="86" count="13" type="stmt"/>
+        <line num="93" count="1" type="stmt"/>
+        <line num="109" count="1" type="stmt"/>
+        <line num="118" count="1" type="stmt"/>
+        <line num="122" count="16" type="stmt"/>
+        <line num="145" count="14" type="stmt"/>
+        <line num="180" count="0" type="stmt"/>
+        <line num="188" count="1" type="stmt"/>
+        <line num="215" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="pages.customer">
+      <metrics statements="266" coveredstatements="226" conditionals="191" coveredconditionals="143" methods="122" coveredmethods="99"/>
+      <file name="BookingPage.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\pages\customer\BookingPage.jsx">
+        <metrics statements="83" coveredstatements="50" conditionals="50" coveredconditionals="16" methods="28" coveredmethods="14"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="10" type="stmt"/>
+        <line num="17" count="10" type="stmt"/>
+        <line num="18" count="10" type="stmt"/>
+        <line num="21" count="10" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="27" count="5" type="stmt"/>
+        <line num="28" count="5" type="stmt"/>
+        <line num="29" count="5" type="stmt"/>
+        <line num="31" count="5" type="stmt"/>
+        <line num="32" count="5" type="stmt"/>
+        <line num="34" count="5" type="stmt"/>
+        <line num="35" count="5" type="stmt"/>
+        <line num="36" count="5" type="stmt"/>
+        <line num="38" count="5" type="stmt"/>
+        <line num="39" count="5" type="stmt"/>
+        <line num="40" count="5" type="stmt"/>
+        <line num="42" count="5" type="stmt"/>
+        <line num="43" count="5" type="stmt"/>
+        <line num="44" count="5" type="stmt"/>
+        <line num="47" count="5" type="cond" truecount="1" falsecount="1"/>
+        <line num="50" count="5" type="stmt"/>
+        <line num="51" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="55" count="5" type="stmt"/>
+        <line num="56" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="65" count="5" type="stmt"/>
+        <line num="66" count="2" type="stmt"/>
+        <line num="70" count="5" type="stmt"/>
+        <line num="71" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="75" count="5" type="stmt"/>
+        <line num="76" count="2" type="stmt"/>
+        <line num="77" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="78" count="2" type="stmt"/>
+        <line num="83" count="5" type="stmt"/>
+        <line num="86" count="5" type="stmt"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="88" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="92" count="5" type="stmt"/>
+        <line num="93" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="94" count="0" type="stmt"/>
+        <line num="96" count="0" type="stmt"/>
+        <line num="101" count="5" type="stmt"/>
+        <line num="102" count="1" type="stmt"/>
+        <line num="103" count="1" type="stmt"/>
+        <line num="104" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="105" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="106" count="0" type="stmt"/>
+        <line num="110" count="5" type="stmt"/>
+        <line num="111" count="0" type="stmt"/>
+        <line num="112" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="113" count="0" type="stmt"/>
+        <line num="115" count="0" type="stmt"/>
+        <line num="116" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="119" count="0" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="131" count="0" type="stmt"/>
+        <line num="132" count="0" type="stmt"/>
+        <line num="133" count="0" type="stmt"/>
+        <line num="136" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="139" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="140" count="0" type="stmt"/>
+        <line num="144" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="146" count="0" type="stmt"/>
+        <line num="147" count="0" type="stmt"/>
+        <line num="148" count="0" type="stmt"/>
+        <line num="152" count="0" type="stmt"/>
+        <line num="159" count="0" type="stmt"/>
+        <line num="161" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="162" count="0" type="stmt"/>
+        <line num="166" count="5" type="cond" truecount="1" falsecount="1"/>
+        <line num="168" count="5" type="stmt"/>
+        <line num="173" count="0" type="stmt"/>
+        <line num="195" count="0" type="stmt"/>
+        <line num="234" count="1" type="stmt"/>
+        <line num="235" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="236" count="0" type="stmt"/>
+        <line num="251" count="0" type="stmt"/>
+      </file>
+      <file name="HotelRoomApp.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\pages\customer\HotelRoomApp.jsx">
+        <metrics statements="34" coveredstatements="34" conditionals="18" coveredconditionals="18" methods="20" coveredmethods="20"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="16" count="24" type="stmt"/>
+        <line num="17" count="24" type="stmt"/>
+        <line num="18" count="24" type="stmt"/>
+        <line num="19" count="24" type="stmt"/>
+        <line num="20" count="24" type="stmt"/>
+        <line num="23" count="24" type="stmt"/>
+        <line num="24" count="10" type="stmt"/>
+        <line num="25" count="8" type="stmt"/>
+        <line num="26" count="8" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="9" type="stmt"/>
+        <line num="32" count="24" type="stmt"/>
+        <line num="33" count="2" type="stmt"/>
+        <line num="37" count="24" type="cond" truecount="2" falsecount="0"/>
+        <line num="40" count="8" type="stmt"/>
+        <line num="43" count="24" type="cond" truecount="2" falsecount="0"/>
+        <line num="44" count="6" type="stmt"/>
+        <line num="45" count="23" type="cond" truecount="2" falsecount="0"/>
+        <line num="46" count="6" type="stmt"/>
+        <line num="50" count="24" type="stmt"/>
+        <line num="51" count="38" type="cond" truecount="2" falsecount="0"/>
+        <line num="52" count="38" type="cond" truecount="2" falsecount="0"/>
+        <line num="53" count="38" type="stmt"/>
+        <line num="54" count="38" type="stmt"/>
+        <line num="58" count="42" type="stmt"/>
+        <line num="60" count="24" type="stmt"/>
+        <line num="73" count="3" type="stmt"/>
+        <line num="77" count="33" type="stmt"/>
+        <line num="82" count="1" type="stmt"/>
+        <line num="91" count="1" type="stmt"/>
+        <line num="111" count="30" type="stmt"/>
+        <line num="124" count="30" type="stmt"/>
+        <line num="133" count="38" type="stmt"/>
+      </file>
+      <file name="PaymentResult.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\pages\customer\PaymentResult.jsx">
+        <metrics statements="16" coveredstatements="16" conditionals="18" coveredconditionals="18" methods="3" coveredmethods="3"/>
+        <line num="4" count="12" type="stmt"/>
+        <line num="5" count="12" type="stmt"/>
+        <line num="7" count="12" type="stmt"/>
+        <line num="8" count="6" type="stmt"/>
+        <line num="9" count="6" type="stmt"/>
+        <line num="10" count="6" type="stmt"/>
+        <line num="12" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="15" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+        <line num="24" count="12" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+      </file>
+      <file name="ProfilePage.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\pages\customer\ProfilePage.jsx">
+        <metrics statements="27" coveredstatements="27" conditionals="12" coveredconditionals="12" methods="11" coveredmethods="11"/>
+        <line num="12" count="27" type="stmt"/>
+        <line num="13" count="27" type="stmt"/>
+        <line num="15" count="27" type="stmt"/>
+        <line num="16" count="27" type="stmt"/>
+        <line num="17" count="27" type="stmt"/>
+        <line num="18" count="27" type="stmt"/>
+        <line num="19" count="27" type="stmt"/>
+        <line num="22" count="27" type="stmt"/>
+        <line num="23" count="11" type="stmt"/>
+        <line num="24" count="11" type="stmt"/>
+        <line num="25" count="11" type="stmt"/>
+        <line num="30" count="10" type="stmt"/>
+        <line num="31" count="10" type="stmt"/>
+        <line num="32" count="10" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="36" count="11" type="stmt"/>
+        <line num="40" count="27" type="stmt"/>
+        <line num="42" count="27" type="stmt"/>
+        <line num="83" count="90" type="stmt"/>
+        <line num="103" count="81" type="stmt"/>
+        <line num="105" count="5" type="stmt"/>
+        <line num="122" count="1" type="stmt"/>
+        <line num="123" count="1" type="stmt"/>
+        <line num="125" count="1" type="stmt"/>
+        <line num="132" count="1" type="stmt"/>
+        <line num="133" count="1" type="stmt"/>
+        <line num="141" count="1" type="stmt"/>
+      </file>
+      <file name="ReviewPage.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\pages\customer\ReviewPage.jsx">
+        <metrics statements="45" coveredstatements="45" conditionals="28" coveredconditionals="26" methods="23" coveredmethods="23"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="24" count="33" type="stmt"/>
+        <line num="26" count="33" type="stmt"/>
+        <line num="27" count="33" type="stmt"/>
+        <line num="28" count="33" type="stmt"/>
+        <line num="29" count="33" type="stmt"/>
+        <line num="30" count="33" type="stmt"/>
+        <line num="33" count="33" type="stmt"/>
+        <line num="34" count="12" type="stmt"/>
+        <line num="35" count="12" type="stmt"/>
+        <line num="36" count="12" type="stmt"/>
+        <line num="40" count="10" type="stmt"/>
+        <line num="41" count="10" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="45" count="11" type="stmt"/>
+        <line num="49" count="33" type="stmt"/>
+        <line num="52" count="33" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="58" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="66" count="1" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="73" count="33" type="stmt"/>
+        <line num="74" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="75" count="2" type="stmt"/>
+        <line num="76" count="2" type="stmt"/>
+        <line num="77" count="1" type="stmt"/>
+        <line num="78" count="1" type="stmt"/>
+        <line num="79" count="1" type="stmt"/>
+        <line num="80" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="83" count="1" type="stmt"/>
+        <line num="85" count="1" type="stmt"/>
+        <line num="89" count="39" type="stmt"/>
+        <line num="90" count="39" type="stmt"/>
+        <line num="92" count="33" type="stmt"/>
+        <line num="128" count="66" type="stmt"/>
+        <line num="130" count="5" type="stmt"/>
+        <line num="153" count="36" type="stmt"/>
+        <line num="173" count="12" type="stmt"/>
+        <line num="176" count="2" type="stmt"/>
+        <line num="192" count="6" type="stmt"/>
+        <line num="197" count="3" type="stmt"/>
+        <line num="211" count="1" type="stmt"/>
+      </file>
+      <file name="RoomDetailPage.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\pages\customer\RoomDetailPage.jsx">
+        <metrics statements="61" coveredstatements="54" conditionals="65" coveredconditionals="53" methods="37" coveredmethods="28"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="27" count="19" type="stmt"/>
+        <line num="30" count="32" type="stmt"/>
+        <line num="31" count="32" type="stmt"/>
+        <line num="33" count="32" type="stmt"/>
+        <line num="34" count="32" type="stmt"/>
+        <line num="35" count="32" type="stmt"/>
+        <line num="38" count="32" type="stmt"/>
+        <line num="39" count="32" type="stmt"/>
+        <line num="42" count="32" type="stmt"/>
+        <line num="43" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="44" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="45" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="46" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="47" count="1" type="cond" truecount="2" falsecount="2"/>
+        <line num="48" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="51" count="32" type="stmt"/>
+        <line num="52" count="26" type="stmt"/>
+        <line num="53" count="26" type="stmt"/>
+        <line num="57" count="32" type="stmt"/>
+        <line num="58" count="12" type="stmt"/>
+        <line num="59" count="12" type="stmt"/>
+        <line num="61" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="62" count="10" type="stmt"/>
+        <line num="65" count="10" type="stmt"/>
+        <line num="67" count="10" type="cond" truecount="1" falsecount="1"/>
+        <line num="68" count="10" type="stmt"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="71" count="11" type="stmt"/>
+        <line num="74" count="32" type="stmt"/>
+        <line num="75" count="2" type="stmt"/>
+        <line num="76" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="77" count="1" type="stmt"/>
+        <line num="81" count="32" type="cond" truecount="2" falsecount="0"/>
+        <line num="88" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="91" count="1" type="stmt"/>
+        <line num="98" count="19" type="cond" truecount="1" falsecount="1"/>
+        <line num="99" count="19" type="stmt"/>
+        <line num="100" count="19" type="stmt"/>
+        <line num="101" count="19" type="cond" truecount="1" falsecount="1"/>
+        <line num="102" count="19" type="stmt"/>
+        <line num="104" count="19" type="stmt"/>
+        <line num="107" count="0" type="stmt"/>
+        <line num="124" count="2" type="stmt"/>
+        <line num="154" count="1" type="stmt"/>
+        <line num="160" count="1" type="stmt"/>
+        <line num="173" count="36" type="stmt"/>
+        <line num="175" count="1" type="stmt"/>
+        <line num="242" count="114" type="stmt"/>
+        <line num="243" count="114" type="stmt"/>
+        <line num="262" count="114" type="stmt"/>
+        <line num="316" count="0" type="stmt"/>
+        <line num="319" count="1" type="stmt"/>
+        <line num="327" count="1" type="stmt"/>
+        <line num="335" count="0" type="stmt"/>
+        <line num="346" count="0" type="stmt"/>
+        <line num="352" count="0" type="stmt"/>
+        <line num="362" count="0" type="stmt"/>
+        <line num="364" count="8" type="stmt"/>
+        <line num="366" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="pages.reception">
+      <metrics statements="182" coveredstatements="98" conditionals="95" coveredconditionals="61" methods="54" coveredmethods="23"/>
+      <file name="CheckInOut.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\pages\reception\CheckInOut.jsx">
+        <metrics statements="77" coveredstatements="42" conditionals="35" coveredconditionals="28" methods="23" coveredmethods="10"/>
+        <line num="29" count="63" type="stmt"/>
+        <line num="40" count="22" type="stmt"/>
+        <line num="41" count="22" type="stmt"/>
+        <line num="42" count="22" type="stmt"/>
+        <line num="43" count="22" type="stmt"/>
+        <line num="44" count="22" type="stmt"/>
+        <line num="45" count="22" type="stmt"/>
+        <line num="46" count="22" type="stmt"/>
+        <line num="47" count="22" type="stmt"/>
+        <line num="49" count="22" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="51" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="52" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="60" count="22" type="stmt"/>
+        <line num="61" count="7" type="cond" truecount="1" falsecount="1"/>
+        <line num="62" count="7" type="stmt"/>
+        <line num="63" count="7" type="stmt"/>
+        <line num="64" count="7" type="stmt"/>
+        <line num="65" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="66" count="6" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
+        <line num="70" count="7" type="stmt"/>
+        <line num="74" count="22" type="stmt"/>
+        <line num="75" count="6" type="stmt"/>
+        <line num="78" count="22" type="stmt"/>
+        <line num="79" count="0" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="82" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="88" count="22" type="stmt"/>
+        <line num="89" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
+        <line num="95" count="0" type="stmt"/>
+        <line num="96" count="0" type="stmt"/>
+        <line num="97" count="0" type="stmt"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="105" count="22" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="111" count="1" type="stmt"/>
+        <line num="112" count="1" type="stmt"/>
+        <line num="113" count="1" type="stmt"/>
+        <line num="114" count="1" type="stmt"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="122" count="22" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="129" count="0" type="stmt"/>
+        <line num="130" count="0" type="stmt"/>
+        <line num="131" count="0" type="stmt"/>
+        <line num="133" count="0" type="stmt"/>
+        <line num="139" count="22" type="stmt"/>
+        <line num="140" count="0" type="stmt"/>
+        <line num="141" count="0" type="stmt"/>
+        <line num="142" count="0" type="stmt"/>
+        <line num="144" count="0" type="stmt"/>
+        <line num="148" count="22" type="stmt"/>
+        <line num="149" count="0" type="stmt"/>
+        <line num="150" count="0" type="stmt"/>
+        <line num="151" count="0" type="stmt"/>
+        <line num="152" count="0" type="stmt"/>
+        <line num="154" count="0" type="stmt"/>
+        <line num="158" count="22" type="stmt"/>
+        <line num="159" count="22" type="stmt"/>
+        <line num="161" count="22" type="stmt"/>
+        <line num="175" count="0" type="stmt"/>
+        <line num="176" count="0" type="stmt"/>
+        <line num="188" count="2" type="stmt"/>
+        <line num="189" count="2" type="stmt"/>
+        <line num="207" count="0" type="stmt"/>
+        <line num="232" count="0" type="stmt"/>
+        <line num="247" count="0" type="stmt"/>
+        <line num="282" count="0" type="stmt"/>
+      </file>
+      <file name="RoomManagement.jsx" path="D:\HOC_TAP\QL-KhachSan\frontend\src\pages\reception\RoomManagement.jsx">
+        <metrics statements="105" coveredstatements="56" conditionals="60" coveredconditionals="33" methods="31" coveredmethods="13"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="25" count="21" type="stmt"/>
+        <line num="26" count="21" type="stmt"/>
+        <line num="27" count="21" type="stmt"/>
+        <line num="28" count="21" type="stmt"/>
+        <line num="29" count="21" type="stmt"/>
+        <line num="30" count="21" type="stmt"/>
+        <line num="31" count="21" type="stmt"/>
+        <line num="33" count="21" type="stmt"/>
+        <line num="34" count="21" type="stmt"/>
+        <line num="35" count="21" type="stmt"/>
+        <line num="36" count="21" type="stmt"/>
+        <line num="37" count="21" type="stmt"/>
+        <line num="39" count="21" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="45" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="51" count="21" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="53" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="54" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="62" count="21" type="stmt"/>
+        <line num="63" count="7" type="stmt"/>
+        <line num="64" count="7" type="stmt"/>
+        <line num="65" count="7" type="stmt"/>
+        <line num="66" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="67" count="6" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="71" count="7" type="stmt"/>
+        <line num="75" count="21" type="stmt"/>
+        <line num="76" count="6" type="stmt"/>
+        <line num="79" count="21" type="stmt"/>
+        <line num="80" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="83" count="0" type="stmt"/>
+        <line num="87" count="21" type="stmt"/>
+        <line num="88" count="10" type="stmt"/>
+        <line num="89" count="12" type="cond" truecount="2" falsecount="2"/>
+        <line num="90" count="12" type="cond" truecount="2" falsecount="2"/>
+        <line num="91" count="12" type="cond" truecount="1" falsecount="1"/>
+        <line num="92" count="0" type="stmt"/>
+        <line num="93" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="95" count="12" type="cond" truecount="2" falsecount="2"/>
+        <line num="96" count="12" type="stmt"/>
+        <line num="100" count="21" type="stmt"/>
+        <line num="101" count="10" type="stmt"/>
+        <line num="102" count="10" type="stmt"/>
+        <line num="103" count="12" type="stmt"/>
+        <line num="104" count="12" type="cond" truecount="2" falsecount="0"/>
+        <line num="105" count="12" type="stmt"/>
+        <line num="107" count="10" type="stmt"/>
+        <line num="110" count="21" type="stmt"/>
+        <line num="111" count="1" type="stmt"/>
+        <line num="112" count="1" type="stmt"/>
+        <line num="113" count="1" type="stmt"/>
+        <line num="114" count="1" type="stmt"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="120" count="21" type="stmt"/>
+        <line num="121" count="0" type="stmt"/>
+        <line num="122" count="0" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="125" count="0" type="stmt"/>
+        <line num="129" count="21" type="stmt"/>
+        <line num="130" count="0" type="stmt"/>
+        <line num="131" count="0" type="stmt"/>
+        <line num="132" count="0" type="stmt"/>
+        <line num="134" count="0" type="stmt"/>
+        <line num="136" count="0" type="stmt"/>
+        <line num="140" count="21" type="stmt"/>
+        <line num="150" count="3" type="stmt"/>
+        <line num="165" count="0" type="stmt"/>
+        <line num="185" count="0" type="stmt"/>
+        <line num="218" count="0" type="stmt"/>
+        <line num="226" count="16" type="stmt"/>
+        <line num="236" count="24" type="stmt"/>
+        <line num="265" count="0" type="stmt"/>
+        <line num="275" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="277" count="0" type="stmt"/>
+        <line num="278" count="0" type="stmt"/>
+        <line num="281" count="0" type="stmt"/>
+        <line num="282" count="0" type="stmt"/>
+        <line num="285" count="0" type="stmt"/>
+        <line num="286" count="0" type="stmt"/>
+        <line num="315" count="0" type="stmt"/>
+        <line num="317" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="318" count="0" type="stmt"/>
+        <line num="319" count="0" type="stmt"/>
+        <line num="322" count="0" type="stmt"/>
+        <line num="330" count="0" type="stmt"/>
+        <line num="343" count="0" type="stmt"/>
+        <line num="344" count="0" type="stmt"/>
+        <line num="345" count="0" type="stmt"/>
+        <line num="346" count="0" type="stmt"/>
+        <line num="348" count="0" type="stmt"/>
+        <line num="349" count="0" type="stmt"/>
+        <line num="359" count="0" type="stmt"/>
+        <line num="360" count="0" type="stmt"/>
+        <line num="377" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="services">
+      <metrics statements="52" coveredstatements="34" conditionals="16" coveredconditionals="8" methods="23" coveredmethods="20"/>
+      <file name="adminApi.js" path="D:\HOC_TAP\QL-KhachSan\frontend\src\services\adminApi.js">
+        <metrics statements="24" coveredstatements="24" conditionals="8" coveredconditionals="8" methods="14" coveredmethods="14"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="10" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="22" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="36" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="51" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+      </file>
+      <file name="api.js" path="D:\HOC_TAP\QL-KhachSan\frontend\src\services\api.js">
+        <metrics statements="21" coveredstatements="3" conditionals="8" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+      </file>
+      <file name="reviewApi.js" path="D:\HOC_TAP\QL-KhachSan\frontend\src\services\reviewApi.js">
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="20" count="5" type="stmt"/>
+      </file>
+    </package>
+    <package name="utils">
+      <metrics statements="32" coveredstatements="32" conditionals="5" coveredconditionals="5" methods="3" coveredmethods="3"/>
+      <file name="authStorage.js" path="D:\HOC_TAP\QL-KhachSan\frontend\src\utils\authStorage.js">
+        <metrics statements="12" coveredstatements="12" conditionals="5" coveredconditionals="5" methods="3" coveredmethods="3"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="4" count="15" type="stmt"/>
+        <line num="8" count="5" type="stmt"/>
+        <line num="9" count="5" type="stmt"/>
+        <line num="10" count="5" type="stmt"/>
+        <line num="12" count="5" type="cond" truecount="5" falsecount="0"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+      </file>
+      <file name="cls.js" path="D:\HOC_TAP\QL-KhachSan\frontend\src\utils\cls.js">
+        <metrics statements="20" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="2" count="9" type="stmt"/>
+        <line num="4" count="9" type="stmt"/>
+        <line num="7" count="9" type="stmt"/>
+        <line num="10" count="9" type="stmt"/>
+        <line num="12" count="9" type="stmt"/>
+        <line num="14" count="9" type="stmt"/>
+        <line num="17" count="9" type="stmt"/>
+        <line num="20" count="9" type="stmt"/>
+        <line num="23" count="9" type="stmt"/>
+        <line num="26" count="9" type="stmt"/>
+        <line num="29" count="9" type="stmt"/>
+        <line num="32" count="9" type="stmt"/>
+        <line num="35" count="9" type="stmt"/>
+        <line num="38" count="9" type="stmt"/>
+        <line num="41" count="9" type="stmt"/>
+        <line num="44" count="9" type="stmt"/>
+        <line num="47" count="9" type="stmt"/>
+        <line num="49" count="9" type="stmt"/>
+        <line num="51" count="9" type="stmt"/>
+        <line num="54" count="9" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
