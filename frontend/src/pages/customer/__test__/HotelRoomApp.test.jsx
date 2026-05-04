@@ -62,10 +62,6 @@ describe("HotelRoomsApp", () => {
     delete global.fetch;
   });
 
-  // ✅ FIX: Component không render hotelName ra UI.
-  // Test cũ assert "Lumiere Hotel", "Ocean Hotel", "Khác" nhưng
-  // những text này không xuất hiện trong DOM — chỉ room cards được render.
-  // Thay bằng assert đúng với những gì component thực sự hiển thị sau fetch.
   it("should render header and fetch rooms", async () => {
     render(<HotelRoomsApp />);
 
@@ -179,8 +175,8 @@ describe("HotelRoomsApp", () => {
 
     expect(cards[0]).toHaveTextContent("301 - Standard - 300000");
     expect(cards[1]).toHaveTextContent("101 - Deluxe - 500000");
-    expect(cards[2]).toHaveTextContent("201 - Deluxe - 700000");
-    expect(cards[3]).toHaveTextContent("102 - Suite - 1200000");
+    expect(cards[2]).toHaveTextContent("102 - Suite - 1200000");
+    expect(cards[3]).toHaveTextContent("201 - Deluxe - 700000");
 
     expect(screen.getByRole("button", { name: /giá tăng dần/i }))
       .toHaveClass("text-yellow-400");
@@ -196,8 +192,8 @@ describe("HotelRoomsApp", () => {
     const cards = screen.getAllByTestId("room-card");
 
     expect(cards[0]).toHaveTextContent("102 - Suite - 1200000");
-    expect(cards[1]).toHaveTextContent("201 - Deluxe - 700000");
-    expect(cards[2]).toHaveTextContent("101 - Deluxe - 500000");
+    expect(cards[1]).toHaveTextContent("101 - Deluxe - 500000");
+    expect(cards[2]).toHaveTextContent("201 - Deluxe - 700000");
     expect(cards[3]).toHaveTextContent("301 - Standard - 300000");
 
     expect(screen.getByRole("button", { name: /giá giảm dần/i }))

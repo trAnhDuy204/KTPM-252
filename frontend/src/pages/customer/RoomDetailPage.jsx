@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import RoomDetailReview from '@/components/review/RoomDetailReview';
 
 const STATUS_CFG = {
     AVAILABLE: { label: 'Còn trống', color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' },
@@ -267,6 +268,14 @@ export default function RoomDetailPage() {
                                 ))}
                             </div>
                         </div>
+
+                        {/* ── Đánh giá khách hàng ── */}
+                        {room.hotelId && (
+                            <RoomDetailReview
+                                hotelId={room.hotelId}
+                                hotelName={room.hotelName}
+                            />
+                        )}
                     </div>
 
                     {/* ══ RIGHT: Booking sidebar ══ */}

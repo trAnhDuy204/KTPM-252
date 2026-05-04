@@ -119,11 +119,22 @@ export default function HotelRoomsApp() {
           <EmptyState text="Không có phòng nào phù hợp." />
         </div>
       ) : (
-        <div className="space-y-3">
-          {filtered.map(room => (
-            <CusTomerRoomCard key={room.id} room={room} />
-          ))}
-        </div>
+        <div className="space-y-8">
+            {Object.entries(grouped).map(([hotelName, hotelRooms]) => (
+              <div key={hotelName}>
+                {/* Hotel header */}
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-xl text-yellow-400"><Hotel size={50}/></span>
+                  <h2 className="text-xl font-semibold text-yellow-400">{hotelName}</h2>
+                  <span className="text-xs">{hotelRooms.length} phòng</span>
+                </div>
+ 
+                <div className="space-y-3">
+                  {hotelRooms.map(room => <CusTomerRoomCard key={room.id} room={room} />)}
+                </div>
+              </div>
+            ))}
+          </div>
       )}
     </div>
   );
