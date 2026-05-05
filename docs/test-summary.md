@@ -22,11 +22,11 @@ Các chức năng đã được kiểm thử bao gồm:
 
 ## 3. Tổng kết Test Case
 
-| Chỉ số                | Giá trị |
+| Chỉ số               | Giá trị |
 |----------------------|--------|
-| Tổng test case       | 132    |
-| Đã thực thi          | 132    |
-| Passed               | 126    |
+| Tổng test case       | 210    |
+| Đã thực thi          | 210    |
+| Passed               | 204    |
 | Failed               | 6      |
 | Blocked              | 0      |
 

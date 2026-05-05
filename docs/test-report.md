@@ -52,9 +52,9 @@ Các loại kiểm thử đã thực hiện:
 
 | Chỉ số | Giá trị |
 |-------|--------|
-| Tổng test case | 80+ |
-| Passed | 78 |
-| Failed | 2 |
+| Tổng test case | 210 |
+| Passed | 204 |
+| Failed | 6 |
 | Blocked | 0 |
 
 ---
@@ -63,15 +63,22 @@ Các loại kiểm thử đã thực hiện:
 
 | Module        | Số TC | Passed | Failed | Ghi chú |
 |--------------|------|--------|--------|--------|
-| Auth         | 18   | 18     | 0      | Login, register, refresh token, interceptor hoạt động ổn định |
+| Auth         | 14   | 14     | 0      | Login, register, refresh token, interceptor hoạt động ổn định |
+| Room         | 34   | 34     | 0      | Quản lý phòng, loại phòng hoạt động ổn định |
+| Room_Image   | 22   | 22     | 0      | Upload, xóa ảnh hoạt động ổn định với Cloudinary |
+| Staff        | 13   | 13     | 0      | Quản lý nhân viên hoạt động ổn định |
+| Hotel        | 13   | 13     | 0      | Quản lý khách sạn hoạt động ổn định |
 | Profile      | 20   | 19     | 1      | 1 lỗi validate số điện thoại |
-| Booking      | 25   | 23     | 2      | Lỗi validate ngày và xử lý booking không tồn tại |
-| Payment      | 12   | 10     | 2      | Lỗi VNPay khi thiếu bookingId và amount |
-| Service      | 12   | 12     | 0      | Thêm service và validate hoạt động tốt |
+| Booking      | 12   | 10     | 2      | Lỗi validate ngày và xử lý booking không tồn tại |
+| Check-in/out | 10   | 10     | 0      | Check-in/out hoạt động ổn định |
+| Payment      | 7    | 5      | 2      | Lỗi VNPay khi thiếu bookingId và amount |
+| Service      | 9    | 9      | 0      | Thêm service và validate hoạt động tốt |
 | Review       | 18   | 17     | 1      | Lỗi khi submit review thiếu bookingId |
-| Security     | 15   | 15     | 0      | Token, phân quyền, injection được xử lý đúng |
-| Regression   | 12   | 12     | 0      | Không phát sinh lỗi sau khi fix |
-| TOTAL        | 132  | 126    | 6      | Hệ thống ổn định |
+| Customer     | 10   | 10     | 0      | Các hoạt động của khách hàng hoạt động ổn định |
+| Edge         | 6    | 6      | 0      | Các trường hợp trùng lắp |
+| Security     | 12   | 12     | 0      | Token, phân quyền, injection được xử lý đúng |
+| Regression   | 10   | 10     | 0      | Không phát sinh lỗi sau khi fix |
+| TOTAL        | 210  | 204    | 6      | Hệ thống ổn định |
 
 ---
 
