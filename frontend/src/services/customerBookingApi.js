@@ -10,7 +10,7 @@ export const customerBookingApi = {
   // Lấy danh sách dịch vụ của khách sạn
   getServices: (hotelId) => api.get(`/public/services?hotelId=${hotelId}`),
  
-  // Tạo payment (trả về URL VNPay hoặc confirm nếu CASH)
+  // Tạo payment (trả về URL VNPay)
   createPayment: (data) =>
     api.post('/public/payment', data, { responseType: 'text' }),
  

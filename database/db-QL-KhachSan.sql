@@ -83,15 +83,6 @@ CREATE TABLE service_usages (
     total_price NUMERIC(12,2)
 );
 
-CREATE TABLE pricing_policies (
-    id SERIAL PRIMARY KEY,
-    hotel_id INT REFERENCES hotels(id),
-    room_type_id INT REFERENCES room_types(id),
-    start_date DATE,
-    end_date DATE,
-    price NUMERIC(12,2)
-);
-
 CREATE TABLE IF NOT EXISTS room_images (
     id          SERIAL PRIMARY KEY,
     room_id     INT          NOT NULL REFERENCES rooms(id) ON DELETE CASCADE,
