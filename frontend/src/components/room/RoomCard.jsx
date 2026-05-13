@@ -30,7 +30,9 @@ export default function RoomCard({ room, onStatusChange, onDelete, onAddImage })
         {room.hotelId !== undefined && room.hotelId !== null && (
           <div className="flex items-center justify-between gap-3">
             <span className="text-muted">Khách sạn</span>
-            <span className="font-semibold text-dim">{room.hotelId}</span>
+            <span className="font-semibold text-dim">
+              {room.hotelName ?? `#${room.hotelId}`}
+            </span>
           </div>
         )}
         <div className="flex items-center justify-between gap-3">

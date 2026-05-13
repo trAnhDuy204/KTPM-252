@@ -460,7 +460,7 @@ export function ReceptionDashboard() {
         <div>
           <h1 className={pageTitle}>Quầy Lễ tân</h1>
           <p className={`${pageSubtitle} mt-1`}>
-            Khách sạn #{user?.hotelId} · {user?.fullName}
+          {user?.fullName}
           </p>
         </div>
         <span className="inline-flex items-center rounded-full border border-accent/20 bg-accent-soft/75 px-3 py-1 text-xs font-semibold text-accent">

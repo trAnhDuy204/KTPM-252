@@ -59,7 +59,7 @@ class BookingControllerTest {
 
     private BookingResponse sampleResponse(BookingStatus status) {
         return new BookingResponse(
-                1, 10, "101", 1,
+                1, 10, "101", 1, "Hotel1","Da nang",
                 LocalDate.of(2026, 3, 16), LocalDate.of(2026, 3, 18),
                 new BigDecimal("1000000"), status,
                 "Nguyen Van A", "0901234567",

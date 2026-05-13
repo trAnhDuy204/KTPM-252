@@ -62,7 +62,6 @@ export default function EditProfileForm({ profile, onSuccess, onError }) {
                         <input
                             value={form.fullName}
                             onChange={e => { setForm(p => ({ ...p, fullName: e.target.value })); setErrors(p => ({ ...p, fullName: '' })); }}
-                            placeholder="Nguyễn Văn A"
                             className={inputCls(errors.fullName)}
                         />
                         {errors.fullName && <p className="mt-1.5 text-xs text-red-400">{errors.fullName}</p>}
@@ -74,7 +73,6 @@ export default function EditProfileForm({ profile, onSuccess, onError }) {
                         <input
                             value={form.phone}
                             onChange={e => { setForm(p => ({ ...p, phone: e.target.value })); setErrors(p => ({ ...p, phone: '' })); }}
-                            placeholder="0901234567"
                             className={inputCls(errors.phone)}
                         />
                         {errors.phone && <p className="mt-1.5 text-xs text-red-400">{errors.phone}</p>}
