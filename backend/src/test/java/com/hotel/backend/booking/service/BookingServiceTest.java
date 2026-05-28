@@ -69,7 +69,7 @@ class BookingServiceTest {
         room.setStatus(RoomStatus.AVAILABLE);
     }
 
-    // ==================== CHECK-IN ====================
+    // CHECK-IN
 
     @Nested
     class CheckIn {
@@ -205,7 +205,7 @@ class BookingServiceTest {
         }
     }
 
-    // ==================== CHECK-OUT ====================
+    //CHECK-OUT
 
     @Nested
     class CheckOut {
@@ -306,7 +306,7 @@ class BookingServiceTest {
         }
     }
 
-    // ==================== CANCEL BOOKING ====================
+    //CANCEL BOOKING
 
     @Nested
     class CancelBooking {
@@ -375,7 +375,7 @@ class BookingServiceTest {
         }
     }
 
-    // ==================== GET BOOKINGS ====================
+    // GET BOOKINGS
 
     @Nested
     class GetBookings {
@@ -412,7 +412,7 @@ class BookingServiceTest {
         }
     }
 
-    // ==================== CREATE BOOKING ====================
+    // CREATE BOOKING
 
     @Nested
     class CreateBooking {
@@ -525,7 +525,7 @@ class BookingServiceTest {
         }
     }
 
-    // ==================== CONFIRM BOOKING ====================
+    // CONFIRM BOOKING
 
     @Nested
     class ConfirmBooking {
@@ -573,7 +573,7 @@ class BookingServiceTest {
         }
     }
 
-    // ==================== Helper ====================
+    //Helper
 
     private Booking buildBooking(Integer id, BookingStatus status) {
         Booking booking = new Booking();

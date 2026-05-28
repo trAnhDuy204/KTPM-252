@@ -1,3 +1,6 @@
+
+# Báo cáo đồ án
+[Link Báo cáo](https://drive.google.com/file/d/1zvuqgTG4Mg5dX66rjEtGsMfKq5H35Bzf/view?usp=sharing)
 # Tên dự án
 ## Mô tả
 
@@ -57,8 +60,6 @@ npm start
 ### Truy cập
 - Frontend: http://localhost:5713
 - Backend API: http://localhost:8080
-## Demo
-[Link video demo hoặc screenshots]
 ## Tài liệu
 - [Phân tích yêu cầu](docs/requirements.md)
 - [Database Design](docs/database-design.md)
