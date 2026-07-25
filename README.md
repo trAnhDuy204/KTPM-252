@@ -3,7 +3,7 @@
 [Link demo](https://drive.google.com/file/d/1rzFKUwyAwm7IKjjS4AoxRhSY6bwEW-vv/view?usp=sharing)
 
 # Test case
-[Link test case](https://docs.google.com/spreadsheets/d/1lCua2fizCN8BkILJHJc50CgERZzNL4C-4xpTs1AXwXg/edit?gid=169740628#gid=169740628)
+[Link test case](https://docs.google.com/spreadsheets/d/19UdpThUMgziNes9_uAegJ2M7E08-b1ApAQL4-iPNkFc/edit?usp=sharing)
 # Báo cáo đồ án
 
 [Link Báo cáo](https://drive.google.com/file/d/1zvuqgTG4Mg5dX66rjEtGsMfKq5H35Bzf/view?usp=sharing)
